@@ -93,7 +93,7 @@ Still open:
 | OD-02 Name + domains | Phase 0 | Product name is Zynoa; domains not yet bought |
 | Desktop code signing | Before Phase 3 | Apple Developer account + Windows code-signing certificate |
 | Company name + press email | Before launch | For press kit and footer |
-| GitHub Team plan | Before rules can be enforced | Required for rulesets/branch protection on a private org repo |
+| Repository visibility | Now | Repo made public so rulesets work on the Free plan; spec, plan and code are public. Going private again needs the GitHub Team plan |
 
 ## 7. Risks
 

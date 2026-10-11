@@ -29,7 +29,7 @@ This is the single entry point for building Zynoa. Read it after the ANPOS proto
 | Current phase | **Phase 0 — Validation & Engineering Foundation** |
 | Design (Figma) | Complete for website, dashboard light + dark, handoff specs, overlays, accessibility audit. Not formally version-locked yet |
 | Design tokens | `packages/tokens` — merged (PR #1) |
-| ANPOS | Child bootstrap applied (PR #2). PM: GitHub Projects selected — milestone "Phase 0" + issues #7–#27; org board not yet created. GitHub Rules approved but need the GitHub Team plan + manual settings (`config/github/ruleset-policy.json`). Development AI selection still open |
+| ANPOS | Child bootstrap applied (PR #2). PM: GitHub Projects selected — milestone "Phase 0" + issues #7–#27; org board not yet created. GitHub Rules active and verified (rulesets `main-protection`, `main-review`, `coordination-refs`; repo is public). Development AI selection still open |
 | Technology stack | **Approved** — `CONSENT-000001` |
 | Application code | None yet |
 
