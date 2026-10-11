@@ -81,8 +81,7 @@
       "Repository settings writes and rulesets API writes are not permitted through the AI session's GitHub proxy; rulesets were imported by the owner from .github/rulesets/*.json."
     ],
     "manual_steps": [
-      "Optional: Settings > General > Pull Requests \u2014 untick 'Allow merge commits' and 'Allow rebase merging' (squash only).",
-      "Settings > Code security \u2014 enable Secret scanning, Push protection and Dependabot security updates (free for public repositories)."
+      "Optional: Settings > General > Pull Requests \u2014 untick 'Allow merge commits' and 'Allow rebase merging' (squash only)."
     ],
     "checked_at": "2026-10-11T23:47:35.679941+00:00",
     "verification": {
@@ -136,11 +135,14 @@
         "allow_rebase_merge": true,
         "note": "merge commits are blocked in practice by required_linear_history; policy prefers squash-only"
       },
-      "not_yet_enabled": [
-        "secret_scanning",
-        "secret_scanning_push_protection",
-        "dependabot_security_updates"
-      ]
+      "security_features": {
+        "verified_at": "2026-10-11T23:59:46.883523+00:00",
+        "secret_scanning": "enabled",
+        "secret_scanning_push_protection": "enabled",
+        "dependabot_security_updates": "enabled",
+        "secret_scanning_non_provider_patterns": "disabled",
+        "secret_scanning_validity_checks": "disabled"
+      }
     }
   }
 }

@@ -4,18 +4,18 @@
   "activation_scope": "child_project",
   "canonical_code_system": "github",
   "selection": {
-    "status": "selected_pending_connection",
+    "status": "project_created_by_owner_unverified",
     "selected_provider_id": "github_projects",
     "selected_provider_name": "GitHub Projects",
     "workspace_or_org_id": null,
     "workspace_or_org_name": "Vertex-Systems-Network",
     "external_project_id": null,
-    "external_project_name": null,
+    "external_project_name": "Zynoa",
     "external_project_url": null,
     "connected_at": null,
     "verified_at": null,
     "sync_enabled": false,
-    "notes": "Selected by owner 2026-10-12. Repository-backed planning is live: milestone 'Phase 0' and issues #7-#27 (one per WU-P0-xx). The org-level Project board is not created yet: this session's GitHub access is repository-scoped and GraphQL is unavailable. Owner creates the Project in the org, links repo zynoa and enables the built-in auto-add workflow for this repository; then record external_project_* here and verify before sync_enabled=true."
+    "notes": "Owner reported 2026-10-12 that the org Project 'Zynoa' (Board) was created with auto-add for repo zynoa issues. Not verified by the AI: this session has no org-level or GraphQL access. Record external_project_url when the owner shares it. Repository issues (milestone 'Phase 0', #7-#27) remain the canonical work tracking; sync_enabled stays false."
   },
   "selection_flow": {
     "preferred_prompt": "Choose Project Management System",

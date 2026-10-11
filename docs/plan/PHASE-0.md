@@ -40,8 +40,8 @@ Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Do
 ## Human-only checklist (~6–10 hours over the phase)
 
 - [x] Give ANPOS `Approve Technology Stack` consent (`CONSENT-000001`).
-- [x] Choose Project Management System — GitHub Projects. Still to do: create the org Project, link repo `zynoa`, enable auto-add for its issues.
-- [x] GitHub Rules applied and verified (`.github/rulesets/`). Still to do: enable secret scanning + push protection in Settings → Code security.
+- [x] Choose Project Management System — GitHub Projects; org board "Zynoa" created with auto-add.
+- [x] GitHub Rules applied and verified (`.github/rulesets/`). Secret scanning, push protection and Dependabot security updates enabled.
 - [ ] Cloud, AI provider, domain and developer accounts; payment cards.
 - [ ] API keys into GitHub secrets (never paste them into chat).
 - [ ] Share survey and prototype links.
