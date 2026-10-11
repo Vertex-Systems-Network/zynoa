@@ -1,7 +1,48 @@
 {
   "schema_version": 2,
-  "next_sequence": 1,
-  "requests": [],
+  "next_sequence": 2,
+  "requests": [
+    {
+      "id": "CONSENT-000001",
+      "type": "technology_stack_approval",
+      "title": "Approve Technology Stack for Zynoa",
+      "summary": "Stack in docs/plan/BUILD-PLAN.md section 1: Next.js + React + Tailwind + shadcn/ui (site, dashboard), Tauri 2 (desktop), React Native + Expo (mobile), Fastify + Zod API, Temporal (TS) + Python media worker, Postgres 16 + pgvector (Drizzle), Redis/Valkey, Better Auth, Vercel AI SDK behind ModelGateway, Cloudflare R2 + WAF + Turnstile, Vercel/Cloudflare front-end hosting, containers for API/workers, Vitest/Playwright/k6, pnpm + Turborepo.",
+      "requested_by": "claude-code-session",
+      "requested_at": "2026-10-11T23:36:06.877215+00:00",
+      "request_hash": "b194fe5c129ec5fba726540bc33b8c7a07faa7885f53fce4f873865985c3b86f",
+      "nonce": "7ab72700-7c5a-4bc5-983d-b18570c37bc7",
+      "expires_at": "2026-10-12T23:36:06.877215+00:00",
+      "nonce_consumed_at": "2026-10-11T23:36:11.293393+00:00",
+      "owner_identity": "wpessential",
+      "canonical_review_reference": "docs/plan/BUILD-PLAN.md#1-final-stack",
+      "email_notification_reference": null,
+      "proposed_changes": [
+        "Adopt the stack in docs/plan/BUILD-PLAN.md section 1 for all Zynoa apps"
+      ],
+      "affected_modules": [
+        "apps/site",
+        "apps/web",
+        "apps/desktop",
+        "apps/mobile",
+        "apps/api",
+        "apps/worker",
+        "apps/media-worker",
+        "packages/*"
+      ],
+      "risk": "medium",
+      "status": "approved",
+      "approved_scope": [
+        "docs/plan/BUILD-PLAN.md#1-final-stack"
+      ],
+      "decision_by": "wpessential",
+      "decision_identity_evidence_ref": "claude.ai session https://claude.ai/code/session_01WS2Eu8XS8ak2yHtSG5NTzd (GitHub token principal wpessential, verified via GET /user)",
+      "decision_at": "2026-10-11T23:36:11.293393+00:00",
+      "decision_evidence": "Owner reply 'approve' on 2026-10-12 to the stack in docs/plan/BUILD-PLAN.md \u00a71; recorded by the Claude Code session, not by an ANPOS authenticated callback",
+      "decision_request_hash": "b194fe5c129ec5fba726540bc33b8c7a07faa7885f53fce4f873865985c3b86f",
+      "implementation_reference": null,
+      "verification_reference": null
+    }
+  ],
   "request_schema": {
     "id": "CONSENT-000001",
     "type": "technology_update_or_scope_addition",

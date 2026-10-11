@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "status": "pending_user_decision",
+  "status": "approved_pending_platform_capability",
   "activation_scope": "child_project",
   "template_source_enforcement": "not_applicable",
   "scope": "default_branch_and_coordination_refs",
@@ -73,9 +73,19 @@
     "Control-plane and lock-namespace protection is a security boundary, not a documentation preference."
   ],
   "setup_state": {
-    "user_decision": null,
-    "application_status": "not_applied",
+    "user_decision": "approved (owner reply 'kr do', 2026-10-12)",
+    "application_status": "pending_user_action",
     "enforcement_verified": false,
-    "governance_audit_installed": false
+    "governance_audit_installed": false,
+    "blockers": [
+      "GitHub API 403 on rulesets and branch protection: 'Upgrade to GitHub Pro or make this repository public to enable this feature.' Private org repo on the Free plan cannot enforce rules; GitHub Team plan required.",
+      "Repository settings writes (merge methods, delete_branch_on_merge) are not permitted through this session's GitHub proxy; owner applies them in Settings > General."
+    ],
+    "manual_steps": [
+      "Settings > General > Pull Requests: allow squash merging only; enable 'Always suggest updating pull request branches', 'Allow auto-merge', 'Automatically delete head branches'.",
+      "After upgrading to GitHub Team: Settings > Rules > New branch ruleset 'main': target default branch; require PR (1 approval, Code Owners, dismiss stale, approve most recent push, resolve conversations); require status check 'repository-integrity' (up to date); block force pushes and deletion; require linear history. Add bypass for repository admins in 'pull request only' mode so the single owner can merge AI-authored PRs after checks pass.",
+      "Second ruleset for refs/heads/claims/** and refs/heads/supervisor/**: restrict creations, updates and deletions."
+    ],
+    "checked_at": "2026-10-11T23:36:39.359787+00:00"
   }
 }
