@@ -1,0 +1,591 @@
+{
+  "schema_version": 1,
+  "phases": [
+    {
+      "id": "PHASE-0",
+      "name": "Validation & Engineering Foundation",
+      "objective": "Validate demand and provider access; running empty platform; Gate A",
+      "module_ids": [],
+      "dependencies": [],
+      "status": "in_progress",
+      "exit_criteria": [
+        "docker compose up + pnpm dev < 15 min on clean machine",
+        "CI green on main; failing test blocks merge",
+        "Gateway smoke test prints tokens + cost for a real model call",
+        "Prototype tested with >= 5 target users",
+        "Provider access matrix complete",
+        "OD-01 segment chosen and Phase 1-2 budget approved"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-1",
+      "name": "Platform Core",
+      "objective": "Sign-up, workspaces, projects, AI plan, task board, Library, chat, credits; website live",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-0"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-2",
+      "name": "AI Supervisor + Coding Studio",
+      "objective": "Agents code in sandboxes, tests, PRs, previews, approvals, releases; first sellable product; Gate B",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-1"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-3",
+      "name": "Design, Research & Images Studios",
+      "objective": "Studios + design-to-code + asset graph; desktop v1 (Tauri)",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-2"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-4",
+      "name": "Audio & Video Studios",
+      "objective": "Voice, transcription, dubbing, storyboard-to-video",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-2"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-5",
+      "name": "Ecosystem & Marketplace",
+      "objective": "Skills, Plugins, Templates, marketplace; mobile v1 (Expo)",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-2"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-6",
+      "name": "Business Systems & Workflow Engine",
+      "objective": "Installable systems, public pages, automations, workflow builder; Gate C",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-5"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-7",
+      "name": "Pilot Hardening & Commercial Launch",
+      "objective": "Payments, operator console, security + load tests, DR; all apps public; Gate D",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-3",
+        "PHASE-4",
+        "PHASE-6"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    },
+    {
+      "id": "PHASE-8",
+      "name": "Growth & Advanced",
+      "objective": "System Creator, community marketplace, enterprise, Urdu RTL, full mobile",
+      "module_ids": [],
+      "dependencies": [
+        "PHASE-7"
+      ],
+      "status": "not_started",
+      "exit_criteria": [
+        "See docs/spec/02_SCOPE_AND_PHASES.md exit checklist for this phase"
+      ],
+      "plan_ref": "docs/plan/BUILD-PLAN.md"
+    }
+  ],
+  "work_units": [
+    {
+      "id": "WU-P0-00",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Design tokens package",
+      "objective": "Design tokens package",
+      "dependencies": [],
+      "priority": 0,
+      "status": "complete",
+      "blockers": [],
+      "acceptance_criteria": [
+        "packages/tokens builds all outputs",
+        "CI fails on stale dist/"
+      ],
+      "required_checks": [],
+      "completion_evidence": [
+        "PR #1"
+      ],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-01",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Monorepo scaffold",
+      "objective": "Monorepo scaffold",
+      "dependencies": [
+        "WU-P0-00"
+      ],
+      "priority": 1,
+      "status": "ready",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Layout per docs/plan/REPOSITORY.md",
+        "pnpm + Turborepo + strict TS/ESLint/Prettier",
+        "CURRENT_PHASE.md says Phase 0",
+        "pnpm install && pnpm build pass from clean clone"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-02",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Local environment (docker-compose)",
+      "objective": "Local environment (docker-compose)",
+      "dependencies": [
+        "WU-P0-01"
+      ],
+      "priority": 2,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Postgres16+pgvector, Valkey, Temporal+UI, MinIO, Mailpit",
+        "README start < 15 min"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-03",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "CI pipeline",
+      "objective": "CI pipeline",
+      "dependencies": [
+        "WU-P0-01"
+      ],
+      "priority": 3,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "lint, typecheck, unit, build, migration check, container build",
+        "failing test blocks merge"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-04",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "packages/config",
+      "objective": "packages/config",
+      "dependencies": [
+        "WU-P0-01"
+      ],
+      "priority": 4,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Zod env schema fails fast",
+        "feature-flag helper"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-05",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "packages/db",
+      "objective": "packages/db",
+      "dependencies": [
+        "WU-P0-02",
+        "WU-P0-04"
+      ],
+      "priority": 5,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Drizzle, migrations, seed, workspace-scoped repository base"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-06",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "apps/api skeleton",
+      "objective": "apps/api skeleton",
+      "dependencies": [
+        "WU-P0-04"
+      ],
+      "priority": 6,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "/healthz, /readyz, request-id + OTel, error envelope, OpenAPI"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-07",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "apps/web dashboard skeleton",
+      "objective": "apps/web dashboard skeleton",
+      "dependencies": [
+        "WU-P0-00",
+        "WU-P0-01"
+      ],
+      "priority": 7,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Tokens + shadcn bridge, light/dark/system, layout skeleton with collapsible sidebar"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-08",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "apps/site skeleton",
+      "objective": "apps/site skeleton",
+      "dependencies": [
+        "WU-P0-00",
+        "WU-P0-01"
+      ],
+      "priority": 8,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Placeholder marketing page with tokens; preview deploy"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-09",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "apps/worker HelloWorkflow",
+      "objective": "apps/worker HelloWorkflow",
+      "dependencies": [
+        "WU-P0-02"
+      ],
+      "priority": 9,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Temporal HelloWorkflow runs locally and in CI"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-10",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "packages/ui 15 base components",
+      "objective": "packages/ui 15 base components",
+      "dependencies": [
+        "WU-P0-00"
+      ],
+      "priority": 10,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "15 components match Figma, keyboard/focus, WCAG 2.2 AA, Storybook"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-11",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "packages/model-gateway + smoke test",
+      "objective": "packages/model-gateway + smoke test",
+      "dependencies": [
+        "WU-P0-04"
+      ],
+      "priority": 11,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Real model call prints tokens + cost"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-12",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Decision records",
+      "objective": "Decision records",
+      "dependencies": [
+        "WU-P0-01"
+      ],
+      "priority": 12,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "ADR-001..014 + ADRs for plan changes in docs/decisions/"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-13",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Provider access matrix",
+      "objective": "Provider access matrix",
+      "dependencies": [],
+      "priority": 13,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Every provider/capability marked with sources"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-14",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Cost measurement",
+      "objective": "Cost measurement",
+      "dependencies": [
+        "WU-P0-11"
+      ],
+      "priority": 14,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "20 tasks per studio measured; price sheet filled"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-15",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Customer validation (waitlist, survey, analysis)",
+      "objective": "Customer validation (waitlist, survey, analysis)",
+      "dependencies": [],
+      "priority": 15,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "OD-01 recommendation with evidence"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-16",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Prototype usability test kit",
+      "objective": "Prototype usability test kit",
+      "dependencies": [],
+      "priority": 16,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        ">= 5 sessions summarised"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-17",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Legal drafts",
+      "objective": "Legal drafts",
+      "dependencies": [],
+      "priority": 17,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "ToS, privacy policy, consent drafts"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-18",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Decision briefs OD-07/03/10/02",
+      "objective": "Decision briefs OD-07/03/10/02",
+      "dependencies": [],
+      "priority": 18,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Comparison + recommendation per decision"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-19",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Phase 1-2 budget",
+      "objective": "Phase 1-2 budget",
+      "dependencies": [
+        "WU-P0-13",
+        "WU-P0-14"
+      ],
+      "priority": 19,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Itemised budget approved"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    },
+    {
+      "id": "WU-P0-20",
+      "phase_id": "PHASE-0",
+      "module_id": null,
+      "title": "Gate A report",
+      "objective": "Gate A report",
+      "dependencies": [
+        "WU-P0-01",
+        "WU-P0-02",
+        "WU-P0-03",
+        "WU-P0-04",
+        "WU-P0-05",
+        "WU-P0-06",
+        "WU-P0-07",
+        "WU-P0-08",
+        "WU-P0-09",
+        "WU-P0-10",
+        "WU-P0-11",
+        "WU-P0-12",
+        "WU-P0-13",
+        "WU-P0-14",
+        "WU-P0-15",
+        "WU-P0-16",
+        "WU-P0-17",
+        "WU-P0-18",
+        "WU-P0-19"
+      ],
+      "priority": 20,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "docs/plans/phase-0-report.md with PASS/FAIL + evidence per exit item"
+      ],
+      "required_checks": [],
+      "completion_evidence": [],
+      "spec_ref": "docs/plan/PHASE-0.md"
+    }
+  ],
+  "status_values": [
+    "not_started",
+    "ready",
+    "in_progress",
+    "blocked",
+    "needs_update",
+    "needs_removal",
+    "verification_required",
+    "complete",
+    "deferred",
+    "deprecated"
+  ],
+  "phase_template": {
+    "id": "PHASE-EXAMPLE",
+    "name": "Example phase",
+    "objective": "Outcome boundary for a group of modules/work units.",
+    "module_ids": [],
+    "dependencies": [],
+    "status": "not_started",
+    "exit_criteria": []
+  },
+  "work_unit_template": {
+    "id": "WU-EXAMPLE",
+    "phase_id": "PHASE-EXAMPLE",
+    "module_id": "MOD-EXAMPLE",
+    "title": "Small independently executable and verifiable slice",
+    "objective": "Clear outcome",
+    "dependencies": [],
+    "priority": null,
+    "status": "not_started",
+    "blockers": [],
+    "acceptance_criteria": [],
+    "required_checks": [],
+    "completion_evidence": []
+  }
+}
