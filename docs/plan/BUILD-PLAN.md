@@ -1,6 +1,6 @@
 # Zynoa — Total Build Plan
 
-Status: agreed plan, 12 Oct 2026. Technology stack is **proposed** until the project owner gives the ANPOS `Approve Technology Stack` consent.
+Status: agreed plan, 12 Oct 2026. Technology stack **approved** by the owner (`CONSENT-000001`, `config/consent/consent-requests.json`).
 
 Zynoa is built in nine phases (0–8). The first sellable product arrives at the end of Phase 2 (Gate B); the full scope follows. One TypeScript monorepo produces the website, the web dashboard, the desktop app (Tauri) and the mobile app (Expo). The code is written by AI agents; humans approve plans, merges, accounts, money and security.
 
@@ -93,7 +93,7 @@ Still open:
 | OD-02 Name + domains | Phase 0 | Product name is Zynoa; domains not yet bought |
 | Desktop code signing | Before Phase 3 | Apple Developer account + Windows code-signing certificate |
 | Company name + press email | Before launch | For press kit and footer |
-| Technology stack consent | Before WU-P0-01 merges | ANPOS `Approve Technology Stack` |
+| GitHub Team plan | Before rules can be enforced | Required for rulesets/branch protection on a private org repo |
 
 ## 7. Risks
 

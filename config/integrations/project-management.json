@@ -4,17 +4,18 @@
   "activation_scope": "child_project",
   "canonical_code_system": "github",
   "selection": {
-    "status": "not_selected",
-    "selected_provider_id": null,
-    "selected_provider_name": null,
+    "status": "selected_pending_connection",
+    "selected_provider_id": "github_projects",
+    "selected_provider_name": "GitHub Projects",
     "workspace_or_org_id": null,
-    "workspace_or_org_name": null,
+    "workspace_or_org_name": "Vertex-Systems-Network",
     "external_project_id": null,
     "external_project_name": null,
     "external_project_url": null,
     "connected_at": null,
     "verified_at": null,
-    "sync_enabled": false
+    "sync_enabled": false,
+    "notes": "Selected by owner 2026-10-12. Repository-backed planning is live: milestone 'Phase 0' and issues #7-#27 (one per WU-P0-xx). The org-level Project board is not created yet: this session's GitHub access is repository-scoped and GraphQL is unavailable. Owner creates the Project in the org, links repo zynoa and enables the built-in auto-add workflow for this repository; then record external_project_* here and verify before sync_enabled=true."
   },
   "selection_flow": {
     "preferred_prompt": "Choose Project Management System",

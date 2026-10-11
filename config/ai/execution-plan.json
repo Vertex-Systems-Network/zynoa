@@ -150,9 +150,11 @@
       ],
       "required_checks": [],
       "completion_evidence": [
-        "PR #1"
+        "PR #1 merged",
+        "issue #7 closed"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 7
     },
     {
       "id": "WU-P0-01",
@@ -174,7 +176,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 8
     },
     {
       "id": "WU-P0-02",
@@ -194,7 +197,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 9
     },
     {
       "id": "WU-P0-03",
@@ -214,7 +218,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 10
     },
     {
       "id": "WU-P0-04",
@@ -234,7 +239,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 11
     },
     {
       "id": "WU-P0-05",
@@ -254,7 +260,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 12
     },
     {
       "id": "WU-P0-06",
@@ -273,7 +280,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 13
     },
     {
       "id": "WU-P0-07",
@@ -293,7 +301,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 14
     },
     {
       "id": "WU-P0-08",
@@ -313,7 +322,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 15
     },
     {
       "id": "WU-P0-09",
@@ -332,7 +342,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 16
     },
     {
       "id": "WU-P0-10",
@@ -351,7 +362,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 17
     },
     {
       "id": "WU-P0-11",
@@ -370,7 +382,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 18
     },
     {
       "id": "WU-P0-12",
@@ -389,7 +402,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 19
     },
     {
       "id": "WU-P0-13",
@@ -406,7 +420,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 20
     },
     {
       "id": "WU-P0-14",
@@ -425,7 +440,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 21
     },
     {
       "id": "WU-P0-15",
@@ -442,7 +458,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 22
     },
     {
       "id": "WU-P0-16",
@@ -459,7 +476,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 23
     },
     {
       "id": "WU-P0-17",
@@ -476,7 +494,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 24
     },
     {
       "id": "WU-P0-18",
@@ -493,7 +512,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 25
     },
     {
       "id": "WU-P0-19",
@@ -513,7 +533,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 26
     },
     {
       "id": "WU-P0-20",
@@ -550,7 +571,8 @@
       ],
       "required_checks": [],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md"
+      "spec_ref": "docs/plan/PHASE-0.md",
+      "tracking_issue": 27
     }
   ],
   "status_values": [

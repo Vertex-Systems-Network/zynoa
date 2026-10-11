@@ -18,11 +18,11 @@ Website, web dashboard, desktop (Tauri), mobile (Expo); six AI Studios; Project 
 
 ## 3. Current Repository Reality
 
-- Existing implementation: none (12 Oct 2026). `packages/tokens` in PR #1.
+- Existing implementation: `packages/tokens` (merged in PR #1); no apps yet.
 - Existing architecture: specified only (`docs/spec/03_ARCHITECTURE.md`, `docs/plan/REPOSITORY.md`).
 - Existing tests/build status: ANPOS governance validators and tests pass locally; tests that inspect vendor-only assets stripped by the child bootstrap are skipped, not passed (`tests/anpos_child_boundary.py`).
 - Existing deployments/environments: none.
-- Known incomplete or temporary work: PR #1 not merged; GitHub Rules not applied.
+- Known incomplete or temporary work: GitHub Rules not enforceable on the current plan (see `config/github/ruleset-policy.json`); GitHub Project board not yet created.
 
 ## 4. Primary Actors and Workflows
 
@@ -46,7 +46,7 @@ Specification requirements FR-*/NFR-* in `docs/spec/` are accepted by the owner 
 - Backend: Fastify + Zod; Temporal (TS) + Python media worker
 - Data: Postgres 16 + pgvector (Drizzle), Redis/Valkey, Cloudflare R2
 - Infrastructure: Vercel or Cloudflare for front-ends; containers for API/workers; region pending (OD-07)
-- Consent status: **pending** — owner proposed and discussed this stack; formal `Approve Technology Stack` not yet recorded
+- Consent status: **approved** — `CONSENT-000001` (owner `wpessential`, 2026-10-12), scope `docs/plan/BUILD-PLAN.md` §1
 
 ## 9. Options Bank Summary
 
@@ -82,4 +82,4 @@ Per-app releases (`docs/plan/REPOSITORY.md` § Releases); SLOs and DR in Phase 7
 
 ## 17. Execution Readiness
 
-Ready for `WU-P0-01` once PR #1 is merged and stack consent is recorded.
+Ready for `WU-P0-01` (issue #8): PR #1 merged and stack consent recorded.

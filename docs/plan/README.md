@@ -28,12 +28,14 @@ This is the single entry point for building Zynoa. Read it after the ANPOS proto
 |---|---|
 | Current phase | **Phase 0 — Validation & Engineering Foundation** |
 | Design (Figma) | Complete for website, dashboard light + dark, handoff specs, overlays, accessibility audit. Not formally version-locked yet |
-| Design tokens | Built in `packages/tokens` — PR #1 open |
-| ANPOS | Child bootstrap applied in this PR; PM provider, Development AI selection and GitHub Rules still unresolved |
-| Technology stack | Proposed in `BUILD-PLAN.md`; formal `Approve Technology Stack` consent still pending |
+| Design tokens | `packages/tokens` — merged (PR #1) |
+| ANPOS | Child bootstrap applied (PR #2). PM: GitHub Projects selected — milestone "Phase 0" + issues #7–#27; org board not yet created. GitHub Rules approved but need the GitHub Team plan + manual settings (`config/github/ruleset-policy.json`). Development AI selection still open |
+| Technology stack | **Approved** — `CONSENT-000001` |
 | Application code | None yet |
 
-**Next valid work unit:** `WU-P0-01` (monorepo scaffold) in [`PHASE-0.md`](PHASE-0.md), after PR #1 merges.
+**Next valid work unit:** `WU-P0-01` (monorepo scaffold, issue #8) in [`PHASE-0.md`](PHASE-0.md).
+
+Work tracking: GitHub milestone **Phase 0** — one issue per work unit (`WU-P0-xx`). Close the issue from the PR that completes it (`Closes #N`).
 
 ## Non-negotiable working rules
 

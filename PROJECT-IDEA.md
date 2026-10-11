@@ -45,7 +45,7 @@ Collected from the project owner across the design and planning sessions (origin
 ### Preferences
 
 - Stack as listed in `docs/plan/BUILD-PLAN.md` §1 (owner's list, refined: Expo for mobile, Tauri for desktop, Fastify API, Temporal workers).
-- Linear recommended for project management (not yet chosen).
+- Project management: **GitHub Projects** (selected 2026-10-12).
 - Communication with the owner in Roman Urdu; UI copy in English.
 
 ### Constraints
@@ -63,8 +63,7 @@ Collected from the project owner across the design and planning sessions (origin
 
 ### Open Questions
 
-- Technology stack consent (ANPOS `Approve Technology Stack`).
-- Project Management System choice.
+- GitHub Team plan (needed for branch rules); GitHub Project board creation.
 - OD-07 hosting/region, OD-03 payments, OD-10 sandbox, OD-02 domains, OD-04 pricing.
 - AI gradient colour decision; desktop and mobile frames; RTL scope.
 - Company legal name and press email for launch assets.
@@ -79,4 +78,4 @@ See `docs/plan/BUILD-PLAN.md` §7.
 
 ## Planning Status
 
-`PLAN_APPROVED_PENDING_STACK_CONSENT` — phases, apps per phase and Phase 0 work units are in `docs/plan/`; current phase is Phase 0; next work unit is `WU-P0-01`.
+`PLAN_AND_STACK_APPROVED` — phases, apps per phase and Phase 0 work units are in `docs/plan/`; current phase is Phase 0; next work unit is `WU-P0-01`.

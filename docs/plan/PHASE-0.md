@@ -2,7 +2,7 @@
 
 Goal: prove people want Zynoa and that AI providers will serve a Pakistan-registered company at an acceptable cost, and give engineers a running empty platform so Phase 1 starts with features. No user-facing features, no real auth, no real data.
 
-Duration: spec 4–6 weeks; AI-first estimate 3–4 weeks. Machine-readable copy of these work units: `config/ai/execution-plan.json` (phase `PHASE-0`).
+Duration: spec 4–6 weeks; AI-first estimate 3–4 weeks. Machine-readable copy of these work units: `config/ai/execution-plan.json` (phase `PHASE-0`). Each work unit has a GitHub issue (#7–#27) in milestone **Phase 0**.
 
 Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Done in `docs/spec/ENGINEERING-RULES.md` §5.
 
@@ -39,9 +39,9 @@ Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Do
 
 ## Human-only checklist (~6–10 hours over the phase)
 
-- [ ] Give ANPOS `Approve Technology Stack` consent for the stack in `BUILD-PLAN.md` §1.
-- [ ] Choose Project Management System (ANPOS step; Linear recommended, GitHub Projects or skip are fine).
-- [ ] Apply recommended GitHub Rules on `main` once CI check names are stable.
+- [x] Give ANPOS `Approve Technology Stack` consent (`CONSENT-000001`).
+- [x] Choose Project Management System — GitHub Projects. Still to do: create the org Project, link repo `zynoa`, enable auto-add for its issues.
+- [ ] GitHub Rules approved — needs GitHub Team plan, then the manual steps in `config/github/ruleset-policy.json` → `setup_state.manual_steps`.
 - [ ] Cloud, AI provider, domain and developer accounts; payment cards.
 - [ ] API keys into GitHub secrets (never paste them into chat).
 - [ ] Share survey and prototype links.
