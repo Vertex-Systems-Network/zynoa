@@ -63,7 +63,7 @@ Collected from the project owner across the design and planning sessions (origin
 
 ### Open Questions
 
-- GitHub Team plan (needed for branch rules); GitHub Project board creation.
+- GitHub Project board creation.
 - OD-07 hosting/region, OD-03 payments, OD-10 sandbox, OD-02 domains, OD-04 pricing.
 - AI gradient colour decision; desktop and mobile frames; RTL scope.
 - Company legal name and press email for launch assets.

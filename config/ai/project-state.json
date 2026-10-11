@@ -26,7 +26,6 @@
     "OD-02 domains",
     "AI gradient colour",
     "figma_version_lock_and_design_approval",
-    "github_rules_pending_user_action (needs GitHub Team plan + manual settings; see config/github/ruleset-policy.json setup_state)",
     "github_projects_board_creation (owner creates org Project and links repo; issues #7-#27 ready)"
   ],
   "critical_defects": [],
