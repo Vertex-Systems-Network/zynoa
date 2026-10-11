@@ -77,6 +77,33 @@ def fail(message: str) -> None:
     ERRORS.append(message)
 
 
+def _child_vendor_only_paths() -> tuple[str, ...]:
+    """Vendor-only paths that scripts/bootstrap_child.py strips from child repositories.
+
+    Returns an empty tuple for the canonical template source, so the source keeps
+    requiring every vendor asset. In an initialised child the stripped paths are
+    expected to be absent and must not be reported as missing.
+    """
+    try:
+        instance = json.loads((ROOT / "config/protocol/instance.json").read_text(encoding="utf-8"))
+        boundary = json.loads((ROOT / "config/licensing/vendor-source-boundary.json").read_text(encoding="utf-8"))
+    except Exception:
+        return ()
+    if instance.get("instance_status") == "template_source":
+        return ()
+    raw = boundary.get("vendor_only_paths")
+    if not isinstance(raw, list):
+        return ()
+    return tuple(p for p in raw if isinstance(p, str) and p and not p.startswith("/") and ".." not in p.split("/"))
+
+
+def stripped_from_child(relative: str) -> bool:
+    """True when `relative` is a vendor-only path legitimately absent from this child."""
+    if (ROOT / relative).exists():
+        return False
+    return any(relative == p or relative.startswith(p + "/") for p in _child_vendor_only_paths())
+
+
 def load_json(relative: str) -> dict[str, Any]:
     path = ROOT / relative
     try:
@@ -184,6 +211,8 @@ def validate_required_files() -> None:
         "tests/test_repository_supervisor_plugin_blueprint.py", "tests/test_repository_supervisor_production_runtime.py",
     ]
     for relative in required:
+        if stripped_from_child(relative):
+            continue
         if not (ROOT / relative).is_file():
             fail(f"missing required protocol/blueprint file: {relative}")
 
@@ -240,6 +269,8 @@ def validate_json_schemas() -> None:
         "config/runtime/repository-supervisor-planner.json": "schemas/repository-supervisor-planner.schema.json",
     }
     for instance_path, schema_path in mapping.items():
+        if stripped_from_child(instance_path) or stripped_from_child(schema_path):
+            continue
         schema = load_json(schema_path)
         instance = load_json(instance_path)
         try:
@@ -265,6 +296,8 @@ def validate_manifest() -> None:
             continue
         paths.extend(files)
     for relative in paths:
+        if isinstance(relative, str) and stripped_from_child(relative):
+            continue
         if not isinstance(relative, str) or not (ROOT / relative).exists():
             fail(f"manifest references missing path: {relative}")
 

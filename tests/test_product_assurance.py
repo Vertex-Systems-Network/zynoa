@@ -8,6 +8,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+from anpos_child_boundary import requires_vendor_source
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -89,6 +91,8 @@ class ProductAssuranceTests(unittest.TestCase):
             "expired_risk_acceptance_used_to_bypass_gate",
         }
         self.assertTrue(expected.issubset(names))
+
+    @requires_vendor_source("config/protocol/next-release.json")
 
     def test_140_is_active_and_next_release_is_unplanned(self) -> None:
         current = load("config/protocol/version.json")

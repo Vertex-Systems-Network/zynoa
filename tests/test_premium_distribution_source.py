@@ -4,6 +4,8 @@ import json
 import unittest
 from pathlib import Path
 
+from anpos_child_boundary import requires_vendor_source
+
 ROOT = Path(__file__).resolve().parents[1]
 SERVICE = ROOT / "commercial-service"
 
@@ -13,6 +15,7 @@ def load(path: str) -> dict:
 
 
 class PremiumDistributionSourceTests(unittest.TestCase):
+    @requires_vendor_source("commercial-service")
     def test_runtime_identity_and_lock_are_0410(self) -> None:
         package = load("commercial-service/package.json")
         lock = load("commercial-service/package-lock.json")
@@ -21,6 +24,8 @@ class PremiumDistributionSourceTests(unittest.TestCase):
         self.assertEqual(lock["packages"][""]["version"], "0.4.10")
         self.assertEqual(package["anpos"]["source_protocol_version"], "1.4.0")
         self.assertEqual(package["anpos"]["runtime_contract"], "split-github-app-v1")
+
+    @requires_vendor_source("commercial-service")
 
     def test_env_contract_is_conditional_and_immutable(self) -> None:
         source = (SERVICE / "lib/env.ts").read_text(encoding="utf-8")
@@ -48,6 +53,8 @@ class PremiumDistributionSourceTests(unittest.TestCase):
         ]:
             self.assertIn(marker, example)
 
+    @requires_vendor_source("commercial-service")
+
     def test_runtime_manifest_binding_and_archive_redirect_are_present(self) -> None:
         parser = (SERVICE / "lib/premium-releases.ts").read_text(encoding="utf-8")
         github = (SERVICE / "lib/github.ts").read_text(encoding="utf-8")
@@ -71,6 +78,8 @@ class PremiumDistributionSourceTests(unittest.TestCase):
             "premiumDistributionConfig",
         ]:
             self.assertIn(marker, github)
+
+    @requires_vendor_source("commercial-service")
 
     def test_premium_routes_require_both_entitlements_seat_and_reconciliation(self) -> None:
         for relative, event in [

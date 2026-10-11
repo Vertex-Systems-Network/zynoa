@@ -4,6 +4,8 @@ import json
 import unittest
 from pathlib import Path
 
+from anpos_child_boundary import requires_vendor_source
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -13,11 +15,15 @@ class ProductionSmokeRollbackEvidenceTests(unittest.TestCase):
         self.package = json.loads((ROOT / "commercial-service/package.json").read_text(encoding="utf-8"))
         self.protocol = json.loads((ROOT / "config/protocol/version.json").read_text(encoding="utf-8"))
 
+    @requires_vendor_source("commercial-service")
+
     def test_expected_identity_tracks_current_source_identity(self) -> None:
         expected = self.data["expected_identity"]
         self.assertEqual(expected["service_version"], self.package["version"])
         self.assertEqual(expected["protocol_version"], self.protocol["version"])
         self.assertEqual(expected["runtime_contract"], self.package["anpos"]["runtime_contract"])
+
+    @requires_vendor_source("commercial-service")
 
     def test_production_evidence_is_not_invented(self) -> None:
         observed = self.data["observed_production"]
@@ -32,6 +38,8 @@ class ProductionSmokeRollbackEvidenceTests(unittest.TestCase):
         self.assertIsNone(recovery["backup_evidence_reference"])
         self.assertIsNone(recovery["rpo_minutes"])
         self.assertIsNone(recovery["rto_minutes"])
+
+    @requires_vendor_source("commercial-service")
 
     def test_launch_gate_is_fail_closed(self) -> None:
         gate = self.data["production_gate"]

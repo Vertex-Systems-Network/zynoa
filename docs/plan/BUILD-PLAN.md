@@ -105,7 +105,6 @@ Still open:
 | Singapore DB latency | Slow dashboard | Redis cache, edge front-end, revisit region |
 | Scope creep | Beyond 24 months | Phase exit checklists; no new studios before Gate B |
 | Store review and signing | Launch delay | Certificates before Phase 3; TestFlight / internal tracks early |
-| ANPOS child validators fail after bootstrap | CI red on the governance check | Upstream fix in ANPOS (see PR description); do not weaken validators locally |
 
 ## 8. Changes from the spec
 

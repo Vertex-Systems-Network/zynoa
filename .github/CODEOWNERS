@@ -58,3 +58,5 @@
 /scripts/ @wpessential
 /tests/ @wpessential
 /requirements-anpos.txt @wpessential
+/config/licensing/ @wpessential
+/COMMERCIAL-LICENSING.md @wpessential

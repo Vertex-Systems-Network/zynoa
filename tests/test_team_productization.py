@@ -4,6 +4,8 @@ import json
 import unittest
 from pathlib import Path
 
+from anpos_child_boundary import requires_vendor_source
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -12,6 +14,7 @@ def load(path: str) -> dict:
 
 
 class TeamProductizationTests(unittest.TestCase):
+    @requires_vendor_source("commercial-service")
     def test_team_source_surface_exists(self) -> None:
         for path in [
             "commercial-service/app/api/v1/team/summary/route.ts",
@@ -58,6 +61,8 @@ class TeamProductizationTests(unittest.TestCase):
         features = {row["id"]: row for row in load("config/licensing/feature-catalog.json")["entitlements"]}
         self.assertEqual(features["commercial_support"]["availability"], "external_contract_required")
 
+    @requires_vendor_source("commercial-service")
+
     def test_team_summary_is_admin_entitlement_and_marketplace_reconciliation_gated(self) -> None:
         source = (ROOT / "commercial-service/app/api/v1/team/summary/route.ts").read_text(encoding="utf-8")
         for marker in [
@@ -77,6 +82,8 @@ class TeamProductizationTests(unittest.TestCase):
         self.assertIn("SELECT github_account_id,github_login,github_account_type,plan_id,marketplace_plan_id,seats,state,features", dashboard)
         self.assertIn('billing_authority: "github_marketplace"', dashboard)
         self.assertIn("contractual_support_activated_by_source: false", dashboard)
+
+    @requires_vendor_source("commercial-service")
 
     def test_team_ui_reuses_server_side_seat_lifecycle_and_does_not_claim_billing_mutation(self) -> None:
         source = (ROOT / "commercial-service/app/team/TeamClient.tsx").read_text(encoding="utf-8")

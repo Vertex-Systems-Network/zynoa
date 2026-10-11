@@ -20,7 +20,7 @@ Website, web dashboard, desktop (Tauri), mobile (Expo); six AI Studios; Project 
 
 - Existing implementation: none (12 Oct 2026). `packages/tokens` in PR #1.
 - Existing architecture: specified only (`docs/spec/03_ARCHITECTURE.md`, `docs/plan/REPOSITORY.md`).
-- Existing tests/build status: ANPOS governance tests only; child validators currently fail on vendor-stripped paths (upstream ANPOS issue).
+- Existing tests/build status: ANPOS governance validators and tests pass locally; tests that inspect vendor-only assets stripped by the child bootstrap are skipped, not passed (`tests/anpos_child_boundary.py`).
 - Existing deployments/environments: none.
 - Known incomplete or temporary work: PR #1 not merged; GitHub Rules not applied.
 
