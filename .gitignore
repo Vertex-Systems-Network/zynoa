@@ -1,0 +1,17 @@
+node_modules/
+.pnpm-store/
+.turbo/
+.next/
+out/
+build/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+# Tauri / Rust
+target/
+# Expo
+.expo/
+ios/Pods/
