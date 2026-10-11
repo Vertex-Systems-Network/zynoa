@@ -1,0 +1,19 @@
+name: tokens
+on:
+  pull_request:
+    paths: ["packages/tokens/**"]
+  push:
+    branches: [main]
+    paths: ["packages/tokens/**"]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Rebuild tokens and fail if dist/ is stale
+        run: |
+          node packages/tokens/scripts/build.mjs
+          git diff --exit-code -- packages/tokens/dist
