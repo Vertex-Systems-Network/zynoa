@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-test:
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
-      image: semgrep/semgrep:1.180.0
+      image: semgrep/semgrep:1.180.0@sha256:529ee8a277ec8adc5b534d7c74eea0a47e9de21d62852b6ba7ac6ba9566845c3
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -99,6 +99,7 @@ jobs:
 
       - name: Semgrep (product code)
         # ANPOS governance code under scripts/ and tests/ is covered by its own validators.
+        # p/default is fetched from the Semgrep registry each run, so findings can change without a repo change.
         run: semgrep scan --config p/default --metrics=off --error --exclude "**/dist/**" apps packages
 
   dependency-scan:
@@ -120,3 +121,4 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: "1"
+          version: v0.70.0
