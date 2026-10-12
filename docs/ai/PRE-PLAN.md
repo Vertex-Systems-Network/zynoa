@@ -22,7 +22,7 @@ Website, web dashboard, desktop (Tauri), mobile (Expo); six AI Studios; Project 
 - Existing architecture: specified only (`docs/spec/03_ARCHITECTURE.md`, `docs/plan/REPOSITORY.md`).
 - Existing tests/build status: ANPOS governance validators and tests pass locally; tests that inspect vendor-only assets stripped by the child bootstrap are skipped, not passed (`tests/anpos_child_boundary.py`).
 - Existing deployments/environments: none.
-- Known incomplete or temporary work: GitHub Project board not yet created; secret scanning not yet enabled.
+- Known incomplete or temporary work: none blocking; GitHub Project board URL still to be recorded.
 
 ## 4. Primary Actors and Workflows
 
