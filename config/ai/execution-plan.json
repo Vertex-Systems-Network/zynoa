@@ -166,7 +166,7 @@
         "WU-P0-00"
       ],
       "priority": 1,
-      "status": "ready",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "Layout per docs/plan/REPOSITORY.md",
@@ -175,7 +175,11 @@
         "pnpm install && pnpm build pass from clean clone"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "branch feat/WU-P0-01-scaffold",
+        "clean clone: pnpm install --frozen-lockfile && build && lint && typecheck && test pass",
+        "turbo second run: 3/3 cached (FULL TURBO)"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 8
     },
