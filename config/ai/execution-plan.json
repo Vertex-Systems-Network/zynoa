@@ -240,7 +240,7 @@
         "WU-P0-01"
       ],
       "priority": 4,
-      "status": "verification_required",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Zod env schema fails fast",
@@ -248,9 +248,9 @@
       ],
       "required_checks": [],
       "completion_evidence": [
-        "packages/config: 20 Vitest tests (env groups, cross-variable rules, secret-safe errors, flags precedence/rollout/file)",
-        "real process: missing vars -> exit 1 naming each variable",
-        "turbo lint/typecheck/test/build green"
+        "PR #37",
+        "independent review agent: REQUEST_CHANGES (M1-M3) then APPROVE after fixes",
+        "packages/config 30 tests; real process exits 1 naming missing variables"
       ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 11
