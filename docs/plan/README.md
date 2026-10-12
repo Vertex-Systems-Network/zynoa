@@ -33,7 +33,7 @@ This is the single entry point for building Zynoa. Read it after the ANPOS proto
 | Technology stack | **Approved** — `CONSENT-000001` |
 | Application code | Monorepo scaffold done (WU-P0-01, PR #32): pnpm + Turborepo, `packages/config`, `packages/tokens` with tests. No apps yet |
 
-**Next valid work unit:** `WU-P0-04` (config/env, issue #11); `WU-P0-02` (local environment, issue #9) is also ready. CI (WU-P0-03) is live; its checks become merge-blocking once the owner adds them to the `main-protection` ruleset. See [`PHASE-0.md`](PHASE-0.md).
+**Next valid work unit:** `WU-P0-04` (config/env, issue #11); `WU-P0-02` (local environment, issue #9) is also ready. CI (WU-P0-03) is live and all five checks block merges. See [`PHASE-0.md`](PHASE-0.md).
 
 Work tracking: GitHub milestone **Phase 0** — one issue per work unit (`WU-P0-xx`). Close the issue from the PR that completes it (`Closes #N`).
 

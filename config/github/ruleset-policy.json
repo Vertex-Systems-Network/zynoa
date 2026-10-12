@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "status": "applied_verified_pending_new_required_checks",
+  "status": "applied_verified",
   "activation_scope": "child_project",
   "template_source_enforcement": "not_applicable",
   "scope": "default_branch_and_coordination_refs",
@@ -79,19 +79,18 @@
   "setup_state": {
     "user_decision": "approved (owner reply 'kr do', 2026-10-12)",
     "application_status": "applied_by_owner_import",
-    "enforcement_verified": false,
+    "enforcement_verified": true,
     "governance_audit_installed": false,
     "blockers": [
       "Repository settings writes and rulesets API writes are not permitted through the AI session's GitHub proxy; rulesets were imported by the owner from .github/rulesets/*.json."
     ],
     "manual_steps": [
-      "Owner: Settings > Rules > Rulesets > main-protection > Require status checks \u2014 add build-test, secret-scan, sast, dependency-scan (source: .github/rulesets/main-protection.json). Then the AI re-reads the rulesets and sets enforcement_verified=true.",
       "Optional: Settings > General > Pull Requests \u2014 untick 'Allow merge commits' and 'Allow rebase merging' (squash only)."
     ],
-    "checked_at": "2026-10-11T23:47:35.679941+00:00",
+    "checked_at": "2026-10-12T00:25:03.123095+00:00",
     "verification": {
       "method": "GET /repos/Vertex-Systems-Network/zynoa/rulesets and /rules/branches/main",
-      "verified_at": "2026-10-11T23:47:35.679941+00:00",
+      "verified_at": "2026-10-12T00:25:03.123095+00:00",
       "repository_visibility": "public (changed by owner 2026-10-12 to enable rulesets on the Free plan)",
       "rulesets": [
         {
@@ -103,7 +102,7 @@
             "non_fast_forward",
             "required_linear_history",
             "pull_request (0 approvals, thread resolution)",
-            "required_status_checks: repository-integrity (strict)"
+            "required_status_checks (strict): repository-integrity, build-test, secret-scan, sast, dependency-scan"
           ],
           "bypass": "none"
         },
@@ -147,8 +146,7 @@
         "dependabot_security_updates": "enabled",
         "secret_scanning_non_provider_patterns": "disabled",
         "secret_scanning_validity_checks": "disabled"
-      },
-      "note": "Verified live rulesets require only repository-integrity; CI checks added in WU-P0-03 are not enforced until the owner updates main-protection."
+      }
     }
   }
 }
