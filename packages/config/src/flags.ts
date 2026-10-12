@@ -6,10 +6,13 @@
  * table (docs/spec/04_DATA_MODEL.md): a workspace row overrides the global row (workspace null),
  * and `rolloutPct` enables a deterministic share of workspaces.
  *
- * Sources are consulted in order; the first source with a matching row wins
- * (e.g. `[databaseSource, fileFlagSource(path)]` once packages/db exists).
+ * Sources are consulted in order and the first source that has *any* row for the flag
+ * (workspace or global) decides; later sources are not consulted. Put the authoritative
+ * source first, e.g. `[databaseSource, fileFlagSource(path)]` once packages/db exists.
+ *
+ * This module has no Node.js imports, so it is safe in edge and browser bundles.
+ * The file source lives in `@zynoa/config/flags/file` (Node only).
  */
-import { readFileSync } from "node:fs";
 import { z } from "zod";
 
 const FLAG_KEY = /^[a-z][a-z0-9]*(\.[a-z0-9][a-z0-9-]*)+$/;
@@ -77,25 +80,4 @@ export function memoryFlagSource(input: FlagRowInput[]): FlagSource {
     rows: (key, workspaceId) =>
       all.filter((r) => r.key === key && (r.workspaceId === null || r.workspaceId === workspaceId)),
   };
-}
-
-/**
- * JSON file of flag rows, e.g. `[{"key":"phase1.chat","enabled":true}]`.
- * A missing file means no flags (everything off); an invalid file throws at load.
- */
-export function fileFlagSource(path: string): FlagSource {
-  let text: string;
-  try {
-    text = readFileSync(path, "utf8");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return memoryFlagSource([]);
-    throw error;
-  }
-  try {
-    return memoryFlagSource(JSON.parse(text) as FlagRowInput[]);
-  } catch (error) {
-    throw new Error(`Invalid feature flag file ${path}: ${(error as Error).message}`, {
-      cause: error,
-    });
-  }
 }

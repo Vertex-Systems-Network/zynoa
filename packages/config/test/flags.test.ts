@@ -1,11 +1,26 @@
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
-import { createFlags, fileFlagSource, memoryFlagSource, rolloutBucket } from "../src/flags.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { createFlags, memoryFlagSource, rolloutBucket } from "../src/flags.js";
+import { createFlagsFromEnv, fileFlagSource } from "../src/flags-file.js";
+
+const tempDirs: string[] = [];
+const tempFile = (content: string) => {
+  const dir = mkdtempSync(join(tmpdir(), "flags-"));
+  tempDirs.push(dir);
+  const path = join(dir, "flags.json");
+  writeFileSync(path, content);
+  return path;
+};
+afterEach(() => {
+  for (const dir of tempDirs.splice(0)) rmSync(dir, { recursive: true, force: true });
+});
 
 const WS_A = "0192f3a4-0000-7000-8000-000000000001";
 const WS_B = "0192f3a4-0000-7000-8000-000000000002";
+const BUCKET_WS7 = 83;
+const BUCKET_WSA = 91;
 
 describe("feature flags", () => {
   it("is off by default for unknown flags", async () => {
@@ -51,11 +66,10 @@ describe("feature flags", () => {
     );
     expect(on.length / ids.length).toBeGreaterThan(0.25);
     expect(on.length / ids.length).toBeLessThan(0.35);
-    expect(await flags.isEnabled("phase1.board", "ws-7")).toBe(
-      await flags.isEnabled("phase1.board", "ws-7"),
-    );
     expect(await flags.isEnabled("phase1.board", null)).toBe(false); // partial rollout needs a workspace
-    expect(rolloutBucket("phase1.board", "ws-7")).toBe(rolloutBucket("phase1.board", "ws-7"));
+    // Pinned values: changing the hash would silently reshuffle every partial rollout.
+    expect(rolloutBucket("phase1.board", "ws-7")).toBe(BUCKET_WS7);
+    expect(rolloutBucket("phase1.chat", WS_A)).toBe(BUCKET_WSA);
   });
 
   it("rejects malformed flag keys", async () => {
@@ -67,17 +81,36 @@ describe("feature flags", () => {
   });
 
   it("reads and validates a flag file", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "flags-"));
-    const path = join(dir, "flags.json");
-    writeFileSync(path, JSON.stringify([{ key: "phase0.demo", enabled: true }]));
+    const path = tempFile(JSON.stringify([{ key: "phase0.demo", enabled: true }]));
     const flags = createFlags([fileFlagSource(path)]);
     expect(await flags.isEnabled("phase0.demo", WS_A)).toBe(true);
     writeFileSync(path, JSON.stringify([{ key: "phase0.demo", enabled: "yes" }]));
     expect(() => fileFlagSource(path)).toThrow(/flags\.json/);
   });
 
-  it("treats a missing flag file as no flags (default off)", async () => {
-    const flags = createFlags([fileFlagSource(join(tmpdir(), "does-not-exist", "flags.json"))]);
+  it("throws on a missing flag file unless it is optional", async () => {
+    const missing = join(tmpdir(), "does-not-exist", "flags.json");
+    expect(() => fileFlagSource(missing)).toThrow(/Cannot read feature flag file/);
+    const flags = createFlags([fileFlagSource(missing, { optional: true })]);
     expect(await flags.isEnabled("phase0.demo", WS_A)).toBe(false);
+  });
+
+  it("builds flags from FEATURE_FLAGS_FILE after the given sources", async () => {
+    const path = tempFile(JSON.stringify([{ key: "phase0.demo", enabled: true }]));
+    expect(await createFlagsFromEnv({}).isEnabled("phase0.demo", WS_A)).toBe(false);
+    expect(
+      await createFlagsFromEnv({ FEATURE_FLAGS_FILE: path }).isEnabled("phase0.demo", WS_A),
+    ).toBe(true);
+    const db = memoryFlagSource([{ key: "phase0.demo", workspaceId: WS_A, enabled: false }]);
+    expect(
+      await createFlagsFromEnv({ FEATURE_FLAGS_FILE: path }, [db]).isEnabled("phase0.demo", WS_A),
+    ).toBe(false);
+  });
+
+  it("keeps the flags entry point free of Node.js imports (edge/browser safe)", () => {
+    for (const file of ["../src/flags.ts", "../src/index.ts"]) {
+      const source = readFileSync(new URL(file, import.meta.url), "utf8");
+      expect(source, file).not.toMatch(/from "node:|require\(|process\./);
+    }
   });
 });

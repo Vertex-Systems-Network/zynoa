@@ -26,7 +26,8 @@ describe("parseEnv", () => {
   });
 
   it("names every missing required variable", () => {
-    const result = () => parseEnv(["core", "database", "redis"], { NODE_ENV: "development" });
+    const result = () =>
+      parseEnv(["core", "database", "databasePlatform", "redis"], { NODE_ENV: "development" });
     expect(result).toThrow(EnvError);
     try {
       result();
@@ -51,14 +52,33 @@ describe("parseEnv", () => {
     expect(() => parseEnv(["redis"], { ...base, REDIS_URL: "http://x" })).toThrow(/REDIS_URL/);
   });
 
-  it("never echoes secret values in error messages", () => {
-    const secret = "sk-live-should-not-leak";
+  it.each([
+    ["core", { APP_ENV: "sk-leak-1" }],
+    ["core", { APP_URL: "sk-leak-1" }],
+    ["redis", { REDIS_URL: "http://sk-leak-1" }],
+    ["keys", { LOCAL_MASTER_KEY: "sk-leak-1" }],
+    ["auth", { BETTER_AUTH_SECRET: "sk-leak-1" }],
+    ["models", { MODEL_PROVIDERS_ENABLED: "sk-leak-1" }],
+    ["temporal", { TEMPORAL_ADDRESS: "sk-leak-1" }],
+  ] as const)("never echoes the value of an invalid %s variable", (group, overrides) => {
+    expect.assertions(3);
+    const variable = Object.keys(overrides)[0] as string;
     try {
-      parseEnv(["auth"], { ...base, BETTER_AUTH_SECRET: secret.slice(0, 5) });
+      parseEnv([group], { ...base, ...overrides });
     } catch (error) {
-      expect((error as Error).message).not.toContain(secret.slice(0, 5));
-      expect((error as Error).message).toContain("BETTER_AUTH_SECRET");
+      expect(error).toBeInstanceOf(EnvError);
+      expect((error as Error).message).toContain(variable);
+      expect((error as Error).message).not.toContain("sk-leak-1");
     }
+  });
+
+  it("keeps the RLS-bypass database URL out of the application database group", () => {
+    const env = parseEnv(["database"], { ...base, DATABASE_URL: fullLocal.DATABASE_URL }) as Record<
+      string,
+      unknown
+    >;
+    expect(env.DATABASE_PLATFORM_URL).toBeUndefined();
+    expect(() => parseEnv(["databasePlatform"], base)).toThrow(/DATABASE_PLATFORM_URL/);
   });
 
   it("allows LOCAL_MASTER_KEY only in local and ci; requires KMS_KEY_ID elsewhere", () => {
@@ -105,6 +125,14 @@ describe("parseEnv", () => {
     expect(() => parseEnv(["modes"], { ...prod, PAYMENTS_MODE: "test" })).toThrow(/PAYMENTS_MODE/);
   });
 
+  it("refuses live payments and messaging in local and ci", () => {
+    expect(() => parseEnv(["modes"], { ...base, PAYMENTS_MODE: "live" })).toThrow(/PAYMENTS_MODE/);
+    expect(() => parseEnv(["modes"], { ...base, APP_ENV: "ci", MESSAGING_MODE: "live" })).toThrow(
+      /MESSAGING_MODE/,
+    );
+    expect(parseEnv(["modes"], base).MESSAGING_MODE).toBe("capture");
+  });
+
   it("returns only the requested groups", () => {
     const env = parseEnv(["core", "redis"], fullLocal) as Record<string, unknown>;
     expect(env.REDIS_URL).toBe("redis://localhost:6379");
@@ -119,6 +147,7 @@ describe("loadEnv", () => {
     }) as unknown as (code?: number) => never;
     const log = vi.fn();
     expect(() => loadEnv(["core", "database"], { source: base, exit, log })).toThrow("exit 1");
+    expect(exit).toHaveBeenCalledWith(1);
     expect(log).toHaveBeenCalledOnce();
     const message = String(log.mock.calls[0]?.[0]);
     expect(message).toContain("DATABASE_URL");

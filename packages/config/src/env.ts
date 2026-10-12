@@ -2,6 +2,8 @@
  * Environment variables for every Zynoa process, defined once (docs/spec/03_ARCHITECTURE.md §8).
  *
  * Each process loads only the groups it needs: `loadEnv(["core", "database", "redis"])`.
+ * Pass the groups as a literal list so the returned type contains exactly those groups.
+ * Server-only (reads `process.env`, may call `process.exit`): import from `@zynoa/config/env`.
  * Missing or invalid values stop the process at startup with a message that names the
  * variable — never its value, because many of these are secrets.
  */
@@ -47,8 +49,11 @@ export const envGroups = {
     FEATURE_FLAGS_FILE: optionalString,
   }),
   database: z.object({
+    /** Application role: every tenant query goes through RLS. */
     DATABASE_URL: url(["postgres", "postgresql"]),
-    /** Connection for the platform role that may bypass tenant RLS (migrations, operator jobs). */
+  }),
+  databasePlatform: z.object({
+    /** Platform role that may bypass tenant RLS. Load only in the migration runner and operator jobs. */
     DATABASE_PLATFORM_URL: url(["postgres", "postgresql"]),
   }),
   redis: z.object({
@@ -155,7 +160,7 @@ type Source = Record<string, string | undefined>;
 type Parsed = Record<string, unknown>;
 
 /** Cross-variable rules that a single field schema cannot express. */
-const rules: Partial<Record<EnvGroup, (env: Parsed, appEnv: AppEnv, raw: Source) => EnvIssue[]>> = {
+const rules: Partial<Record<EnvGroup, (env: Parsed, appEnv: AppEnv) => EnvIssue[]>> = {
   core: () => [],
   temporal: (env) =>
     Boolean(env.TEMPORAL_TLS_CERT) === Boolean(env.TEMPORAL_TLS_KEY)
@@ -202,7 +207,8 @@ const rules: Partial<Record<EnvGroup, (env: Parsed, appEnv: AppEnv, raw: Source)
         issues.push({ variable: "EMAIL_PROVIDER", message: "mock is not allowed in production" });
       return issues;
     }
-    if (!env.EMAIL_API_KEY)
+    // SES authenticates with IAM credentials/role, not an API key.
+    if (!env.EMAIL_API_KEY && env.EMAIL_PROVIDER !== "ses")
       issues.push({
         variable: "EMAIL_API_KEY",
         message: `is required for EMAIL_PROVIDER=${String(env.EMAIL_PROVIDER)}`,
@@ -253,10 +259,20 @@ const rules: Partial<Record<EnvGroup, (env: Parsed, appEnv: AppEnv, raw: Source)
     appEnv === "production" && env.DEPLOY_PROVIDER === "mock"
       ? [{ variable: "DEPLOY_PROVIDER", message: "mock is not allowed in production" }]
       : [],
-  modes: (env, appEnv) =>
-    appEnv === "production" && env.PAYMENTS_MODE === "test"
-      ? [{ variable: "PAYMENTS_MODE", message: "test is not allowed in production" }]
-      : [],
+  modes: (env, appEnv) => {
+    const issues: EnvIssue[] = [];
+    if (appEnv === "production" && env.PAYMENTS_MODE === "test") {
+      issues.push({ variable: "PAYMENTS_MODE", message: "test is not allowed in production" });
+    }
+    if (appEnv === "local" || appEnv === "ci") {
+      for (const variable of ["PAYMENTS_MODE", "MESSAGING_MODE"] as const) {
+        if (env[variable] === "live") {
+          issues.push({ variable, message: `live is not allowed when APP_ENV=${appEnv}` });
+        }
+      }
+    }
+    return issues;
+  },
 };
 
 /** Parse the given groups (plus `core`) from `source`. Throws EnvError listing every problem. */
@@ -272,11 +288,13 @@ export function parseEnv<const G extends EnvGroup>(
   const issues: EnvIssue[] = [];
   const result: Parsed = {};
 
+  const parsedGroups: [EnvGroup, Parsed][] = [];
   for (const group of selected) {
     const parsed = envGroups[group].safeParse(raw);
     if (!parsed.success) {
       for (const issue of parsed.error.issues) {
         const variable = String(issue.path[0] ?? group);
+        // Messages are static (zod 4 issues omit the input), so no value is ever echoed.
         issues.push({
           variable,
           message: raw[variable] === undefined ? "is required" : issue.message,
@@ -284,16 +302,14 @@ export function parseEnv<const G extends EnvGroup>(
       }
       continue;
     }
+    parsedGroups.push([group, parsed.data as Parsed]);
     Object.assign(result, parsed.data);
   }
 
   const appEnv = result.APP_ENV as AppEnv | undefined;
   if (appEnv) {
-    for (const group of selected) {
-      const groupRules = rules[group];
-      if (!groupRules) continue;
-      const parsed = envGroups[group].safeParse(raw);
-      if (parsed.success) issues.push(...groupRules(parsed.data as Parsed, appEnv, raw));
+    for (const [group, data] of parsedGroups) {
+      issues.push(...(rules[group]?.(data, appEnv) ?? []));
     }
   }
 
