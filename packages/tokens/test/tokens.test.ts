@@ -77,6 +77,30 @@ describe("@zynoa/tokens", () => {
         expect(contrast(fg, bg)).toBeGreaterThanOrEqual(4.5);
     });
 
+    it.each([
+      [
+        "status/success-text on status/success-subtle",
+        c.status.successText,
+        c.status.successSubtle,
+      ],
+      [
+        "status/warning-text on status/warning-subtle",
+        c.status.warningText,
+        c.status.warningSubtle,
+      ],
+      ["status/danger-text on status/danger-subtle", c.status.dangerText, c.status.dangerSubtle],
+      ["ai/agent-text on ai/agent-subtle", c.ai.agentText, c.ai.agentSubtle],
+      ["brand/accent-text on brand/accent-subtle", c.brand.accentText, c.brand.accentSubtle],
+      ["text/on-sidebar on bg/sidebar", c.text.onSidebar, c.bg.sidebar],
+      ["text/on-sidebar-active on bg/sidebar-active", c.text.onSidebarActive, c.bg.sidebarActive],
+      ["text/muted on bg/subtle", c.text.muted, c.bg.subtle],
+      ["text/muted on bg/sidebar", c.text.muted, c.bg.sidebar],
+      ["text/on-inverse on bg/inverse", c.text.onInverse, c.bg.inverse],
+      ["text/on-inverse-muted on bg/inverse", c.text.onInverseMuted, c.bg.inverse],
+    ])("%s is >= 4.5:1", (_label, fg, bg) => {
+      expect(contrast(fg, bg)).toBeGreaterThanOrEqual(4.5);
+    });
+
     it("text/on-brand is >= 4.5:1 on brand/primary", () => {
       expect(contrast(c.text.onBrand, c.brand.primary)).toBeGreaterThanOrEqual(4.5);
     });

@@ -1,15 +1,16 @@
 // Shared flat ESLint config for every Zynoa workspace.
 // Usage in a workspace eslint.config.js: `export { default } from "@zynoa/config/eslint";`
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ["**/dist/**", "**/.next/**", "**/coverage/**", "**/storybook-static/**"],
   },
   js.configs.recommended,
-  ...tseslint.configs.strict,
+  tseslint.configs.strict,
   {
     languageOptions: {
       ecmaVersion: "latest",

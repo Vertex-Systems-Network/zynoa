@@ -86,7 +86,9 @@ Load the fonts with `@expo-google-fonts/plus-jakarta-sans`, `@expo-google-fonts/
 | Shadows          | 3                         | Elevation sm / md / lg                                                           |
 | Responsive       | 16 values × 8 breakpoints | grid, layout, display/heading sizes                                              |
 
-Contrast: every text/background pair used in the product passes WCAG 2.2 AA after the accessibility audit (Figma Handoff page, HO-10).
+Contrast: `test/tokens.test.ts` checks WCAG 2.2 AA (4.5:1 text, 3:1 controls) in light and dark for every text token on `bg/surface` and `bg/canvas`, each `*-text` token on its own `*-subtle` background, sidebar text on sidebar backgrounds, `text/muted` on `bg/subtle`, and inverse text.
+
+Not allowed (fails 4.5:1 in light mode): `text/muted`, `status/*-text` or `ai/agent-text` on `bg/sidebar-active`. Active sidebar items use `text/on-sidebar-active` only.
 
 ## Open item
 
