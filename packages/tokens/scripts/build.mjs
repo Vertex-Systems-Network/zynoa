@@ -30,12 +30,20 @@ const colors = [];
 for (const [group, items] of Object.entries(t.color)) {
   for (const [name, tok] of Object.entries(items)) {
     const darkRef = tok.$extensions["com.zynoa.modes"].dark;
-    colors.push({ group, name, light: resolve(tok.$value), dark: resolve(darkRef), lightRef: tok.$value, darkRef });
+    colors.push({
+      group,
+      name,
+      light: resolve(tok.$value),
+      dark: resolve(darkRef),
+      lightRef: tok.$value,
+      darkRef,
+    });
   }
 }
 const primitives = [];
 for (const [fam, steps] of Object.entries(t.primitive))
-  for (const [step, tok] of Object.entries(steps)) primitives.push({ fam, step, value: tok.$value });
+  for (const [step, tok] of Object.entries(steps))
+    primitives.push({ fam, step, value: tok.$value });
 
 const cssColorVar = (c) => `--${P}-color-${c.group}-${c.name}`;
 const refVar = (ref, fallback) =>
@@ -57,9 +65,11 @@ const shadowCss = (layers) =>
   lines.push("", "  /* radius */");
   for (const [k, v] of Object.entries(t.radius)) lines.push(`  --${P}-radius-${k}: ${v.$value};`);
   lines.push("", "  /* fonts */");
-  for (const [k, v] of Object.entries(t.font)) lines.push(`  --${P}-font-${k}: ${fontStack(v.$value)};`);
+  for (const [k, v] of Object.entries(t.font))
+    lines.push(`  --${P}-font-${k}: ${fontStack(v.$value)};`);
   lines.push("", "  /* shadows */");
-  for (const [k, v] of Object.entries(t.shadow)) lines.push(`  --${P}-shadow-${k}: ${shadowCss(v.$value)};`);
+  for (const [k, v] of Object.entries(t.shadow))
+    lines.push(`  --${P}-shadow-${k}: ${shadowCss(v.$value)};`);
   lines.push("", "  /* AI gradient */");
   lines.push(
     `  --${P}-gradient-ai: linear-gradient(135deg, var(--${P}-color-ai-gradient-start), var(--${P}-color-ai-gradient-mid), var(--${P}-color-ai-gradient-end));`,
@@ -71,7 +81,14 @@ const shadowCss = (layers) =>
   lines.push(`:root[data-theme="dark"], .dark {`, ...darkBlock, "  color-scheme: dark;", "}", "");
   lines.push("/* Dark: follow the OS unless the user picked light */");
   lines.push("@media (prefers-color-scheme: dark) {");
-  lines.push(`  :root:not([data-theme="light"]):not(.light) {`, ...darkBlock.map((l) => "  " + l), "    color-scheme: dark;", "  }", "}", "");
+  lines.push(
+    `  :root:not([data-theme="light"]):not(.light) {`,
+    ...darkBlock.map((l) => "  " + l),
+    "    color-scheme: dark;",
+    "  }",
+    "}",
+    "",
+  );
 
   // responsive layout + type sizes (desktop-first, 1440 = default)
   const r = t.responsive;
@@ -85,10 +102,13 @@ const shadowCss = (layers) =>
     ["320", "(max-width: 359px)"],
   ];
   const decl = (mode) =>
-    Object.entries(r.values).map(([k, v]) => `--${P}-${k}: ${k === "grid-columns" ? v[mode] : v[mode] + "px"};`);
+    Object.entries(r.values).map(
+      ([k, v]) => `--${P}-${k}: ${k === "grid-columns" ? v[mode] : v[mode] + "px"};`,
+    );
   lines.push("/* responsive: layout grid + display/heading sizes */");
   lines.push(":root {", ...decl("1440").map((l) => "  " + l), "}");
-  for (const [mode, q] of order) lines.push(`@media ${q} {`, "  :root {", ...decl(mode).map((l) => "    " + l), "  }", "}");
+  for (const [mode, q] of order)
+    lines.push(`@media ${q} {`, "  :root {", ...decl(mode).map((l) => "    " + l), "  }", "}");
   write("tokens.css", lines.join("\n") + "\n");
 }
 
@@ -96,7 +116,13 @@ const shadowCss = (layers) =>
 {
   const lines = [`/* ${HEADER} */`, ""];
   const respKey = (k) => {
-    const m = { "display-xl": "display-xl", "display-l": "display-l", "heading-h1": "h1", "heading-h2": "h2", "heading-h3": "h3" }[k];
+    const m = {
+      "display-xl": "display-xl",
+      "display-l": "display-l",
+      "heading-h1": "h1",
+      "heading-h2": "h2",
+      "heading-h3": "h3",
+    }[k];
     return m && t.responsive.values[`type-${m}-size`] ? m : null;
   };
   for (const [k, v] of Object.entries(t.typography)) {
@@ -107,7 +133,9 @@ const shadowCss = (layers) =>
     lines.push(`  font-family: var(--${P}-font-${famKey});`);
     lines.push(`  font-weight: ${s.fontWeight};`);
     lines.push(`  font-size: ${rk ? `var(--${P}-type-${rk}-size, ${s.fontSize})` : s.fontSize};`);
-    lines.push(`  line-height: ${rk ? `var(--${P}-type-${rk}-line, ${s.lineHeight})` : s.lineHeight};`);
+    lines.push(
+      `  line-height: ${rk ? `var(--${P}-type-${rk}-line, ${s.lineHeight})` : s.lineHeight};`,
+    );
     lines.push(`  letter-spacing: ${s.letterSpacing};`);
     if (k === "overline") lines.push("  text-transform: uppercase;");
     lines.push("}");
@@ -117,13 +145,21 @@ const shadowCss = (layers) =>
 
 // ---------- 3. tailwind.css : Tailwind v4 @theme bridge ----------
 {
-  const lines = [`/* ${HEADER} */`, "/* Usage (Tailwind v4): @import \"tailwindcss\"; @import \"@zynoa/tokens/tailwind.css\"; */", "", "@theme inline {"];
+  const lines = [
+    `/* ${HEADER} */`,
+    '/* Usage (Tailwind v4): @import "tailwindcss"; @import "@zynoa/tokens/tailwind.css"; */',
+    "",
+    "@theme inline {",
+  ];
   for (const c of colors) lines.push(`  --color-${c.group}-${c.name}: var(${cssColorVar(c)});`);
   for (const k of Object.keys(t.radius)) lines.push(`  --radius-${k}: var(--${P}-radius-${k});`);
   for (const k of Object.keys(t.shadow)) lines.push(`  --shadow-${k}: var(--${P}-shadow-${k});`);
   for (const k of Object.keys(t.font)) lines.push(`  --font-${k}: var(--${P}-font-${k});`);
   lines.push("  --spacing: 4px;", "}");
-  lines.push("", "@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));");
+  lines.push(
+    "",
+    "@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));",
+  );
   write("tailwind.css", lines.join("\n") + "\n");
 }
 
@@ -137,34 +173,58 @@ const shadowCss = (layers) =>
       extend: {
         colors: colorTree,
         spacing: Object.fromEntries(Object.entries(t.space).map(([k, v]) => [k, v.$value])),
-        borderRadius: Object.fromEntries(Object.keys(t.radius).map((k) => [k, `var(--${P}-radius-${k})`])),
-        boxShadow: Object.fromEntries(Object.keys(t.shadow).map((k) => [k, `var(--${P}-shadow-${k})`])),
+        borderRadius: Object.fromEntries(
+          Object.keys(t.radius).map((k) => [k, `var(--${P}-radius-${k})`]),
+        ),
+        boxShadow: Object.fromEntries(
+          Object.keys(t.shadow).map((k) => [k, `var(--${P}-shadow-${k})`]),
+        ),
         fontFamily: Object.fromEntries(Object.entries(t.font).map(([k, v]) => [k, v.$value])),
         backgroundImage: { "gradient-ai": `var(--${P}-gradient-ai)` },
       },
     },
   };
-  write("tailwind.preset.cjs", `// ${HEADER}\n// Tailwind v3: presets: [require("@zynoa/tokens/tailwind.preset")]\nmodule.exports = ${JSON.stringify(preset, null, 2)};\n`);
+  write(
+    "tailwind.preset.cjs",
+    `// ${HEADER}\n// Tailwind v3: presets: [require("@zynoa/tokens/tailwind.preset")]\nmodule.exports = ${JSON.stringify(preset, null, 2)};\n`,
+  );
 }
 
 // ---------- 5. shadcn.css : shadcn/ui variable bridge ----------
 {
   const map = {
-    background: "bg-canvas", foreground: "text-primary",
-    card: "bg-surface", "card-foreground": "text-primary",
-    popover: "bg-raised", "popover-foreground": "text-primary",
-    primary: "brand-primary", "primary-foreground": "text-on-brand",
-    secondary: "bg-subtle", "secondary-foreground": "text-primary",
-    muted: "bg-subtle", "muted-foreground": "text-muted",
-    accent: "bg-subtle", "accent-foreground": "text-primary",
+    background: "bg-canvas",
+    foreground: "text-primary",
+    card: "bg-surface",
+    "card-foreground": "text-primary",
+    popover: "bg-raised",
+    "popover-foreground": "text-primary",
+    primary: "brand-primary",
+    "primary-foreground": "text-on-brand",
+    secondary: "bg-subtle",
+    "secondary-foreground": "text-primary",
+    muted: "bg-subtle",
+    "muted-foreground": "text-muted",
+    accent: "bg-subtle",
+    "accent-foreground": "text-primary",
     destructive: "status-danger",
-    border: "border-default", input: "border-control", ring: "border-focus",
-    sidebar: "bg-sidebar", "sidebar-foreground": "text-on-sidebar",
-    "sidebar-primary": "brand-primary", "sidebar-primary-foreground": "text-on-brand",
-    "sidebar-accent": "bg-sidebar-active", "sidebar-accent-foreground": "text-on-sidebar-active",
-    "sidebar-border": "border-default", "sidebar-ring": "border-focus",
+    border: "border-default",
+    input: "border-control",
+    ring: "border-focus",
+    sidebar: "bg-sidebar",
+    "sidebar-foreground": "text-on-sidebar",
+    "sidebar-primary": "brand-primary",
+    "sidebar-primary-foreground": "text-on-brand",
+    "sidebar-accent": "bg-sidebar-active",
+    "sidebar-accent-foreground": "text-on-sidebar-active",
+    "sidebar-border": "border-default",
+    "sidebar-ring": "border-focus",
   };
-  const lines = [`/* ${HEADER} */`, "/* Points shadcn/ui's variables at Zynoa tokens. Import after tokens.css. */", ":root {"];
+  const lines = [
+    `/* ${HEADER} */`,
+    "/* Points shadcn/ui's variables at Zynoa tokens. Import after tokens.css. */",
+    ":root {",
+  ];
   for (const [k, v] of Object.entries(map)) lines.push(`  --${k}: var(--${P}-color-${v});`);
   lines.push(`  --radius: var(--${P}-radius-md);`, "}");
   write("shadcn.css", lines.join("\n") + "\n");
@@ -193,29 +253,70 @@ const shadowCss = (layers) =>
     ),
     shadow: Object.fromEntries(Object.entries(t.shadow).map(([k, v]) => [k, shadowCss(v.$value)])),
     responsive: t.responsive,
-    cssVar: (group, name) => `var(--${P}-color-${group}-${name})`,
   };
-  const { cssVar, ...plain } = data;
   write(
     "index.js",
-    `// ${HEADER}\nexport const tokens = ${JSON.stringify(plain, null, 2)};\nexport const cssVar = (group, name) => \`var(--${P}-color-\${group}-\${name})\`;\nexport default tokens;\n`,
+    `// ${HEADER}\nexport const tokens = ${JSON.stringify(data, null, 2)};\nexport const cssVar = (group, name) => \`var(--${P}-color-\${group}-\${name})\`;\nexport default tokens;\n`,
   );
   const colorType = (obj) =>
-    "{ " + Object.entries(obj).map(([g, v]) => `${g}: { ${Object.keys(v).map((n) => `${n}: string`).join("; ")} }`).join("; ") + " }";
+    "{ " +
+    Object.entries(obj)
+      .map(
+        ([g, v]) =>
+          `${g}: { ${Object.keys(v)
+            .map((n) => `${n}: string`)
+            .join("; ")} }`,
+      )
+      .join("; ") +
+    " }";
   const groups = [...new Set(colors.map((c) => c.group))];
-  const nameUnion = (g) => colors.filter((c) => c.group === g).map((c) => `"${c.name}"`).join(" | ");
+  const nameUnion = (g) =>
+    colors
+      .filter((c) => c.group === g)
+      .map((c) => `"${c.name}"`)
+      .join(" | ");
   write(
     "index.d.ts",
     `// ${HEADER}\nexport type ColorScheme = "light" | "dark";\nexport type SemanticColors = ${colorType(semantic.light)};\n` +
       `export type ColorToken = ${groups.map((g) => `{ group: "${g}"; name: ${nameUnion(g)} }`).join(" | ")};\n` +
-      `export declare const tokens: {\n  primitive: Record<string, Record<string, string>>;\n  color: Record<ColorScheme, SemanticColors>;\n  space: Record<${Object.keys(t.space).map((k) => `"${k}"`).join(" | ")}, number>;\n  radius: Record<${Object.keys(t.radius).map((k) => `"${k}"`).join(" | ")}, number>;\n  font: Record<"display" | "sans" | "mono", string>;\n  typography: Record<${Object.keys(t.typography).map((k) => `"${camel(k)}"`).join(" | ")}, { fontFamily: string; fontWeight: number; fontSize: string; lineHeight: string; letterSpacing: string }>;\n  shadow: Record<${Object.keys(t.shadow).map((k) => `"${k}"`).join(" | ")}, string>;\n  responsive: { modes: number[]; values: Record<string, Record<string, number>> };\n};\nexport declare function cssVar<T extends ColorToken>(group: T["group"], name: T["name"]): string;\nexport default tokens;\n`,
+      `export declare const tokens: {\n  primitive: Record<string, Record<string, string>>;\n  color: Record<ColorScheme, SemanticColors>;\n  space: Record<${Object.keys(
+        t.space,
+      )
+        .map((k) => `"${k}"`)
+        .join(" | ")}, number>;\n  radius: Record<${Object.keys(t.radius)
+        .map((k) => `"${k}"`)
+        .join(
+          " | ",
+        )}, number>;\n  font: Record<"display" | "sans" | "mono", string>;\n  typography: Record<${Object.keys(
+        t.typography,
+      )
+        .map((k) => `"${camel(k)}"`)
+        .join(
+          " | ",
+        )}, { fontFamily: string; fontWeight: number; fontSize: string; lineHeight: string; letterSpacing: string }>;\n  shadow: Record<${Object.keys(
+        t.shadow,
+      )
+        .map((k) => `"${k}"`)
+        .join(
+          " | ",
+        )}, string>;\n  responsive: { modes: number[]; values: Record<string, Record<string, number>> };\n};\nexport declare function cssVar<T extends ColorToken>(group: T["group"], name: T["name"]): string;\nexport default tokens;\n`,
   );
 }
 
 // ---------- 7. native.js + native.d.ts : React Native / Expo theme ----------
 {
-  const weightName = { 400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold", 800: "ExtraBold" };
-  const expoFont = { "{font.display}": "PlusJakartaSans", "{font.sans}": "Inter", "{font.mono}": "JetBrainsMono" };
+  const weightName = {
+    400: "Regular",
+    500: "Medium",
+    600: "SemiBold",
+    700: "Bold",
+    800: "ExtraBold",
+  };
+  const expoFont = {
+    "{font.display}": "PlusJakartaSans",
+    "{font.sans}": "Inter",
+    "{font.mono}": "JetBrainsMono",
+  };
   const scheme = (mode) => {
     const o = {};
     for (const c of colors) o[camel(`${c.group}-${c.name}`)] = mode === "light" ? c.light : c.dark;
@@ -225,7 +326,9 @@ const shadowCss = (layers) =>
   for (const [k, v] of Object.entries(t.typography)) {
     const s = v.$value;
     const size = px(s.fontSize);
-    const ls = String(s.letterSpacing).endsWith("em") ? +(parseFloat(s.letterSpacing) * size).toFixed(2) : px(s.letterSpacing);
+    const ls = String(s.letterSpacing).endsWith("em")
+      ? +(parseFloat(s.letterSpacing) * size).toFixed(2)
+      : px(s.letterSpacing);
     typography[camel(k)] = {
       fontFamily: `${expoFont[s.fontFamily]}_${s.fontWeight}${weightName[s.fontWeight]}`,
       fontSize: size,
@@ -254,15 +357,22 @@ const shadowCss = (layers) =>
     typography,
     shadow,
     gradientAi: {
-      light: ["ai-gradient-start", "ai-gradient-mid", "ai-gradient-end"].map((n) => scheme("light")[camel(n)]),
-      dark: ["ai-gradient-start", "ai-gradient-mid", "ai-gradient-end"].map((n) => scheme("dark")[camel(n)]),
+      light: ["ai-gradient-start", "ai-gradient-mid", "ai-gradient-end"].map(
+        (n) => scheme("light")[camel(n)],
+      ),
+      dark: ["ai-gradient-start", "ai-gradient-mid", "ai-gradient-end"].map(
+        (n) => scheme("dark")[camel(n)],
+      ),
     },
   };
   write(
     "native.js",
     `// ${HEADER}\n// Fonts: @expo-google-fonts/plus-jakarta-sans, /inter, /jetbrains-mono\nexport const theme = ${JSON.stringify(nat, null, 2)};\nexport const getColors = (scheme) => (scheme === "dark" ? theme.dark : theme.light);\nexport default theme;\n`,
   );
-  const keys = (o) => Object.keys(o).map((k) => `"${k}"`).join(" | ");
+  const keys = (o) =>
+    Object.keys(o)
+      .map((k) => `"${k}"`)
+      .join(" | ");
   write(
     "native.d.ts",
     `// ${HEADER}\nexport type NativeColors = Record<${keys(nat.light)}, string>;\nexport type NativeTextStyle = { fontFamily: string; fontSize: number; lineHeight: number; letterSpacing: number; textTransform?: "uppercase" };\nexport type NativeShadow = { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };\nexport declare const theme: {\n  light: NativeColors;\n  dark: NativeColors;\n  space: Record<${keys(nat.space)}, number>;\n  radius: Record<${keys(nat.radius)}, number>;\n  typography: Record<${keys(typography)}, NativeTextStyle>;\n  shadow: Record<${keys(shadow)}, NativeShadow>;\n  gradientAi: { light: [string, string, string]; dark: [string, string, string] };\n};\nexport declare function getColors(scheme: "light" | "dark" | null | undefined): NativeColors;\nexport default theme;\n`,
@@ -279,4 +389,6 @@ const shadowCss = (layers) =>
   write("colors.resolved.json", JSON.stringify(resolved, null, 2) + "\n");
 }
 
-console.log(`@zynoa/tokens: ${colors.length} semantic colours, ${primitives.length} primitives → dist/`);
+console.log(
+  `@zynoa/tokens: ${colors.length} semantic colours, ${primitives.length} primitives → dist/`,
+);

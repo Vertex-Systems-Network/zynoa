@@ -1,0 +1,5 @@
+**/dist/**
+**/.next/**
+**/coverage/**
+**/storybook-static/**
+pnpm-lock.yaml

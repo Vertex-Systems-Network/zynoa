@@ -60,3 +60,6 @@
 /requirements-anpos.txt @wpessential
 /config/licensing/ @wpessential
 /COMMERCIAL-LICENSING.md @wpessential
+/packages/db/ @wpessential
+/packages/authz/ @wpessential
+/packages/billing/ @wpessential
