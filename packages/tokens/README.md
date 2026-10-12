@@ -2,13 +2,13 @@
 
 Zynoa's design tokens, exported from the Figma file **AI-UI** (variables collection `Color` with Light/Dark modes, primitives, spacing, radius, text styles, effect styles and breakpoints). One source, every platform:
 
-| Platform | Import |
-|---|---|
+| Platform                                   | Import                                                           |
+| ------------------------------------------ | ---------------------------------------------------------------- |
 | Website + dashboard (Next.js, Tailwind v4) | `tokens.css` + `tailwind.css` (+ `shadcn.css`, `typography.css`) |
-| Tailwind v3 projects | `tailwind.preset` |
-| Desktop (Tauri) | Same as dashboard — the shell loads the hosted app |
-| Mobile (Expo / React Native) | `@zynoa/tokens/native` |
-| Scripts, charts, emails | `@zynoa/tokens` (typed JS object) or `tokens.json` |
+| Tailwind v3 projects                       | `tailwind.preset`                                                |
+| Desktop (Tauri)                            | Same as dashboard — the shell loads the hosted app               |
+| Mobile (Expo / React Native)               | `@zynoa/tokens/native`                                           |
+| Scripts, charts, emails                    | `@zynoa/tokens` (typed JS object) or `tokens.json`               |
 
 ## Edit → build
 
@@ -25,7 +25,7 @@ Never edit `dist/` by hand. When a token changes in Figma, change it here in the
 @import "tailwindcss";
 @import "@zynoa/tokens/tokens.css";
 @import "@zynoa/tokens/tailwind.css";
-@import "@zynoa/tokens/shadcn.css";     /* shadcn/ui components pick up Zynoa colours */
+@import "@zynoa/tokens/shadcn.css"; /* shadcn/ui components pick up Zynoa colours */
 @import "@zynoa/tokens/typography.css"; /* .type-display-xl … .type-code-default */
 ```
 
@@ -35,7 +35,9 @@ Utilities follow the token path `group-name`:
 <div class="bg-bg-surface text-text-primary border border-border-default rounded-lg shadow-md">
   <p class="type-body-default text-text-muted">Updated 2 min ago</p>
   <span class="text-status-success-text bg-status-success-subtle">Done</span>
-  <button class="bg-brand-primary text-text-on-brand focus-visible:outline-border-focus">Run</button>
+  <button class="bg-brand-primary text-text-on-brand focus-visible:outline-border-focus">
+    Run
+  </button>
 </div>
 ```
 
@@ -58,7 +60,14 @@ import { useColorScheme, Text, View } from "react-native";
 import { theme, getColors } from "@zynoa/tokens/native";
 
 const c = getColors(useColorScheme());
-<View style={{ backgroundColor: c.bgSurface, padding: theme.space["4"], borderRadius: theme.radius.lg, ...theme.shadow.md }}>
+<View
+  style={{
+    backgroundColor: c.bgSurface,
+    padding: theme.space["4"],
+    borderRadius: theme.radius.lg,
+    ...theme.shadow.md,
+  }}
+>
   <Text style={[theme.typography.headingH3, { color: c.textPrimary }]}>Approvals</Text>
 </View>;
 ```
@@ -67,17 +76,19 @@ Load the fonts with `@expo-google-fonts/plus-jakarta-sans`, `@expo-google-fonts/
 
 ## What's inside
 
-| Group | Count | Notes |
-|---|---|---|
-| Primitives | 45 | stone, indigo, ai-violet, ai-pink, green2, amber2, red2 |
-| Semantic colours | 43 | bg, text, border, brand, ai, status — light + dark |
-| Space | 11 | 0–64px on a 4px grid |
-| Radius | 5 | sm 6 · md 8 · lg 12 · xl 16 · full |
-| Typography | 15 | Plus Jakarta Sans (display/headings), Inter (body/labels), JetBrains Mono (code) |
-| Shadows | 3 | Elevation sm / md / lg |
-| Responsive | 16 values × 8 breakpoints | grid, layout, display/heading sizes |
+| Group            | Count                     | Notes                                                                            |
+| ---------------- | ------------------------- | -------------------------------------------------------------------------------- |
+| Primitives       | 45                        | stone, indigo, ai-violet, ai-pink, green2, amber2, red2                          |
+| Semantic colours | 43                        | bg, text, border, brand, ai, status — light + dark                               |
+| Space            | 11                        | 0–64px on a 4px grid                                                             |
+| Radius           | 5                         | sm 6 · md 8 · lg 12 · xl 16 · full                                               |
+| Typography       | 15                        | Plus Jakarta Sans (display/headings), Inter (body/labels), JetBrains Mono (code) |
+| Shadows          | 3                         | Elevation sm / md / lg                                                           |
+| Responsive       | 16 values × 8 breakpoints | grid, layout, display/heading sizes                                              |
 
-Contrast: every text/background pair used in the product passes WCAG 2.2 AA after the accessibility audit (Figma Handoff page, HO-10).
+Contrast: `test/tokens.test.ts` checks WCAG 2.2 AA (4.5:1 text, 3:1 controls) in light and dark for every text token on `bg/surface` and `bg/canvas`, each `*-text` token on its own `*-subtle` background, sidebar text on sidebar backgrounds, `text/muted` on `bg/subtle`, and inverse text.
+
+Not allowed (fails 4.5:1 in light mode): `text/muted`, `status/*-text` or `ai/agent-text` on `bg/sidebar-active`. Active sidebar items use `text/on-sidebar-active` only.
 
 ## Open item
 

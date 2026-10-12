@@ -166,7 +166,7 @@
         "WU-P0-00"
       ],
       "priority": 1,
-      "status": "ready",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Layout per docs/plan/REPOSITORY.md",
@@ -175,7 +175,12 @@
         "pnpm install && pnpm build pass from clean clone"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "PR #32",
+        "independent review agent: APPROVE (Medium task-ordering finding fixed in the same PR)",
+        "clean clone: install --frozen-lockfile, build, lint, typecheck, test (45 tests) pass",
+        "turbo second run FULL TURBO"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 8
     },
@@ -189,7 +194,7 @@
         "WU-P0-01"
       ],
       "priority": 2,
-      "status": "not_started",
+      "status": "ready",
       "blockers": [],
       "acceptance_criteria": [
         "Postgres16+pgvector, Valkey, Temporal+UI, MinIO, Mailpit",
@@ -210,7 +215,7 @@
         "WU-P0-01"
       ],
       "priority": 3,
-      "status": "not_started",
+      "status": "ready",
       "blockers": [],
       "acceptance_criteria": [
         "lint, typecheck, unit, build, migration check, container build",
@@ -231,7 +236,7 @@
         "WU-P0-01"
       ],
       "priority": 4,
-      "status": "not_started",
+      "status": "ready",
       "blockers": [],
       "acceptance_criteria": [
         "Zod env schema fails fast",
