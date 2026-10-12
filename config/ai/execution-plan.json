@@ -215,18 +215,17 @@
         "WU-P0-01"
       ],
       "priority": 3,
-      "status": "verification_required",
-      "blockers": [
-        "Owner adds build-test, secret-scan, sast, dependency-scan to the main-protection ruleset; AI re-reads rulesets to verify AC1 'any failure blocks merge'"
-      ],
+      "status": "complete",
+      "blockers": [],
       "acceptance_criteria": [
         "lint, typecheck, unit, build, migration check, container build",
         "failing test blocks merge"
       ],
       "required_checks": [],
       "completion_evidence": [
-        "PR #33: all 5 checks green; build-test 24 s",
-        "independent review agent: M1/M2 fixed in PR"
+        "PR #33 merged; all 5 checks green",
+        "main-protection ruleset requires repository-integrity, build-test, secret-scan, sast, dependency-scan (verified via GET /rules/branches/main)",
+        "independent review agent findings M1/M2 fixed"
       ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 10
@@ -241,14 +240,18 @@
         "WU-P0-01"
       ],
       "priority": 4,
-      "status": "ready",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Zod env schema fails fast",
         "feature-flag helper"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "PR #37",
+        "independent review agent: REQUEST_CHANGES (M1-M3) then APPROVE after fixes",
+        "packages/config 30 tests; real process exits 1 naming missing variables"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 11
     },
