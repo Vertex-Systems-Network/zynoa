@@ -31,9 +31,9 @@ This is the single entry point for building Zynoa. Read it after the ANPOS proto
 | Design tokens | `packages/tokens` — merged (PR #1) |
 | ANPOS | Child bootstrap applied (PR #2). PM: GitHub Projects — org board "Zynoa" created by the owner (auto-add from this repo); milestone "Phase 0" + issues #7–#27. Secret scanning, push protection and Dependabot security updates enabled. GitHub Rules active and verified (rulesets `main-protection`, `main-review`, `coordination-refs`; repo is public). Development AI selection still open |
 | Technology stack | **Approved** — `CONSENT-000001` |
-| Application code | Monorepo scaffold done (WU-P0-01, PR #32): pnpm + Turborepo, `packages/config`, `packages/tokens` with tests. No apps yet |
+| Application code | Monorepo scaffold (WU-P0-01), CI (WU-P0-03), env schema + feature flags (WU-P0-04) done. No apps yet |
 
-**Next valid work unit:** `WU-P0-04` (config/env, issue #11); `WU-P0-02` (local environment, issue #9) is also ready. CI (WU-P0-03) is live and all five checks block merges. See [`PHASE-0.md`](PHASE-0.md).
+**Next valid work unit:** `WU-P0-02` (local environment, issue #9). CI (WU-P0-03) is live and all five checks block merges. See [`PHASE-0.md`](PHASE-0.md).
 
 Work tracking: GitHub milestone **Phase 0** — one issue per work unit (`WU-P0-xx`). Close the issue from the PR that completes it (`Closes #N`).
 

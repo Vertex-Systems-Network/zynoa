@@ -48,3 +48,7 @@ coverage/
 target/
 .expo/
 ios/Pods/
+
+# Built packages (packages/tokens/dist is generated and committed on purpose)
+packages/*/dist/
+!packages/tokens/dist/

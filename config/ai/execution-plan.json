@@ -240,14 +240,18 @@
         "WU-P0-01"
       ],
       "priority": 4,
-      "status": "ready",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Zod env schema fails fast",
         "feature-flag helper"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "PR #37",
+        "independent review agent: REQUEST_CHANGES (M1-M3) then APPROVE after fixes",
+        "packages/config 30 tests; real process exits 1 naming missing variables"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 11
     },
