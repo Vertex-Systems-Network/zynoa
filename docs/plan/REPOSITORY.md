@@ -42,11 +42,21 @@ Package detail for `packages/*`: `docs/spec/ENGINEERING-RULES.md` §3. The only 
 
 ## CI (GitHub Actions)
 
-- Turborepo runs only what changed (`turbo run lint typecheck test build --filter=...[origin/main]`).
-- A change in `packages/tokens`, `packages/ui` or `packages/contracts` tests every app that depends on it.
-- Every PR: lint, typecheck, unit + integration tests, build, preview deploys for `site` and `web`.
-- ANPOS governance check (`repository-quality.yml`) runs on every PR to `main`.
+`.github/workflows/ci.yml` runs on every PR to `main`, on pushes to `main` and in the merge queue. Each job is a required check (`.github/rulesets/main-protection.json`):
+
+| Check | What it runs |
+|---|---|
+| `build-test` | `pnpm install --frozen-lockfile`, Prettier check, `turbo run lint typecheck test build` (Turborepo cache restored between runs), `turbo run db:check` (migration check; active once `packages/db` defines it), design-token freshness |
+| `secret-scan` | gitleaks over the full git history (binary checksum-verified) |
+| `sast` | Semgrep `p/default` over `apps/` and `packages/` |
+| `dependency-scan` | Trivy filesystem scan of lockfiles, HIGH/CRITICAL fixable vulnerabilities |
+| `repository-integrity` | ANPOS governance validators and tests (`repository-quality.yml`) |
+
+- Turborepo runs only what changed; a change in `packages/tokens`, `packages/ui` or `packages/contracts` re-tests every dependant.
+- Container image build/scan joins `build-test` when the first Dockerfile lands (WU-P0-06).
+- Preview deploys for `site` and `web` arrive with those apps (WU-P0-07/08).
 - Desktop builds (Windows + macOS runners) only on `desktop@*` tags; mobile builds only on `mobile@*` tags.
+- Dependabot (`.github/dependabot.yml`): weekly, grouped GitHub Actions updates and grouped dev-tooling npm updates for the whole pnpm workspace.
 
 ## Releases
 

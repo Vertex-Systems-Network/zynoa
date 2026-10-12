@@ -31,7 +31,11 @@
     "block_branch_deletion": true,
     "require_linear_history": true,
     "required_status_checks": [
-      "AI Native Quality Gates / repository-integrity"
+      "AI Native Quality Gates / repository-integrity",
+      "CI / build-test",
+      "CI / secret-scan",
+      "CI / sast",
+      "CI / dependency-scan"
     ],
     "conditional_status_checks": [
       "Dependency Review / dependency-review",

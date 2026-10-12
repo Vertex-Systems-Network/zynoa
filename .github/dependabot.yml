@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directory: /
+    directory: "/"
     schedule:
       interval: weekly
       day: monday
@@ -10,3 +10,21 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: chore(actions)
+    groups:
+      github-actions:
+        patterns: ["*"]
+  # pnpm workspace: one entry at the root covers every package via pnpm-lock.yaml.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      dev-tooling:
+        dependency-type: development
+        update-types: [minor, patch]
