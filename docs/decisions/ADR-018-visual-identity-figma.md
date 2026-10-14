@@ -6,7 +6,7 @@ Date: 2026-10-12 (design handoff) · Status: accepted · Decider: project owner 
 
 Typography is Plus Jakarta Sans (display/headings) + Inter (body/labels) + JetBrains Mono (code);
 colours are stone neutrals with indigo accent `#4F46E5` and a violet→pink AI gradient — as designed in
-Figma (`docs/design/README.md`) and exported to `packages/tokens`. The spec's Inter-only, blue
+Figma (`docs/design/README.md`) and exported to `packages/tokens`. The spec's Inter(+JetBrains Mono)-only, blue
 `#2863DF` / teal `#0C9F81` identity is superseded. Where Figma and `docs/spec/13_UI_UX_SPEC.md`
 disagree, build Figma and update the spec in the same PR.
 

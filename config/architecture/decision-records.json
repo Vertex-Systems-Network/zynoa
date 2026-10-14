@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "active_register",
+  "status": "active_registry",
   "activation_scope": "child_project",
   "decisions": [
     {
@@ -317,7 +317,7 @@
       "security_privacy_data_operational_cost_impact": [],
       "reversibility": "medium",
       "affected_modules_or_contracts": [],
-      "decided_by": "wpessential (spec/plan approval)",
+      "decided_by": "AI build session; owner PR approval",
       "decided_at": "2026-10-15",
       "supersedes": [],
       "superseded_by": null
