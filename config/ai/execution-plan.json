@@ -199,7 +199,7 @@
         "Runtime verification needs a machine with a Docker daemon (none in this cloud session): owner runs `docker compose up -d --wait` from a clean clone and reports"
       ],
       "acceptance_criteria": [
-        "Postgres16+pgvector, Valkey, Temporal+UI, MinIO, Mailpit",
+        "Postgres16+pgvector, Valkey, Temporal+UI, SeaweedFS, Mailpit",
         "README start < 15 min"
       ],
       "required_checks": [],

@@ -7,10 +7,11 @@ services:
   postgres:
     image: pgvector/pgvector:0.8.7-pg16-trixie
     environment:
-      POSTGRES_USER: zynoa
+      # Superuser is `postgres` (local only); the app role `zynoa` is created NOSUPERUSER by
+      # postgres-init so RLS is actually enforced on DATABASE_URL (tenant-isolation tests).
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: zynoa
       POSTGRES_DB: zynoa
-    command: ["postgres", "-c", "shared_preload_libraries=vector"]
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +19,7 @@ services:
       # Creates the zynoa_platform role (RLS bypass for migrations) and the vector extension.
       - ./postgres-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U zynoa -d zynoa"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d zynoa"]
       interval: 5s
       timeout: 3s
       retries: 12
@@ -44,12 +45,14 @@ services:
       - --ip
       - 0.0.0.0
       - --db-filename
-      - /data/temporal.db
+      # /home/temporal exists in the image owned by its non-root user, so the volume copy-up
+      # keeps writable ownership (a fresh /data mountpoint would be root-owned → EACCES).
+      - /home/temporal/temporal.db
     ports:
       - "7233:7233" # gRPC (TEMPORAL_ADDRESS=localhost:7233)
       - "8233:8233" # Web UI (http://localhost:8233)
     volumes:
-      - temporal-data:/data
+      - temporal-data:/home/temporal
     healthcheck:
       test: ["CMD", "temporal", "operator", "cluster", "health", "--address", "localhost:7233"]
       interval: 5s
@@ -73,7 +76,8 @@ services:
       - seaweedfs-data:/data
       - ./seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:9000 || exit 1"]
+      # /healthz is served on the S3 port outside the auth wrapper; plain / needs credentials (403).
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:9000/healthz"]
       interval: 5s
       timeout: 3s
       retries: 24
@@ -86,8 +90,13 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/sh", "-c"]
     command:
+      # Idempotent: s3.bucket.create errors on an existing bucket, so only create what's missing.
       - |
-        printf 's3.bucket.create -name zynoa-private\ns3.bucket.create -name zynoa-public\n' | weed shell -master seaweedfs:9333
+        set -e
+        existing=$$(printf 's3.bucket.list\n' | weed shell -master seaweedfs:9333)
+        for b in zynoa-private zynoa-public; do
+          echo "$$existing" | grep -q "$$b" || printf "s3.bucket.create -name $$b\n" | weed shell -master seaweedfs:9333
+        done
     restart: "no"
 
   mailpit:

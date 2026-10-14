@@ -4,7 +4,7 @@ Everything the Zynoa apps need locally, in one `docker compose` project (spec US
 
 ## First run
 
-1. Install Docker Desktop (or Docker Engine ≥ 24 with the compose plugin) and Node 22 + pnpm 9 (`corepack enable`).
+1. Install Docker Desktop (or Docker Engine with Compose ≥ 2.20 — the root `compose.yaml` uses `include:`) and Node 22 + pnpm 9 (`corepack enable`).
 2. From the repo root:
 
    ```bash
