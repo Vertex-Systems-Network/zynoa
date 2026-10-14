@@ -50,6 +50,7 @@ List:
 | 422 | `UNSAFE_CONTENT` | Content safety block (`details.categories`) |
 | 422 | `MODEL_NOT_ELIGIBLE`, `CAPABILITY_UNAVAILABLE` | Routing/provider capability |
 | 429 | `RATE_LIMITED` | |
+| 500 | `INTERNAL` | Unhandled server error (message never includes internals) |
 | 502/503 | `PROVIDER_UNAVAILABLE`, `SERVICE_UNAVAILABLE` | Upstream failures after fallbacks |
 
 ## 4. Endpoint groups

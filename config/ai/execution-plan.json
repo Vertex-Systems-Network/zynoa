@@ -293,13 +293,17 @@
         "WU-P0-04"
       ],
       "priority": 6,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "/healthz, /readyz, request-id + OTel, error envelope, OpenAPI"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "10 vitest tests (health, readiness incl. timeout, request-id, envelopes, openapi)",
+        "built server smoke-run: healthz 200, readyz 503 naming failed deps, NOT_FOUND envelope, OpenAPI 3.1",
+        "Dockerfile + non-required container-build CI job (build, Trivy image scan, healthz smoke)"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 13
     },
@@ -415,14 +419,15 @@
         "WU-P0-01"
       ],
       "priority": 12,
-      "status": "verification_required",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "ADR-001..014 + ADRs for plan changes in docs/decisions/"
       ],
       "required_checks": [],
       "completion_evidence": [
-        "docs/decisions/ADR-001..019 + README; spec 17 registry extended with 016-019"
+        "docs/decisions/ADR-001..019 + README; spec 17 registry extended with 016-019",
+        "PR #40 merged; review agent APPROVE"
       ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 19
