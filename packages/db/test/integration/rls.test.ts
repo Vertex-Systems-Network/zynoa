@@ -22,6 +22,17 @@ const platformUrl = process.env.DATABASE_PLATFORM_URL;
 const WS_A = "0192f3a4-0000-7000-8000-00000000000a";
 const WS_B = "0192f3a4-0000-7000-8000-00000000000b";
 
+/** Drizzle wraps driver errors ("Failed query: …") with the Postgres error in `cause`. */
+async function rejectionText(promise: Promise<unknown>): Promise<string> {
+  try {
+    await promise;
+    return "<<resolved>>";
+  } catch (error) {
+    const cause = (error as { cause?: Error }).cause;
+    return `${(error as Error).message} :: ${cause?.message ?? ""}`;
+  }
+}
+
 describe.skipIf(!appUrl || !platformUrl)("tenant isolation (real Postgres)", () => {
   let app: DbHandle;
   let platform: DbHandle;
@@ -77,11 +88,15 @@ describe.skipIf(!appUrl || !platformUrl)("tenant isolation (real Postgres)", () 
   });
 
   it("writing another workspace's row is rejected by WITH CHECK", async () => {
-    await expect(
-      tenantTransaction(app.db, WS_A, async (tx) =>
-        tx.execute(sql`insert into tenant_notes (workspace_id, body) values (${WS_B}, 'smuggled')`),
+    expect(
+      await rejectionText(
+        tenantTransaction(app.db, WS_A, async (tx) =>
+          tx.execute(
+            sql`insert into tenant_notes (workspace_id, body) values (${WS_B}, 'smuggled')`,
+          ),
+        ),
       ),
-    ).rejects.toThrow(/row-level security|policy/i);
+    ).toMatch(/row-level security|policy/i);
   });
 
   it("the platform role bypasses RLS (BYPASSRLS)", async () => {
@@ -103,15 +118,23 @@ describe.skipIf(!appUrl || !platformUrl)("tenant isolation (real Postgres)", () 
   });
 
   it("the app role cannot change feature_flags", async () => {
-    await expect(
-      app.db.insert(featureFlags).values({ key: "itest.rogue", workspaceId: null, enabled: true }),
-    ).rejects.toThrow(/row-level security|policy|permission/i);
+    expect(
+      await rejectionText(
+        app.db
+          .insert(featureFlags)
+          .values({ key: "itest.rogue", workspaceId: null, enabled: true }),
+      ),
+    ).toMatch(/row-level security|policy|permission denied/i);
     // UPDATE/DELETE are revoked (0001); privilege errors, not silent 0-row matches.
-    await expect(
-      app.db.execute(sql`update feature_flags set enabled = false where key = 'phase0.seeded'`),
-    ).rejects.toThrow(/permission denied/i);
-    await expect(
-      app.db.execute(sql`delete from feature_flags where key = 'phase0.seeded'`),
-    ).rejects.toThrow(/permission denied/i);
+    expect(
+      await rejectionText(
+        app.db.execute(sql`update feature_flags set enabled = false where key = 'phase0.seeded'`),
+      ),
+    ).toMatch(/permission denied/i);
+    expect(
+      await rejectionText(
+        app.db.execute(sql`delete from feature_flags where key = 'phase0.seeded'`),
+      ),
+    ).toMatch(/permission denied/i);
   });
 });
