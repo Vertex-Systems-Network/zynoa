@@ -1,6 +1,480 @@
 {
   "schema_version": 1,
-  "modules": [],
+  "modules": [
+    {
+      "id": "MOD-TOKENS",
+      "name": "packages/tokens \u2014 design tokens",
+      "objective": "packages/tokens \u2014 design tokens",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [
+        "OPT-012"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "complete",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-CONFIG",
+      "name": "packages/config \u2014 shared TS/ESLint, env schema, feature flags",
+      "objective": "packages/config \u2014 shared TS/ESLint, env schema, feature flags",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [
+        "OPT-011"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "complete",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-CONTRACTS",
+      "name": "packages/contracts \u2014 Zod schemas, DTOs, error codes",
+      "objective": "packages/contracts \u2014 Zod schemas, DTOs, error codes",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [
+        "OPT-002"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "in_progress",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-DB",
+      "name": "packages/db \u2014 Drizzle schema, migrations, tenant repositories",
+      "objective": "packages/db \u2014 Drizzle schema, migrations, tenant repositories",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-CONFIG"
+      ],
+      "option_ids": [
+        "OPT-004"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "in_progress",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-AUTHZ",
+      "name": "packages/authz \u2014 permissions, role matrix, authorize()",
+      "objective": "packages/authz \u2014 permissions, role matrix, authorize()",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-DB",
+        "MOD-CONTRACTS"
+      ],
+      "option_ids": [
+        "OPT-005"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-API",
+      "name": "apps/api \u2014 Fastify HTTP API + SSE",
+      "objective": "apps/api \u2014 Fastify HTTP API + SSE",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-CONTRACTS",
+        "MOD-CONFIG"
+      ],
+      "option_ids": [
+        "OPT-002",
+        "OPT-013"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "in_progress",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-WEB",
+      "name": "apps/web \u2014 dashboard",
+      "objective": "apps/web \u2014 dashboard",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-TOKENS",
+        "MOD-CONTRACTS"
+      ],
+      "option_ids": [
+        "OPT-001",
+        "OPT-012"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-SITE",
+      "name": "apps/site \u2014 marketing website",
+      "objective": "apps/site \u2014 marketing website",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-TOKENS"
+      ],
+      "option_ids": [
+        "OPT-001",
+        "OPT-012"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-UI",
+      "name": "packages/ui \u2014 shared React components",
+      "objective": "packages/ui \u2014 shared React components",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-TOKENS"
+      ],
+      "option_ids": [
+        "OPT-012"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-WORKER",
+      "name": "apps/worker \u2014 Temporal workers (TS)",
+      "objective": "apps/worker \u2014 Temporal workers (TS)",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-CONFIG"
+      ],
+      "option_ids": [
+        "OPT-003"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-MEDIA-WORKER",
+      "name": "apps/media-worker \u2014 Python FFmpeg activities",
+      "objective": "apps/media-worker \u2014 Python FFmpeg activities",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [
+        "OPT-003"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-MODEL-GATEWAY",
+      "name": "packages/model-gateway \u2014 providers, routing, metering",
+      "objective": "packages/model-gateway \u2014 providers, routing, metering",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-CONFIG"
+      ],
+      "option_ids": [
+        "OPT-006"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-AGENTS",
+      "name": "packages/agents \u2014 agent runtime, supervisor, evidence",
+      "objective": "packages/agents \u2014 agent runtime, supervisor, evidence",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-MODEL-GATEWAY",
+        "MOD-WORKER"
+      ],
+      "option_ids": [
+        "OPT-003",
+        "OPT-006"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-SANDBOX",
+      "name": "packages/sandbox \u2014 SandboxProvider implementations",
+      "objective": "packages/sandbox \u2014 SandboxProvider implementations",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [
+        "OPT-014"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-INTEGRATIONS",
+      "name": "packages/integrations \u2014 plugins, OAuth, MCP",
+      "objective": "packages/integrations \u2014 plugins, OAuth, MCP",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-CONTRACTS"
+      ],
+      "option_ids": [],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-WORKFLOW",
+      "name": "packages/workflow-engine \u2014 DSL, validator, interpreter",
+      "objective": "packages/workflow-engine \u2014 DSL, validator, interpreter",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-WORKER"
+      ],
+      "option_ids": [
+        "OPT-003"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-SYSTEMS",
+      "name": "packages/systems-runtime \u2014 System packages, record store, views",
+      "objective": "packages/systems-runtime \u2014 System packages, record store, views",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-DB",
+        "MOD-WORKFLOW"
+      ],
+      "option_ids": [],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-BILLING",
+      "name": "packages/billing \u2014 credits ledger, budgets, payments",
+      "objective": "packages/billing \u2014 credits ledger, budgets, payments",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-DB"
+      ],
+      "option_ids": [],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-DESKTOP",
+      "name": "apps/desktop \u2014 Tauri 2 shell (Phase 3)",
+      "objective": "apps/desktop \u2014 Tauri 2 shell (Phase 3)",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-WEB"
+      ],
+      "option_ids": [
+        "OPT-007"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-MOBILE",
+      "name": "apps/mobile \u2014 Expo app (Phase 5 v1)",
+      "objective": "apps/mobile \u2014 Expo app (Phase 5 v1)",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [
+        "MOD-TOKENS",
+        "MOD-CONTRACTS"
+      ],
+      "option_ids": [
+        "OPT-008"
+      ],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "not_started",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    },
+    {
+      "id": "MOD-VALIDATION",
+      "name": "Business validation & launch readiness (non-code track)",
+      "objective": "Interviews, provider matrix, cost sheet, legal drafts, budgets, gate reports",
+      "scope": [],
+      "boundaries": [],
+      "dependencies": [],
+      "option_ids": [],
+      "data_entities": [],
+      "contracts": [],
+      "ui_surfaces": [],
+      "security_responsibilities": [],
+      "acceptance_criteria": [],
+      "quality_gates": [],
+      "status": "in_progress",
+      "completion_evidence": [],
+      "update_notes": [],
+      "removal_or_deprecation_notes": []
+    }
+  ],
   "status_values": [
     "not_started",
     "ready",

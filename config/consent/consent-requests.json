@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "next_sequence": 2,
+  "next_sequence": 3,
   "requests": [
     {
       "id": "CONSENT-000001",
@@ -37,8 +37,38 @@
       "decision_by": "wpessential",
       "decision_identity_evidence_ref": "claude.ai session https://claude.ai/code/session_01WS2Eu8XS8ak2yHtSG5NTzd (GitHub token principal wpessential, verified via GET /user)",
       "decision_at": "2026-10-11T23:36:11.293393+00:00",
-      "decision_evidence": "Owner reply 'approve' on 2026-10-12 to the stack in docs/plan/BUILD-PLAN.md \u00a71; recorded by the Claude Code session, not by an ANPOS authenticated callback",
+      "decision_evidence": "Owner reply 'approve' on 2026-10-12 to the stack in docs/plan/BUILD-PLAN.md §1; recorded by the Claude Code session, not by an ANPOS authenticated callback",
       "decision_request_hash": "b194fe5c129ec5fba726540bc33b8c7a07faa7885f53fce4f873865985c3b86f",
+      "implementation_reference": null,
+      "verification_reference": null
+    },
+    {
+      "id": "CONSENT-000002",
+      "type": "plan_approval",
+      "title": "Approve Project Plan for Zynoa",
+      "summary": "Complete machine-readable plan: phases 0-8 with gates A-D; Phase 0 at work-unit granularity (WU-P0-00..20; 7 engineering units merged); Phases 1-8 as 36 epics mirroring docs/spec/16_BACKLOG.md plus Desktop v1 (Phase 3) and Mobile v1 (Phase 5) per ADR-017, decomposed story-level at each phase start. Registers: 18 options, 21 modules, 25 traceability links, 7 risks, EVID-000001/2. Competitive analysis: docs/ai/COMPETITIVE-ANALYSIS.md (spec baseline; refresh in WU-P0-15/18). Human-readable plan: docs/plan/BUILD-PLAN.md.",
+      "requested_by": "claude-code:anpos-plugin",
+      "requested_at": "2026-10-14T22:14:19Z",
+      "request_hash": "966b7aaeccd5ec00348e2fe1dc54505b4d5a3cb4295f79dded1f122b0e0d3d97",
+      "nonce": "99f713a6-480e-436d-9d0e-fa5e8d5708d4",
+      "expires_at": "2026-10-17T22:14:19Z",
+      "nonce_consumed_at": null,
+      "owner_identity": null,
+      "canonical_review_reference": "docs/ai/PRE-PLAN.md",
+      "email_notification_reference": null,
+      "proposed_changes": [
+        "plan_digest:sha256:d6d8f08ee240fcbc16df2a804890e825d591eb541d1436be0810850bc64b1fd9",
+        "Set execution-plan plan_status=approved with this consent as plan_approval_ref"
+      ],
+      "affected_modules": [],
+      "risk": "low",
+      "status": "pending",
+      "approved_scope": [],
+      "decision_by": null,
+      "decision_identity_evidence_ref": null,
+      "decision_at": null,
+      "decision_evidence": null,
+      "decision_request_hash": null,
       "implementation_reference": null,
       "verification_reference": null
     }

@@ -2,7 +2,50 @@
   "schema_version": 1,
   "status": "active_registry",
   "activation_scope": "child_project",
-  "entries": [],
+  "entries": [
+    {
+      "id": "EVID-000001",
+      "claim_or_question": "Zynoa's competitor set spans five lanes (AI app builders, AI creative suites, PM-with-AI, automation tools, chat assistants); no single-lane superiority is claimed — the differentiation is the combination plus local market fit",
+      "source_type": "repository",
+      "source_ref": "docs/spec/01_PRODUCT_VISION.md",
+      "source_title": "Competitor landscape and positioning (build spec v2.0 §6)",
+      "publisher_or_owner": "Vertex Systems Network (owner-approved spec)",
+      "published_at": "2026-10-11",
+      "accessed_at": "2026-10-15",
+      "source_revision_or_hash": null,
+      "evidence_class": "supported_inference",
+      "confidence": "medium",
+      "summary": "Five competitor lanes with examples and Zynoa's combination-based differentiation; spec marks the table [VERIFY] before sponsor meetings.",
+      "supports_requirement_ids": [],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": [
+        "Web-sourced refresh scheduled in WU-P0-15/WU-P0-18 before Gate A"
+      ]
+    },
+    {
+      "id": "EVID-000002",
+      "claim_or_question": "Competitive risk 'competitors move faster' is mitigated by beachhead focus and local fit (WhatsApp reminders, PKR billing, Urdu public pages); first segment decision OD-01 recommends developers/small agencies",
+      "source_type": "repository",
+      "source_ref": "docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md",
+      "source_title": "Competitive risk and beachhead mitigation (spec 17 §5, OD-01)",
+      "publisher_or_owner": "Vertex Systems Network (owner-approved spec)",
+      "published_at": "2026-10-11",
+      "accessed_at": "2026-10-15",
+      "source_revision_or_hash": null,
+      "evidence_class": "supported_inference",
+      "confidence": "medium",
+      "summary": "Risk register row and OD-01 recommendation from the owner-approved spec.",
+      "supports_requirement_ids": [],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
+    }
+  ],
   "entry_contract": {
     "id": "EVID-000001",
     "claim_or_question": "",
