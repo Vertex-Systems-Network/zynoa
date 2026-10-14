@@ -101,6 +101,24 @@ describe("error envelope", () => {
     ]);
   });
 
+  it("maps malformed JSON to a 400 VALIDATION_FAILED envelope, not INTERNAL", async () => {
+    const app = await buildApp({ probes: allOk });
+    app.post("/api/v1/echo2", async (request) => ({
+      data: request.body,
+      meta: { requestId: request.id },
+    }));
+    const res = await app.inject({
+      method: "POST",
+      url: "/api/v1/echo2",
+      headers: { "content-type": "application/json" },
+      payload: "{bad json",
+    });
+    expect(res.statusCode).toBe(400);
+    const body = errorEnvelope.parse(res.json());
+    expect(body.error.code).toBe("VALIDATION_FAILED");
+    expect(body.error.message).toBe("Request body could not be parsed.");
+  });
+
   it("maps an unhandled route error to INTERNAL without leaking the message", async () => {
     const app = await buildApp({ probes: allOk });
     app.get("/explode", async () => {

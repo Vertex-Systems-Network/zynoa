@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Build with the repo root as context:  docker build -f apps/api/Dockerfile .
-FROM node:22.21.1-slim AS base
+FROM node:22.21.1-slim@sha256:25b3eb23a00590b7499f2a2ce939322727fcce1b15fdd69754fcd09536a3ae2c AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH
 RUN corepack enable
 WORKDIR /repo
@@ -15,7 +15,7 @@ RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
  && pnpm --filter @zynoa/api build \
  && pnpm --filter @zynoa/api --prod deploy /out
 
-FROM node:22.21.1-slim AS runtime
+FROM node:22.21.1-slim@sha256:25b3eb23a00590b7499f2a2ce939322727fcce1b15fdd69754fcd09536a3ae2c AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /out .

@@ -11,6 +11,7 @@ const { probes, close } = createProbes({
   databaseUrl: env.DATABASE_URL,
   redisUrl: env.REDIS_URL,
   temporalAddress: env.TEMPORAL_ADDRESS,
+  timeoutMs: 2000,
 });
 
 const app = await buildApp({ probes, logger: true });
@@ -20,10 +21,15 @@ await app.listen({ port, host: "0.0.0.0" });
 
 for (const signal of ["SIGTERM", "SIGINT"] as const) {
   process.once(signal, () => {
+    // In-flight keep-alive connections get 10 s; a hung cleanup exits non-zero.
+    setTimeout(() => process.exit(1), 10_000).unref();
     void app
       .close()
       .then(close)
       .then(() => stopTelemetry())
-      .finally(() => process.exit(0));
+      .then(
+        () => process.exit(0),
+        () => process.exit(1),
+      );
   });
 }

@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 import {
   ERROR_STATUS,
   apiError,
+  type ErrorCode,
   healthResponse,
   readyResponse,
   type DependencyCheck,
@@ -63,7 +64,6 @@ export async function buildApp(options: AppOptions): Promise<FastifyInstance> {
       return value && SAFE_REQUEST_ID.test(value) ? value : `req_${randomUUID()}`;
     },
     requestIdHeader: false,
-    requestIdLogLabel: "requestId",
   }).withTypeProvider<ZodTypeProvider>();
 
   app.setValidatorCompiler(validatorCompiler);
@@ -105,10 +105,25 @@ export async function buildApp(options: AppOptions): Promise<FastifyInstance> {
         }),
       );
     }
-    if (error.statusCode === 413) {
+    if (error.statusCode !== undefined && error.statusCode >= 400 && error.statusCode < 500) {
+      // Client errors raised by Fastify itself (body parsing, payload size, …) keep their
+      // status class instead of masquerading as server errors.
+      const codeByStatus: Partial<Record<number, ErrorCode>> = {
+        400: "VALIDATION_FAILED",
+        401: "UNAUTHENTICATED",
+        403: "FORBIDDEN",
+        404: "NOT_FOUND",
+        409: "CONFLICT",
+        413: "PAYLOAD_TOO_LARGE",
+        429: "RATE_LIMITED",
+      };
+      const code = codeByStatus[error.statusCode] ?? "VALIDATION_FAILED";
+      const message = error.code?.startsWith("FST_ERR_CTP_")
+        ? "Request body could not be parsed."
+        : error.message;
       return reply
-        .status(413)
-        .send(apiError("PAYLOAD_TOO_LARGE", "Request body too large.", { requestId: request.id }));
+        .status(error.statusCode)
+        .send(apiError(code, message, { requestId: request.id }));
     }
     request.log.error({ err: error }, "unhandled error");
     // Never leak internals: envelope only, details stay in the log.
