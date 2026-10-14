@@ -1,8 +1,413 @@
 {
   "schema_version": 1,
-  "status": "active_registry",
+  "status": "active_register",
   "activation_scope": "child_project",
-  "decisions": [],
+  "decisions": [
+    {
+      "id": "ADR-0001",
+      "title": "TypeScript monorepo (pnpm + Turborepo); Python only for media workers",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-001-typescript-monorepo.md (file uses the spec's 3-digit numbering ADR-001)",
+      "alternatives": [
+        "Polyglot microservices (too much overhead for team size)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-001-typescript-monorepo.md"
+      ],
+      "decision": "TypeScript monorepo (pnpm + Turborepo); Python only for media workers",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0002",
+      "title": "Modular monolith API + Temporal workers, not microservices",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-002-modular-monolith.md (file uses the spec's 3-digit numbering ADR-002)",
+      "alternatives": [
+        "Microservices from day 1"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-002-modular-monolith.md"
+      ],
+      "decision": "Modular monolith API + Temporal workers, not microservices",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0003",
+      "title": "Temporal for all durable execution (agents, workflows, schedules, billing jobs)",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-003-temporal-durable-execution.md (file uses the spec's 3-digit numbering ADR-003)",
+      "alternatives": [
+        "BullMQ/Celery (no durable workflow state), custom state machines, n8n embedding (licence + control)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-003-temporal-durable-execution.md"
+      ],
+      "decision": "Temporal for all durable execution (agents, workflows, schedules, billing jobs)",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0004",
+      "title": "Better Auth for authentication; our own tables for memberships/roles",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-004-better-auth.md (file uses the spec's 3-digit numbering ADR-004)",
+      "alternatives": [
+        "Clerk/Auth0 (cost, data residency), NextAuth (less complete MFA/org support)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-004-better-auth.md"
+      ],
+      "decision": "Better Auth for authentication; our own tables for memberships/roles",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0005",
+      "title": "PostgreSQL shared-schema multi-tenancy with `workspace_id` + RLS",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-005-postgres-rls-multitenancy.md (file uses the spec's 3-digit numbering ADR-005)",
+      "alternatives": [
+        "Schema-per-tenant (migration pain), DB-per-tenant (cost)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-005-postgres-rls-multitenancy.md"
+      ],
+      "decision": "PostgreSQL shared-schema multi-tenancy with `workspace_id` + RLS",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0006",
+      "title": "pgvector inside Postgres for retrieval",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-006-pgvector-retrieval.md (file uses the spec's 3-digit numbering ADR-006)",
+      "alternatives": [
+        "Separate vector DB (extra ops, sync issues)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-006-pgvector-retrieval.md"
+      ],
+      "decision": "pgvector inside Postgres for retrieval",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0007",
+      "title": "Own `ModelGateway` over provider SDKs (Vercel AI SDK providers inside) with DB registry",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-007-model-gateway.md (file uses the spec's 3-digit numbering ADR-007)",
+      "alternatives": [
+        "Direct SDK calls in features",
+        "third-party gateway as hard dependency"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-007-model-gateway.md"
+      ],
+      "decision": "Own `ModelGateway` over provider SDKs (Vercel AI SDK providers inside) with DB registry",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0008",
+      "title": "Design Studio frames are code (React + Tailwind), not vector graphics",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-008-design-frames-are-code.md (file uses the spec's 3-digit numbering ADR-008)",
+      "alternatives": [
+        "Vector editor (huge scope)",
+        "Figma-only (dependency, API limits)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-008-design-frames-are-code.md"
+      ],
+      "decision": "Design Studio frames are code (React + Tailwind), not vector graphics",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0009",
+      "title": "Systems = typed core modules + JSON-schema custom entities + declarative views",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-009-systems-typed-modules.md (file uses the spec's 3-digit numbering ADR-009)",
+      "alternatives": [
+        "Pure JSON record store (no constraints)",
+        "generated code per System (hard to upgrade)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-009-systems-typed-modules.md"
+      ],
+      "decision": "Systems = typed core modules + JSON-schema custom entities + declarative views",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0010",
+      "title": "Workflow engine = our JSON DSL interpreted on Temporal; UX inspired by n8n, no n8n code",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-010-workflow-dsl-on-temporal.md (file uses the spec's 3-digit numbering ADR-010)",
+      "alternatives": [
+        "Embedding n8n (Sustainable Use License restrictions [VERIFY]), Zapier/Make (external dependency)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-010-workflow-dsl-on-temporal.md"
+      ],
+      "decision": "Workflow engine = our JSON DSL interpreted on Temporal; UX inspired by n8n, no n8n code",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0011",
+      "title": "Sandboxes via `SandboxProvider` with a managed microVM vendor first",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-011-sandbox-provider-managed-microvm.md (file uses the spec's 3-digit numbering ADR-011)",
+      "alternatives": [
+        "Docker containers on shared hosts (weak isolation)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-011-sandbox-provider-managed-microvm.md"
+      ],
+      "decision": "Sandboxes via `SandboxProvider` with a managed microVM vendor first",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0012",
+      "title": "Previews/user content on separate registrable domains",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-012-separate-user-content-domains.md (file uses the spec's 3-digit numbering ADR-012)",
+      "alternatives": [
+        "Subdomains of app domain"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-012-separate-user-content-domains.md"
+      ],
+      "decision": "Previews/user content on separate registrable domains",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0013",
+      "title": "Credits as internal currency with reservation protocol",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-013-credits-internal-currency.md (file uses the spec's 3-digit numbering ADR-013)",
+      "alternatives": [
+        "Pass-through provider billing",
+        "unlimited plans"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-013-credits-internal-currency.md"
+      ],
+      "decision": "Credits as internal currency with reservation protocol",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0014",
+      "title": "Evidence-based progress only",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-014-evidence-based-progress.md (file uses the spec's 3-digit numbering ADR-014)",
+      "alternatives": [
+        "AI self-reported progress"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-014-evidence-based-progress.md"
+      ],
+      "decision": "Evidence-based progress only",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-11",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0015",
+      "title": "SeaweedFS as local/CI S3 emulator (production stays R2)",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-015-local-s3-seaweedfs.md (file uses the spec's 3-digit numbering ADR-015)",
+      "alternatives": [
+        "Keep MinIO's last image (unmaintained), S3Proxy (dependency retired), RustFS (alpha), LocalStack (heavyweight)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-015-local-s3-seaweedfs.md"
+      ],
+      "decision": "SeaweedFS as local/CI S3 emulator (production stays R2)",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-15",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0016",
+      "title": "Marketing site (`apps/site`) and dashboard (`apps/web`) are separate apps",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-016-site-web-split.md (file uses the spec's 3-digit numbering ADR-016)",
+      "alternatives": [
+        "Single app with route groups"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-016-site-web-split.md"
+      ],
+      "decision": "Marketing site (`apps/site`) and dashboard (`apps/web`) are separate apps",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-12",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0017",
+      "title": "Desktop v1 in Phase 3 (Tauri), mobile v1 in Phase 5 (Expo)",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-017-desktop-mobile-earlier.md (file uses the spec's 3-digit numbering ADR-017)",
+      "alternatives": [
+        "Phase 8 as first specified",
+        "native per-platform apps"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-017-desktop-mobile-earlier.md"
+      ],
+      "decision": "Desktop v1 in Phase 3 (Tauri), mobile v1 in Phase 5 (Expo)",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-12",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0018",
+      "title": "Figma file AI-UI is the visual source of truth (fonts/colours supersede \u00a713)",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-018-visual-identity-figma.md (file uses the spec's 3-digit numbering ADR-018)",
+      "alternatives": [
+        "Re-skin to the spec's placeholder identity"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-018-visual-identity-figma.md"
+      ],
+      "decision": "Figma file AI-UI is the visual source of truth (fonts/colours supersede \u00a713)",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-12",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0019",
+      "title": "ANPOS governs the repo; builder rules moved to `ENGINEERING-RULES.md`",
+      "status": "accepted",
+      "context": "See docs/decisions/ADR-019-anpos-governance.md (file uses the spec's 3-digit numbering ADR-019)",
+      "alternatives": [
+        "Spec rules alone at root"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-019-anpos-governance.md"
+      ],
+      "decision": "ANPOS governs the repo; builder rules moved to `ENGINEERING-RULES.md`",
+      "consequences": [],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [],
+      "decided_by": "wpessential (spec/plan approval)",
+      "decided_at": "2026-10-12",
+      "supersedes": [],
+      "superseded_by": null
+    }
+  ],
   "decision_template": {
     "id": "ADR-0001",
     "title": "",
