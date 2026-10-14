@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "zynoa-local",
+      "credentials": [{ "accessKey": "zynoa", "secretKey": "zynoa-local-only" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

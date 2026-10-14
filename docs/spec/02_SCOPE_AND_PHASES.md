@@ -52,7 +52,7 @@ Prove the idea is wanted, the providers are accessible from Pakistan at acceptab
 | Deliverable | Detail |
 |---|---|
 | Monorepo scaffold | Layout from `ENGINEERING-RULES.md §3`; pnpm + Turborepo; shared TS/ESLint/Prettier config |
-| Local environment | `docker-compose.yml` with Postgres 16 + pgvector, Redis/Valkey, Temporal (dev server) + Temporal UI, MinIO (S3 emulator), Mailpit (email capture) |
+| Local environment | `docker-compose.yml` with Postgres 16 + pgvector, Redis/Valkey, Temporal (dev server) + Temporal UI, SeaweedFS (S3 emulator; was MinIO — ADR-015), Mailpit (email capture) |
 | CI | GitHub Actions: install, lint, typecheck, unit tests, build, migration check, container build |
 | `packages/config` | Env schema (Zod) that fails fast on missing vars; feature-flag helper |
 | `packages/db` | Drizzle setup, migration runner, empty migration, seed script, repository base class with mandatory `workspaceId` |
