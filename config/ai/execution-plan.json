@@ -2102,12 +2102,12 @@
     "required_checks": [],
     "completion_evidence": []
   },
-  "plan_status": "proposed",
+  "plan_status": "approved",
   "plan_status_values": [
     "draft",
     "proposed",
     "approved",
     "superseded"
   ],
-  "plan_approval_ref": null
+  "plan_approval_ref": "CONSENT-000002"
 }
