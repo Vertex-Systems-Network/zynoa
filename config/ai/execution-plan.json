@@ -5,7 +5,19 @@
       "id": "PHASE-0",
       "name": "Validation & Engineering Foundation",
       "objective": "Validate demand and provider access; running empty platform; Gate A",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-TOKENS",
+        "MOD-CONFIG",
+        "MOD-CONTRACTS",
+        "MOD-DB",
+        "MOD-API",
+        "MOD-WEB",
+        "MOD-SITE",
+        "MOD-UI",
+        "MOD-WORKER",
+        "MOD-MODEL-GATEWAY",
+        "MOD-VALIDATION"
+      ],
       "dependencies": [],
       "status": "in_progress",
       "exit_criteria": [
@@ -22,7 +34,14 @@
       "id": "PHASE-1",
       "name": "Platform Core",
       "objective": "Sign-up, workspaces, projects, AI plan, task board, Library, chat, credits; website live",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-AUTHZ",
+        "MOD-WEB",
+        "MOD-SITE",
+        "MOD-AGENTS",
+        "MOD-MODEL-GATEWAY",
+        "MOD-BILLING"
+      ],
       "dependencies": [
         "PHASE-0"
       ],
@@ -36,7 +55,10 @@
       "id": "PHASE-2",
       "name": "AI Supervisor + Coding Studio",
       "objective": "Agents code in sandboxes, tests, PRs, previews, approvals, releases; first sellable product; Gate B",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-AGENTS",
+        "MOD-SANDBOX"
+      ],
       "dependencies": [
         "PHASE-1"
       ],
@@ -50,7 +72,10 @@
       "id": "PHASE-3",
       "name": "Design, Research & Images Studios",
       "objective": "Studios + design-to-code + asset graph; desktop v1 (Tauri)",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-DESKTOP",
+        "MOD-MEDIA-WORKER"
+      ],
       "dependencies": [
         "PHASE-2"
       ],
@@ -64,7 +89,9 @@
       "id": "PHASE-4",
       "name": "Audio & Video Studios",
       "objective": "Voice, transcription, dubbing, storyboard-to-video",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-MEDIA-WORKER"
+      ],
       "dependencies": [
         "PHASE-2"
       ],
@@ -78,7 +105,10 @@
       "id": "PHASE-5",
       "name": "Ecosystem & Marketplace",
       "objective": "Skills, Plugins, Templates, marketplace; mobile v1 (Expo)",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-INTEGRATIONS",
+        "MOD-MOBILE"
+      ],
       "dependencies": [
         "PHASE-2"
       ],
@@ -92,7 +122,10 @@
       "id": "PHASE-6",
       "name": "Business Systems & Workflow Engine",
       "objective": "Installable systems, public pages, automations, workflow builder; Gate C",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-SYSTEMS",
+        "MOD-WORKFLOW"
+      ],
       "dependencies": [
         "PHASE-5"
       ],
@@ -106,7 +139,9 @@
       "id": "PHASE-7",
       "name": "Pilot Hardening & Commercial Launch",
       "objective": "Payments, operator console, security + load tests, DR; all apps public; Gate D",
-      "module_ids": [],
+      "module_ids": [
+        "MOD-BILLING"
+      ],
       "dependencies": [
         "PHASE-3",
         "PHASE-4",
@@ -137,7 +172,7 @@
     {
       "id": "WU-P0-00",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-TOKENS",
       "title": "Design tokens package",
       "objective": "Design tokens package",
       "dependencies": [],
@@ -148,18 +183,29 @@
         "packages/tokens builds all outputs",
         "CI fails on stale dist/"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "PR #1 merged",
         "issue #7 closed"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 7
+      "allowed_paths": [
+        "packages/tokens/**"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-01",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-CONFIG",
       "title": "Monorepo scaffold",
       "objective": "Monorepo scaffold",
       "dependencies": [
@@ -174,20 +220,37 @@
         "CURRENT_PHASE.md says Phase 0",
         "pnpm install && pnpm build pass from clean clone"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "PR #32",
         "independent review agent: APPROVE (Medium task-ordering finding fixed in the same PR)",
         "clean clone: install --frozen-lockfile, build, lint, typecheck, test (45 tests) pass",
         "turbo second run FULL TURBO"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 8
+      "allowed_paths": [
+        "package.json",
+        "turbo.json",
+        "packages/config/**",
+        ".prettierrc.json",
+        ".editorconfig",
+        ".nvmrc",
+        ".npmrc"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-02",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-DB",
       "title": "Local environment (docker-compose)",
       "objective": "Local environment (docker-compose)",
       "dependencies": [
@@ -202,20 +265,32 @@
         "Postgres16+pgvector, Valkey, Temporal+UI, SeaweedFS, Mailpit",
         "README start < 15 min"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "branch feat/WU-P0-02-local-env",
         "`docker compose config` parses (root include + infra/docker/docker-compose.yml)",
         "image digests/tags verified against registries on 2026-10-15",
         "ADR-015: SeaweedFS replaces abandoned MinIO; spec files 02/15/16 updated in the same PR"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 9
+      "allowed_paths": [
+        "infra/docker/**",
+        "compose.yaml"
+      ],
+      "requirement_ids": [
+        "REQ-FR-02"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-03",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-CONFIG",
       "title": "CI pipeline",
       "objective": "CI pipeline",
       "dependencies": [
@@ -228,19 +303,32 @@
         "lint, typecheck, unit, build, migration check, container build",
         "failing test blocks merge"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "PR #33 merged; all 5 checks green",
         "main-protection ruleset requires repository-integrity, build-test, secret-scan, sast, dependency-scan (verified via GET /rules/branches/main)",
         "independent review agent findings M1/M2 fixed"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 10
+      "allowed_paths": [
+        ".github/workflows/**",
+        ".github/dependabot.yml",
+        ".github/rulesets/**"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-04",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-CONFIG",
       "title": "packages/config",
       "objective": "packages/config",
       "dependencies": [
@@ -253,19 +341,31 @@
         "Zod env schema fails fast",
         "feature-flag helper"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "PR #37",
         "independent review agent: REQUEST_CHANGES (M1-M3) then APPROVE after fixes",
         "packages/config 30 tests; real process exits 1 naming missing variables"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 11
+      "allowed_paths": [
+        "packages/config/**",
+        ".env.example"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-05",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-DB",
       "title": "packages/db",
       "objective": "packages/db",
       "dependencies": [
@@ -278,20 +378,32 @@
       "acceptance_criteria": [
         "Drizzle, migrations, seed, workspace-scoped repository base"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "9 unit tests pass locally (workspaceId guard, repository ctor)",
         "no-restricted-imports rule proven by probe",
         "drizzle-kit check green; db:check active in build-test",
-        "integration suite (RLS isolation, NULLIF pooled-connection guard, WITH CHECK, revoked writes, BYPASSRLS, flag overrides, idempotent migrate/seed) added; runs in the new CI db-integration job \u2014 green run not yet observed"
+        "integration suite (RLS isolation, NULLIF pooled-connection guard, WITH CHECK, revoked writes, BYPASSRLS, flag overrides, idempotent migrate/seed) added; runs in the new CI db-integration job — green run not yet observed"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 12
+      "allowed_paths": [
+        "packages/db/**",
+        ".github/workflows/ci.yml"
+      ],
+      "requirement_ids": [
+        "REQ-FR-02"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-06",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-API",
       "title": "apps/api skeleton",
       "objective": "apps/api skeleton",
       "dependencies": [
@@ -303,20 +415,32 @@
       "acceptance_criteria": [
         "/healthz, /readyz, request-id + OTel, error envelope, OpenAPI"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "10 vitest tests (health, readiness incl. timeout, request-id, envelopes, openapi)",
         "built server smoke-run: healthz 200, readyz 503 naming failed deps, NOT_FOUND envelope, OpenAPI 3.1",
         "Dockerfile + non-required container-build CI job (build, Trivy image scan, healthz smoke)",
         "PR #41 merged; review APPROVE after fixes; container-build green"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 13
+      "allowed_paths": [
+        "apps/api/**",
+        "packages/contracts/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-07",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-WEB",
       "title": "apps/web dashboard skeleton",
       "objective": "apps/web dashboard skeleton",
       "dependencies": [
@@ -329,15 +453,26 @@
       "acceptance_criteria": [
         "Tokens + shadcn bridge, light/dark/system, layout skeleton with collapsible sidebar"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 14
+      "allowed_paths": [
+        "apps/web/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-08",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-SITE",
       "title": "apps/site skeleton",
       "objective": "apps/site skeleton",
       "dependencies": [
@@ -350,15 +485,26 @@
       "acceptance_criteria": [
         "Placeholder marketing page with tokens; preview deploy"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 15
+      "allowed_paths": [
+        "apps/site/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-09",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-WORKER",
       "title": "apps/worker HelloWorkflow",
       "objective": "apps/worker HelloWorkflow",
       "dependencies": [
@@ -370,15 +516,26 @@
       "acceptance_criteria": [
         "Temporal HelloWorkflow runs locally and in CI"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 16
+      "allowed_paths": [
+        "apps/worker/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-14"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-10",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-UI",
       "title": "packages/ui 15 base components",
       "objective": "packages/ui 15 base components",
       "dependencies": [
@@ -390,15 +547,26 @@
       "acceptance_criteria": [
         "15 components match Figma, keyboard/focus, WCAG 2.2 AA, Storybook"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 17
+      "allowed_paths": [
+        "packages/ui/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-21"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-11",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-MODEL-GATEWAY",
       "title": "packages/model-gateway + smoke test",
       "objective": "packages/model-gateway + smoke test",
       "dependencies": [
@@ -410,15 +578,26 @@
       "acceptance_criteria": [
         "Real model call prints tokens + cost"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 18
+      "allowed_paths": [
+        "packages/model-gateway/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-06"
+      ],
+      "risk_classification": "medium"
     },
     {
       "id": "WU-P0-12",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Decision records",
       "objective": "Decision records",
       "dependencies": [
@@ -430,18 +609,31 @@
       "acceptance_criteria": [
         "ADR-001..014 + ADRs for plan changes in docs/decisions/"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [
         "docs/decisions/ADR-001..019 + README; spec 17 registry extended with 016-019",
         "PR #40 merged; review agent APPROVE"
       ],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 19
+      "allowed_paths": [
+        "docs/decisions/**",
+        "docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md",
+        "config/architecture/decision-records.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-13",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Provider access matrix",
       "objective": "Provider access matrix",
       "dependencies": [],
@@ -451,15 +643,28 @@
       "acceptance_criteria": [
         "Every provider/capability marked with sources"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 20
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-14",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Cost measurement",
       "objective": "Cost measurement",
       "dependencies": [
@@ -471,15 +676,28 @@
       "acceptance_criteria": [
         "20 tasks per studio measured; price sheet filled"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 21
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-15",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Customer validation (waitlist, survey, analysis)",
       "objective": "Customer validation (waitlist, survey, analysis)",
       "dependencies": [],
@@ -489,15 +707,28 @@
       "acceptance_criteria": [
         "OD-01 recommendation with evidence"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 22
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-16",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Prototype usability test kit",
       "objective": "Prototype usability test kit",
       "dependencies": [],
@@ -507,15 +738,28 @@
       "acceptance_criteria": [
         ">= 5 sessions summarised"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 23
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-17",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Legal drafts",
       "objective": "Legal drafts",
       "dependencies": [],
@@ -525,15 +769,28 @@
       "acceptance_criteria": [
         "ToS, privacy policy, consent drafts"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 24
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-18",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Decision briefs OD-07/03/10/02",
       "objective": "Decision briefs OD-07/03/10/02",
       "dependencies": [],
@@ -543,15 +800,28 @@
       "acceptance_criteria": [
         "Comparison + recommendation per decision"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 25
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-19",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Phase 1-2 budget",
       "objective": "Phase 1-2 budget",
       "dependencies": [
@@ -564,15 +834,28 @@
       "acceptance_criteria": [
         "Itemised budget approved"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 26
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
     },
     {
       "id": "WU-P0-20",
       "phase_id": "PHASE-0",
-      "module_id": null,
+      "module_id": "MOD-VALIDATION",
       "title": "Gate A report",
       "objective": "Gate A report",
       "dependencies": [
@@ -602,10 +885,1186 @@
       "acceptance_criteria": [
         "docs/plans/phase-0-report.md with PASS/FAIL + evidence per exit item"
       ],
-      "required_checks": [],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
       "completion_evidence": [],
-      "spec_ref": "docs/plan/PHASE-0.md",
-      "tracking_issue": 27
+      "allowed_paths": [
+        "docs/**",
+        "config/research/evidence-registry.json",
+        "config/ai/project-state.json"
+      ],
+      "requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "risk_classification": "low"
+    },
+    {
+      "id": "WU-P1-E1-1",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-AUTHZ",
+      "title": "E1.1 Accounts & sessions",
+      "objective": "Accounts & sessions",
+      "dependencies": [],
+      "priority": 21,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-101…US-110 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-01"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-2",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-AUTHZ",
+      "title": "E1.2 Workspaces, members, teams",
+      "objective": "Workspaces, members, teams",
+      "dependencies": [],
+      "priority": 22,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-111…US-118 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-02"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-3",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-WEB",
+      "title": "E1.3 Projects & wizard",
+      "objective": "Projects & wizard",
+      "dependencies": [],
+      "priority": 23,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-119…US-126 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-03",
+        "REQ-FR-20"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-4",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-WEB",
+      "title": "E1.4 Tasks & collaboration",
+      "objective": "Tasks & collaboration",
+      "dependencies": [],
+      "priority": 24,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-127…US-134 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-05"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-5",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-MODEL-GATEWAY",
+      "title": "E1.5 AI core (gateway, chat, plan)",
+      "objective": "AI core (gateway, chat, plan)",
+      "dependencies": [],
+      "priority": 25,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-135…US-141 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-04",
+        "REQ-FR-06"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-6",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-DB",
+      "title": "E1.6 Library",
+      "objective": "Library",
+      "dependencies": [],
+      "priority": 26,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-142…US-147 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-09"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-7",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-BILLING",
+      "title": "E1.7 Billing (internal) & limits",
+      "objective": "Billing (internal) & limits",
+      "dependencies": [],
+      "priority": 27,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-148…US-152 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-17"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P1-E1-8",
+      "phase_id": "PHASE-1",
+      "module_id": "MOD-SITE",
+      "title": "E1.8 Public site & platform (website live)",
+      "objective": "Public site & platform (website live)",
+      "dependencies": [],
+      "priority": 28,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-153…US-162 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/site/**",
+        "apps/api/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P2-E2-1",
+      "phase_id": "PHASE-2",
+      "module_id": "MOD-AGENTS",
+      "title": "E2.1 Agent runtime",
+      "objective": "Agent runtime",
+      "dependencies": [],
+      "priority": 29,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-201…US-209 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/agents/**",
+        "packages/sandbox/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-07",
+        "REQ-FR-14"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P2-E2-2",
+      "phase_id": "PHASE-2",
+      "module_id": "MOD-SANDBOX",
+      "title": "E2.2 Sandbox & Git",
+      "objective": "Sandbox & Git",
+      "dependencies": [],
+      "priority": 30,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-210…US-216 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/agents/**",
+        "packages/sandbox/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-07"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P2-E2-3",
+      "phase_id": "PHASE-2",
+      "module_id": "MOD-WEB",
+      "title": "E2.3 Coding Studio UI",
+      "objective": "Coding Studio UI",
+      "dependencies": [],
+      "priority": 31,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-217…US-218 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/agents/**",
+        "packages/sandbox/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-07"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P2-E2-4",
+      "phase_id": "PHASE-2",
+      "module_id": "MOD-API",
+      "title": "E2.4 Delivery (previews, releases, approvals)",
+      "objective": "Delivery (previews, releases, approvals)",
+      "dependencies": [],
+      "priority": 32,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-219…US-230 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/agents/**",
+        "packages/sandbox/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-16"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P3-E3-1",
+      "phase_id": "PHASE-3",
+      "module_id": "MOD-WEB",
+      "title": "E3.1 Design Studio",
+      "objective": "Design Studio",
+      "dependencies": [],
+      "priority": 33,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-301…US-311, US-322 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/desktop/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P3-E3-2",
+      "phase_id": "PHASE-3",
+      "module_id": "MOD-AGENTS",
+      "title": "E3.2 Research Studio",
+      "objective": "Research Studio",
+      "dependencies": [],
+      "priority": 34,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-312…US-315 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/desktop/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P3-E3-3",
+      "phase_id": "PHASE-3",
+      "module_id": "MOD-MODEL-GATEWAY",
+      "title": "E3.3 Images Studio + content safety v1",
+      "objective": "Images Studio + content safety v1",
+      "dependencies": [],
+      "priority": 35,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-316…US-320 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/desktop/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08",
+        "REQ-FR-SAFE"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P3-E3-4",
+      "phase_id": "PHASE-3",
+      "module_id": "MOD-DB",
+      "title": "E3.4 Asset graph, global search, evals",
+      "objective": "Asset graph, global search, evals",
+      "dependencies": [],
+      "priority": 36,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-321, US-323, US-324 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/desktop/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-15"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P3-E3-5",
+      "phase_id": "PHASE-3",
+      "module_id": "MOD-DESKTOP",
+      "title": "E3.5 Desktop v1 — Tauri shell (plan addition, ADR-017)",
+      "objective": "Desktop v1 — Tauri shell (plan addition, ADR-017)",
+      "dependencies": [],
+      "priority": 37,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories notifications, deep links, auto-update; no spec stories — decompose from docs/plan/BUILD-PLAN.md in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/web/**",
+        "apps/desktop/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P4-E4-1",
+      "phase_id": "PHASE-4",
+      "module_id": "MOD-MEDIA-WORKER",
+      "title": "E4.1 Python media worker foundation",
+      "objective": "Python media worker foundation",
+      "dependencies": [],
+      "priority": 38,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-401 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/media-worker/**",
+        "apps/web/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P4-E4-2",
+      "phase_id": "PHASE-4",
+      "module_id": "MOD-MEDIA-WORKER",
+      "title": "E4.2 Audio Studio",
+      "objective": "Audio Studio",
+      "dependencies": [],
+      "priority": 39,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-402…US-407 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/media-worker/**",
+        "apps/web/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P4-E4-3",
+      "phase_id": "PHASE-4",
+      "module_id": "MOD-MEDIA-WORKER",
+      "title": "E4.3 Video Studio",
+      "objective": "Video Studio",
+      "dependencies": [],
+      "priority": 40,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-408…US-414 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/media-worker/**",
+        "apps/web/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-08"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P5-E5-1",
+      "phase_id": "PHASE-5",
+      "module_id": "MOD-INTEGRATIONS",
+      "title": "E5.1 Packages & Skills",
+      "objective": "Packages & Skills",
+      "dependencies": [],
+      "priority": 41,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-501…US-505 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/integrations/**",
+        "apps/mobile/**",
+        "apps/web/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-10"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P5-E5-2",
+      "phase_id": "PHASE-5",
+      "module_id": "MOD-INTEGRATIONS",
+      "title": "E5.2 Plugins, connectors, MCP",
+      "objective": "Plugins, connectors, MCP",
+      "dependencies": [],
+      "priority": 42,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-506…US-511 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/integrations/**",
+        "apps/mobile/**",
+        "apps/web/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-11"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P5-E5-3",
+      "phase_id": "PHASE-5",
+      "module_id": "MOD-SYSTEMS",
+      "title": "E5.3 Templates & marketplace",
+      "objective": "Templates & marketplace",
+      "dependencies": [],
+      "priority": 43,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-512…US-515 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/integrations/**",
+        "apps/mobile/**",
+        "apps/web/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-12"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P5-E5-4",
+      "phase_id": "PHASE-5",
+      "module_id": "MOD-MOBILE",
+      "title": "E5.4 Mobile v1 — Expo (plan addition, ADR-017)",
+      "objective": "Mobile v1 — Expo (plan addition, ADR-017)",
+      "dependencies": [],
+      "priority": 44,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories inbox, approvals, notifications, chat; decompose from docs/plan/BUILD-PLAN.md in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/integrations/**",
+        "apps/mobile/**",
+        "apps/web/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-19"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-1",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-SYSTEMS",
+      "title": "E6.1 Systems runtime & views",
+      "objective": "Systems runtime & views",
+      "dependencies": [],
+      "priority": 45,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-601…US-608 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-12"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-2",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-SYSTEMS",
+      "title": "E6.2 Core business modules",
+      "objective": "Core business modules",
+      "dependencies": [],
+      "priority": 46,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-609…US-613 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-12"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-3",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-WORKFLOW",
+      "title": "E6.3 Workflow engine & builder",
+      "objective": "Workflow engine & builder",
+      "dependencies": [],
+      "priority": 47,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-614…US-620 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-13"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-4",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-INTEGRATIONS",
+      "title": "E6.4 Messaging & consent",
+      "objective": "Messaging & consent",
+      "dependencies": [],
+      "priority": 48,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-621…US-623 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-SAFE"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-5",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-WEB",
+      "title": "E6.5 End-customer public pages",
+      "objective": "End-customer public pages",
+      "dependencies": [],
+      "priority": 49,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-624…US-626, US-630 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-SAFE"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P6-E6-6",
+      "phase_id": "PHASE-6",
+      "module_id": "MOD-SYSTEMS",
+      "title": "E6.6 Reference Systems + load tests",
+      "objective": "Reference Systems + load tests",
+      "dependencies": [],
+      "priority": 50,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-627…US-629, US-631 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/systems-runtime/**",
+        "packages/workflow-engine/**",
+        "apps/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-12"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P7-E7-1",
+      "phase_id": "PHASE-7",
+      "module_id": "MOD-BILLING",
+      "title": "E7.1 Payments & commercial billing",
+      "objective": "Payments & commercial billing",
+      "dependencies": [],
+      "priority": 51,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-701…US-707 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/billing/**",
+        "apps/**",
+        "infra/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-17"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P7-E7-2",
+      "phase_id": "PHASE-7",
+      "module_id": "MOD-AUTHZ",
+      "title": "E7.2 Security & enterprise controls",
+      "objective": "Security & enterprise controls",
+      "dependencies": [],
+      "priority": 52,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-708, US-709, US-722, US-723 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/billing/**",
+        "apps/**",
+        "infra/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-02"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P7-E7-3",
+      "phase_id": "PHASE-7",
+      "module_id": "MOD-WEB",
+      "title": "E7.3 Operator console & moderation",
+      "objective": "Operator console & moderation",
+      "dependencies": [],
+      "priority": 53,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-710…US-714 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/billing/**",
+        "apps/**",
+        "infra/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-OPS"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P7-E7-4",
+      "phase_id": "PHASE-7",
+      "module_id": "MOD-WORKER",
+      "title": "E7.4 Reliability: load, DR, SLOs, scale",
+      "objective": "Reliability: load, DR, SLOs, scale",
+      "dependencies": [],
+      "priority": 54,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-716, US-717, US-719…US-721 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/billing/**",
+        "apps/**",
+        "infra/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-DR"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P7-E7-5",
+      "phase_id": "PHASE-7",
+      "module_id": "MOD-VALIDATION",
+      "title": "E7.5 Docs hub & pen-test remediation",
+      "objective": "Docs hub & pen-test remediation",
+      "dependencies": [],
+      "priority": 55,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-715, US-718 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "packages/billing/**",
+        "apps/**",
+        "infra/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-OPS"
+      ],
+      "risk_classification": "medium"
+    },
+    {
+      "id": "WU-P8-E8-1",
+      "phase_id": "PHASE-8",
+      "module_id": "MOD-SYSTEMS",
+      "title": "E8.1 Growth candidates (prioritise with pilot data)",
+      "objective": "Growth candidates (prioritise with pilot data)",
+      "dependencies": [],
+      "priority": 56,
+      "status": "not_started",
+      "blockers": [],
+      "acceptance_criteria": [
+        "Stories US-801…US-812 incl. Urdu RTL, full mobile, SSO/SCIM in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
+      ],
+      "required_checks": [
+        "build-test",
+        "secret-scan",
+        "sast",
+        "dependency-scan",
+        "repository-integrity"
+      ],
+      "completion_evidence": [],
+      "allowed_paths": [
+        "apps/**",
+        "packages/**"
+      ],
+      "requirement_ids": [
+        "REQ-FR-18"
+      ],
+      "risk_classification": "medium"
     }
   ],
   "status_values": [
@@ -642,5 +2101,13 @@
     "acceptance_criteria": [],
     "required_checks": [],
     "completion_evidence": []
-  }
+  },
+  "plan_status": "proposed",
+  "plan_status_values": [
+    "draft",
+    "proposed",
+    "approved",
+    "superseded"
+  ],
+  "plan_approval_ref": null
 }

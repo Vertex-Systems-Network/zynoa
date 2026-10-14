@@ -2,7 +2,85 @@
   "schema_version": 1,
   "status": "active_registry",
   "activation_scope": "child_project",
-  "risks": [],
+  "risks": [
+    {
+      "id": "RISK-001",
+      "category": "ai",
+      "title": "AI providers refuse access/billing to a Pakistan company",
+      "impact": "Phase 2 blocked",
+      "disposition": "mitigating",
+      "mitigation": "Phase 0 access matrix (WU-P0-13); two providers per capability behind ModelGateway",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-002",
+      "category": "financial",
+      "title": "No payment provider for PK entity",
+      "impact": "Online revenue delayed",
+      "disposition": "mitigating",
+      "mitigation": "OD-03 shortlist in Phase 0; manual invoicing until Phase 7",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-003",
+      "category": "financial",
+      "title": "AI cost above credit price",
+      "impact": "Margin loss",
+      "disposition": "mitigating",
+      "mitigation": "Phase 0 cost sheet (WU-P0-14); credit value fixed at Gate A/B; per-workspace budgets",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-004",
+      "category": "operational",
+      "title": "Database region latency from Pakistan (nearest Singapore)",
+      "impact": "Slow dashboard",
+      "disposition": "open",
+      "mitigation": "Measure in OD-07; Redis cache + edge front-end fallback",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-005",
+      "category": "product",
+      "title": "Scope creep beyond 24 months",
+      "impact": "Launch slips",
+      "disposition": "mitigating",
+      "mitigation": "Phase exit checklists; no new studios before Gate B",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-006",
+      "category": "operational",
+      "title": "Store review & code signing delays (desktop/mobile)",
+      "impact": "Launch delay",
+      "disposition": "open",
+      "mitigation": "Certificates before Phase 3; TestFlight/internal tracks early",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    },
+    {
+      "id": "RISK-007",
+      "category": "security",
+      "title": "Tenant isolation regression",
+      "impact": "Cross-tenant data exposure",
+      "disposition": "mitigating",
+      "mitigation": "TenantRepository + RLS; db-integration CI suite runs per PR",
+      "owner": "wpessential",
+      "source": "docs/plan/BUILD-PLAN.md \u00a77",
+      "opened_at": "2026-10-12"
+    }
+  ],
   "risk_template": {
     "id": "RISK-0001",
     "category": "security",

@@ -1,6 +1,538 @@
 {
   "schema_version": 2,
-  "links": [],
+  "links": [
+    {
+      "requirement_id": "REQ-FR-01",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-AUTHZ"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Sign up / personal workspace",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-02",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-AUTHZ",
+        "MOD-DB"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-2"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Team orgs, seats, RBAC",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-03",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-3"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "New Project with any of 6 services",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-04",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-AGENTS"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-5"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "AI discovery, planning, decomposition",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-05",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-4"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Backlog, board, progress, comments",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-06",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-MODEL-GATEWAY"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-5",
+        "WU-P0-11"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "in_progress",
+      "verification_status": "unverified",
+      "title": "Provider registry & auto routing",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-07",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-SANDBOX",
+        "MOD-AGENTS"
+      ],
+      "work_unit_ids": [
+        "WU-P2-E2-1",
+        "WU-P2-E2-2"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Coding: repo, sandbox, tests, PR",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-08",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB",
+        "MOD-MEDIA-WORKER"
+      ],
+      "work_unit_ids": [
+        "WU-P3-E3-1",
+        "WU-P3-E3-2",
+        "WU-P3-E3-3",
+        "WU-P4-E4-2",
+        "WU-P4-E4-3"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Design/research/images/audio/video studios",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-09",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-DB"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-6"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Library, versions, reuse",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-10",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-INTEGRATIONS"
+      ],
+      "work_unit_ids": [
+        "WU-P5-E5-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Skills",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-11",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-INTEGRATIONS"
+      ],
+      "work_unit_ids": [
+        "WU-P5-E5-2"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Plugins / OAuth / MCP",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-12",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-SYSTEMS"
+      ],
+      "work_unit_ids": [
+        "WU-P5-E5-3",
+        "WU-P6-E6-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Systems marketplace & templates",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-13",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WORKFLOW"
+      ],
+      "work_unit_ids": [
+        "WU-P6-E6-3"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Visual workflow builder",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-14",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WORKER",
+        "MOD-AGENTS"
+      ],
+      "work_unit_ids": [
+        "WU-P0-09",
+        "WU-P2-E2-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "in_progress",
+      "verification_status": "unverified",
+      "title": "Durable agents, retries, resume",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-15",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-DB"
+      ],
+      "work_unit_ids": [
+        "WU-P3-E3-4"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Cross-service asset handoff",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-16",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-API"
+      ],
+      "work_unit_ids": [
+        "WU-P2-E2-4"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Preview, staging, QA, approvals",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-17",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-BILLING"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-7",
+        "WU-P7-E7-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Subscription, credits, budgets, ledger",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-18",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-SYSTEMS"
+      ],
+      "work_unit_ids": [
+        "WU-P8-E8-1"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "AI-created Systems & public marketplace",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-19",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB",
+        "MOD-API"
+      ],
+      "work_unit_ids": [
+        "WU-P0-06",
+        "WU-P0-07"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "in_progress",
+      "verification_status": "unverified",
+      "title": "App shell, dynamic navigation",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-20",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB"
+      ],
+      "work_unit_ids": [
+        "WU-P1-E1-3"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "New Project wizard",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-21",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-UI"
+      ],
+      "work_unit_ids": [
+        "WU-P0-10"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "in_progress",
+      "verification_status": "unverified",
+      "title": "UX states",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-OPS",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WEB"
+      ],
+      "work_unit_ids": [
+        "WU-P7-E7-3"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Operator/admin console",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-DR",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-WORKER"
+      ],
+      "work_unit_ids": [
+        "WU-P7-E7-4"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "DR, interruption/resume, rollback",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-FR-SAFE",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-SYSTEMS"
+      ],
+      "work_unit_ids": [
+        "WU-P3-E3-3",
+        "WU-P6-E6-4",
+        "WU-P6-E6-5"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "planned",
+      "verification_status": "unverified",
+      "title": "Content safety, messaging, end-customer pages",
+      "source": "Owner-approved build spec: docs/spec/01_PRODUCT_VISION.md \u00a7FR table + docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md \u00a73.1 (PROJECT-IDEA.md: spec accepted as build baseline)"
+    },
+    {
+      "requirement_id": "REQ-GATE-A",
+      "title": "Phase 0 foundation: running empty platform, validated demand, Gate A evidence",
+      "option_ids": [],
+      "module_ids": [
+        "MOD-CONFIG",
+        "MOD-DB",
+        "MOD-VALIDATION"
+      ],
+      "work_unit_ids": [
+        "WU-P0-00",
+        "WU-P0-01",
+        "WU-P0-03",
+        "WU-P0-04",
+        "WU-P0-12",
+        "WU-P0-13",
+        "WU-P0-14",
+        "WU-P0-15",
+        "WU-P0-16",
+        "WU-P0-17",
+        "WU-P0-18",
+        "WU-P0-19",
+        "WU-P0-20"
+      ],
+      "design_surface_refs": [],
+      "test_evidence": [],
+      "visual_evidence_refs": [],
+      "accessibility_evidence_refs": [],
+      "security_evidence_refs": [],
+      "release_refs": [],
+      "status": "in_progress",
+      "verification_status": "partially_verified",
+      "source": "docs/spec/02_SCOPE_AND_PHASES.md \u00a73 (Gate A exit checklist)"
+    }
+  ],
   "link_template": {
     "requirement_id": "REQ-001",
     "source": null,
@@ -25,7 +557,22 @@
     "status": "planned",
     "verification_status": "unverified"
   },
-  "status_values": ["proposed", "planned", "in_progress", "implemented", "verified", "released", "deprecated"],
-  "verification_status_values": ["unverified", "partially_verified", "verified", "failed", "risk_accepted"],
-  "rule": "A requirement is not verified merely because code exists; verification requires linked acceptance/test evidence plus applicable design, accessibility, security, migration and release evidence."
+  "status_values": [
+    "proposed",
+    "planned",
+    "in_progress",
+    "implemented",
+    "verified",
+    "released",
+    "deprecated"
+  ],
+  "verification_status_values": [
+    "unverified",
+    "partially_verified",
+    "verified",
+    "failed",
+    "risk_accepted"
+  ],
+  "rule": "A requirement is not verified merely because code exists; verification requires linked acceptance/test evidence plus applicable design, accessibility, security, migration and release evidence.",
+  "status": "active_register"
 }
