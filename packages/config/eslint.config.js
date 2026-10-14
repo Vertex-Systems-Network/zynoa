@@ -22,6 +22,20 @@ export default defineConfig(
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/consistent-type-imports": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
+      // ENGINEERING-RULES rule 3: tenant tables are reached only through the repository
+      // layer in @zynoa/db. The db package itself switches this rule off locally.
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@zynoa/db/schema", "@zynoa/db/schema/*"],
+              message:
+                "Import repositories from @zynoa/db instead; raw tenant tables bypass TenantRepository and RLS scoping (ENGINEERING-RULES §1 rule 3).",
+            },
+          ],
+        },
+      ],
     },
   },
   {

@@ -50,6 +50,8 @@ Package detail for `packages/*`: `docs/spec/ENGINEERING-RULES.md` §3. The only 
 | `secret-scan` | gitleaks over the full git history (binary checksum-verified) |
 | `sast` | Semgrep `p/default` over `apps/` and `packages/` |
 | `dependency-scan` | Trivy filesystem scan of lockfiles, HIGH/CRITICAL fixable vulnerabilities |
+| `container-build` (not yet required) | API image build, Trivy image scan, healthz smoke |
+| `db-integration` (not yet required) | Tenant-isolation suite against real Postgres (pgvector image + the compose role script) |
 | `repository-integrity` | ANPOS governance validators and tests (`repository-quality.yml`) |
 
 - Turborepo runs only what changed; a change in `packages/tokens`, `packages/ui` or `packages/contracts` re-tests every dependant.
@@ -59,6 +61,8 @@ Package detail for `packages/*`: `docs/spec/ENGINEERING-RULES.md` §3. The only 
 - Dependabot (`.github/dependabot.yml`): weekly, grouped GitHub Actions updates and grouped dev-tooling npm updates for the whole pnpm workspace.
 
 ## Releases
+
+> **Standing directive (owner, 2026-10-15):** nothing deploys automatically to any live or public destination. The table below is the *target* flow; none of it is wired, and wiring any row (including site auto-deploy and PR previews) first needs the owner to connect the hosting account and approve the change in a PR.
 
 | App | When | How |
 |---|---|---|

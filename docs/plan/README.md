@@ -45,3 +45,4 @@ Work tracking: GitHub milestone **Phase 0** — one issue per work unit (`WU-P0-
 - Every PR is reviewed by a **different** agent session than the one that wrote it, then merged by a human.
 - A phase ends only when its exit checklist passes with evidence (`docs/plans/phase-N-report.md`).
 - Never build "everything at once"; never invent completion, approvals, accounts or credentials.
+- **No deployments.** Nothing is deployed anywhere live or public, and no auto-deploy is wired, until the owner connects the hosting account and approves that wiring in a PR (owner directive, 2026-10-15). CI builds and scans only.

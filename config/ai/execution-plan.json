@@ -273,13 +273,18 @@
         "WU-P0-04"
       ],
       "priority": 5,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "Drizzle, migrations, seed, workspace-scoped repository base"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "9 unit tests (workspaceId guard, repository ctor)",
+        "7-test integration suite (RLS isolation, WITH CHECK, BYPASSRLS, flag source, idempotent migrate/seed) \u2014 runs in CI db-integration job with real Postgres",
+        "no-restricted-imports rule proven by probe",
+        "drizzle-kit check green (db:check now active in build-test)"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 12
     },
@@ -293,7 +298,7 @@
         "WU-P0-04"
       ],
       "priority": 6,
-      "status": "verification_required",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "/healthz, /readyz, request-id + OTel, error envelope, OpenAPI"
@@ -302,7 +307,8 @@
       "completion_evidence": [
         "10 vitest tests (health, readiness incl. timeout, request-id, envelopes, openapi)",
         "built server smoke-run: healthz 200, readyz 503 naming failed deps, NOT_FOUND envelope, OpenAPI 3.1",
-        "Dockerfile + non-required container-build CI job (build, Trivy image scan, healthz smoke)"
+        "Dockerfile + non-required container-build CI job (build, Trivy image scan, healthz smoke)",
+        "PR #41 merged; review APPROVE after fixes; container-build green"
       ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 13

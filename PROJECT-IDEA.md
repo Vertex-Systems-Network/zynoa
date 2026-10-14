@@ -54,6 +54,7 @@ Collected from the project owner across the design and planning sessions (origin
 - GSAP licence: not allowed inside a no-code visual animation builder → never in Design Studio animation tooling.
 - Never store or request credentials in chat; secrets only in GitHub Environments / secret manager.
 - The owner's email must not be sent to unrelated services.
+- No live/public deployment and no auto-deploy wiring without explicit owner approval (2026-10-15).
 
 ### Existing Research / Search / References
 
