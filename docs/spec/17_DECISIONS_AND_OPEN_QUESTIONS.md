@@ -19,6 +19,10 @@
 | ADR-013 | Credits as internal currency with reservation protocol | Predictable margins over volatile provider prices; budgets | Pass-through provider billing; unlimited plans |
 | ADR-014 | Evidence-based progress only | Core product promise; prevents "AI said done" failures | AI self-reported progress |
 | ADR-015 | SeaweedFS as local/CI S3 emulator (production stays R2) | MinIO abandoned upstream late 2025; registry stopped serving images | Keep MinIO's last image (unmaintained), S3Proxy (dependency retired), RustFS (alpha), LocalStack (heavyweight) |
+| ADR-016 | Marketing site (`apps/site`) and dashboard (`apps/web`) are separate apps | Release cadence, GSAP licence isolation, failure isolation | Single app with route groups |
+| ADR-017 | Desktop v1 in Phase 3 (Tauri), mobile v1 in Phase 5 (Expo) | Both reuse hosted dashboard + shared packages; cheap after Gate B | Phase 8 as first specified; native per-platform apps |
+| ADR-018 | Figma file AI-UI is the visual source of truth (fonts/colours supersede §13) | Finished, WCAG-audited design with exported tokens | Re-skin to the spec's placeholder identity |
+| ADR-019 | ANPOS governs the repo; builder rules moved to `ENGINEERING-RULES.md` | AI-first build needs consent/coordination/governance machinery | Spec rules alone at root |
 
 ## 2. Open business decisions (owner must decide; agents MUST NOT guess)
 

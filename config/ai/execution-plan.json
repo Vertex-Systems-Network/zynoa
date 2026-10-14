@@ -415,13 +415,15 @@
         "WU-P0-01"
       ],
       "priority": 12,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "ADR-001..014 + ADRs for plan changes in docs/decisions/"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "docs/decisions/ADR-001..019 + README; spec 17 registry extended with 016-019"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 19
     },
