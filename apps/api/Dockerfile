@@ -18,6 +18,12 @@ RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
 
 FROM node:22.21.1-slim@sha256:25b3eb23a00590b7499f2a2ce939322727fcce1b15fdd69754fcd09536a3ae2c AS runtime
 ENV NODE_ENV=production
+# Patch OS packages newer than the pinned base, and drop npm/corepack — the runtime
+# needs only the node binary, and their bundled deps carry scanner findings.
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /usr/local/lib/node_modules /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
 WORKDIR /app
 COPY --from=build /out .
 COPY --from=build /repo/apps/api/dist ./dist
