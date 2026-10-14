@@ -11,6 +11,7 @@ COPY packages/config ./packages/config
 COPY packages/contracts ./packages/contracts
 COPY apps/api ./apps/api
 RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
+ && pnpm --filter @zynoa/config build \
  && pnpm --filter @zynoa/contracts build \
  && pnpm --filter @zynoa/api build \
  && pnpm --filter @zynoa/api --prod deploy /out
