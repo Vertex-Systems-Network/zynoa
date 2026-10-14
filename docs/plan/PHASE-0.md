@@ -12,7 +12,7 @@ Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Do
 |---|---|---|---|
 | WU-P0-00 | Design tokens package | — | `packages/tokens` builds all outputs; CI fails on stale `dist/`. **Done — PR #1** |
 | WU-P0-01 | Monorepo scaffold (**Done — PR #32**) | WU-P0-00 | Layout from `REPOSITORY.md`; pnpm + Turborepo; shared TS (strict), ESLint, Prettier; `CURRENT_PHASE.md` = "Phase 0"; CODEOWNERS extended for `packages/db`, `authz`, `billing`; `pnpm install && pnpm build` passes from a clean clone |
-| WU-P0-02 | Local environment | WU-P0-01 | `infra/docker/docker-compose.yml`: Postgres 16 + pgvector, Valkey, Temporal dev server + UI, MinIO, Mailpit; README steps start everything in < 15 min on a clean machine |
+| WU-P0-02 | Local environment (**In review — needs an owner `docker compose up` run**) | WU-P0-01 | `infra/docker/docker-compose.yml`: Postgres 16 + pgvector, Valkey, Temporal dev server + UI, SeaweedFS (ADR-015), Mailpit; README steps start everything in < 15 min on a clean machine |
 | WU-P0-03 | CI (**Done — PR #33**) | WU-P0-01 | GitHub Actions: install, lint, typecheck, unit tests, build, migration check, container build; a failing test blocks merge; turbo filters by changed packages |
 | WU-P0-04 | `packages/config` env + flags (**Done — PR #37**) | WU-P0-01 | Zod env schema that fails fast on missing vars; per-workspace feature-flag helper (`phaseN.*`) |
 | WU-P0-05 | `packages/db` | WU-P0-02, WU-P0-04 | Drizzle setup, migration runner, empty migration, seed script, repository base class with mandatory `workspaceId` |

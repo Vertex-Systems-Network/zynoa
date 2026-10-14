@@ -1,0 +1,3 @@
+# Root convenience so `docker compose up` works from a fresh clone (Gate A).
+include:
+  - infra/docker/docker-compose.yml

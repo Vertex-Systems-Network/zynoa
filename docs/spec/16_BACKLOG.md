@@ -14,7 +14,7 @@ Phases 1–2 are fully detailed. Phases 3–8 are detailed enough to plan; the t
   - AC1: Layout matches `ENGINEERING-RULES.md §3`; `pnpm install && pnpm build` succeeds from clean clone.
   - AC2: Shared TS config strict; ESLint + Prettier configured; `pnpm lint` and `pnpm typecheck` run across workspaces via Turborepo with caching.
 - **US-002 Local environment** · M
-  - AC1: `docker compose up` starts Postgres 16 + pgvector, Redis/Valkey, Temporal dev server + UI, MinIO, Mailpit; health checks pass.
+  - AC1: `docker compose up` starts Postgres 16 + pgvector, Redis/Valkey, Temporal dev server + UI, SeaweedFS (was MinIO — ADR-015), Mailpit; health checks pass.
   - AC2: `pnpm dev` starts web (3000), api (4000), worker; README documents ports and first-run steps.
 - **US-003 CI pipeline** (SEC-013) · M
   - AC1: PR workflow runs lint, typecheck, unit, build, migration check, gitleaks, Semgrep, Trivy; any failure blocks merge.

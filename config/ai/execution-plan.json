@@ -194,14 +194,21 @@
         "WU-P0-01"
       ],
       "priority": 2,
-      "status": "ready",
-      "blockers": [],
+      "status": "verification_required",
+      "blockers": [
+        "Runtime verification needs a machine with a Docker daemon (none in this cloud session): owner runs `docker compose up -d --wait` from a clean clone and reports"
+      ],
       "acceptance_criteria": [
-        "Postgres16+pgvector, Valkey, Temporal+UI, MinIO, Mailpit",
+        "Postgres16+pgvector, Valkey, Temporal+UI, SeaweedFS, Mailpit",
         "README start < 15 min"
       ],
       "required_checks": [],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "branch feat/WU-P0-02-local-env",
+        "`docker compose config` parses (root include + infra/docker/docker-compose.yml)",
+        "image digests/tags verified against registries on 2026-10-15",
+        "ADR-015: SeaweedFS replaces abandoned MinIO; spec files 02/15/16 updated in the same PR"
+      ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 9
     },

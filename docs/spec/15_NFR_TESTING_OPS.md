@@ -40,7 +40,7 @@ Error budget burn alerts at 2% / 5% / 10% in 1 h / 6 h / 3 d windows. Feature fr
 |---|---|---|---|
 | Unit | Vitest / pytest | Domain logic: state machines, slot algorithm, ledger math, routing, validators, expression evaluator | Every PR |
 | Contract | Zod + OpenAPI diff | Breaking API changes flagged | Every PR |
-| Integration | Vitest + Testcontainers (Postgres, Redis, MinIO, Temporal test server) | Repositories, services, API endpoints incl. authz and validation failures | Every PR |
+| Integration | Vitest + Testcontainers (Postgres, Redis, SeaweedFS, Temporal test server) | Repositories, services, API endpoints incl. authz and validation failures | Every PR |
 | Tenant isolation | Custom harness | Every 🔒 table & route: cross-tenant read/write denied | Every PR (blocking) |
 | Workflow/agent | Temporal TestWorkflowEnvironment with time-skipping | Durability, retries, signals (approvals), timers (reminders), idempotency | Every PR |
 | Provider adapters | Recorded fixtures (VCR-style) + nightly live smoke on staging keys | Request/response mapping, error mapping | PR (fixtures), nightly (live) |
