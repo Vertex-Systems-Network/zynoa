@@ -15,7 +15,7 @@ Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Do
 | WU-P0-02 | Local environment (**In review — needs an owner `docker compose up` run**) | WU-P0-01 | `infra/docker/docker-compose.yml`: Postgres 16 + pgvector, Valkey, Temporal dev server + UI, SeaweedFS (ADR-015), Mailpit; README steps start everything in < 15 min on a clean machine |
 | WU-P0-03 | CI (**Done — PR #33**) | WU-P0-01 | GitHub Actions: install, lint, typecheck, unit tests, build, migration check, container build; a failing test blocks merge; turbo filters by changed packages |
 | WU-P0-04 | `packages/config` env + flags (**Done — PR #37**) | WU-P0-01 | Zod env schema that fails fast on missing vars; per-workspace feature-flag helper (`phaseN.*`) |
-| WU-P0-05 | `packages/db` | WU-P0-02, WU-P0-04 | Drizzle setup, migration runner, empty migration, seed script, repository base class with mandatory `workspaceId` |
+| WU-P0-05 | `packages/db` (**In review**) | WU-P0-02, WU-P0-04 | Drizzle setup, migration runner, empty migration, seed script, repository base class with mandatory `workspaceId` |
 | WU-P0-06 | `apps/api` skeleton (**In review**) | WU-P0-04 | Fastify, `/healthz`, `/readyz`, request-id + OpenTelemetry middleware, error envelope (`docs/spec/12_API_SPEC.md` §3), OpenAPI generation |
 | WU-P0-07 | `apps/web` dashboard skeleton | WU-P0-00, WU-P0-01 | Next.js App Router; tokens + shadcn bridge; light/dark/system theme; app layout skeleton with collapsible sidebar (Figma GL-01); no features |
 | WU-P0-08 | `apps/site` skeleton | WU-P0-00, WU-P0-01 | Next.js marketing app with placeholder home page using tokens and typography classes; deploy preview works |
