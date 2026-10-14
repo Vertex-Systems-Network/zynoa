@@ -16,13 +16,13 @@ Every work unit follows the loop in `BUILD-PLAN.md` §3 and the Definition of Do
 | WU-P0-03 | CI (**Done — PR #33**) | WU-P0-01 | GitHub Actions: install, lint, typecheck, unit tests, build, migration check, container build; a failing test blocks merge; turbo filters by changed packages |
 | WU-P0-04 | `packages/config` env + flags (**Done — PR #37**) | WU-P0-01 | Zod env schema that fails fast on missing vars; per-workspace feature-flag helper (`phaseN.*`) |
 | WU-P0-05 | `packages/db` | WU-P0-02, WU-P0-04 | Drizzle setup, migration runner, empty migration, seed script, repository base class with mandatory `workspaceId` |
-| WU-P0-06 | `apps/api` skeleton | WU-P0-04 | Fastify, `/healthz`, `/readyz`, request-id + OpenTelemetry middleware, error envelope (`docs/spec/12_API_SPEC.md` §3), OpenAPI generation |
+| WU-P0-06 | `apps/api` skeleton (**In review**) | WU-P0-04 | Fastify, `/healthz`, `/readyz`, request-id + OpenTelemetry middleware, error envelope (`docs/spec/12_API_SPEC.md` §3), OpenAPI generation |
 | WU-P0-07 | `apps/web` dashboard skeleton | WU-P0-00, WU-P0-01 | Next.js App Router; tokens + shadcn bridge; light/dark/system theme; app layout skeleton with collapsible sidebar (Figma GL-01); no features |
 | WU-P0-08 | `apps/site` skeleton | WU-P0-00, WU-P0-01 | Next.js marketing app with placeholder home page using tokens and typography classes; deploy preview works |
 | WU-P0-09 | `apps/worker` | WU-P0-02 | Temporal worker running a `HelloWorkflow` end to end locally and in CI |
 | WU-P0-10 | `packages/ui` base components | WU-P0-00 | 15 components (Button, Input, Select, Dialog, Sheet, Tabs, Table, Badge, Toast, Tooltip, DropdownMenu, Avatar, Card, EmptyState, Skeleton) matching Figma, keyboard + focus visible, WCAG 2.2 AA, in Storybook |
 | WU-P0-11 | `packages/model-gateway` | WU-P0-04 | Interface + one adapter (OpenAI or Anthropic) + smoke-test script that calls a real model and prints tokens + cost. Needs an API key in GitHub secrets (human) |
-| WU-P0-12 | Decision records | WU-P0-01 | ADR-001…014 from `docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md` copied to `docs/decisions/`, plus ADRs for the changes in `BUILD-PLAN.md` §8 |
+| WU-P0-12 | Decision records (**Done — PR #40**) | WU-P0-01 | ADR-001…014 from `docs/spec/17_DECISIONS_AND_OPEN_QUESTIONS.md` copied to `docs/decisions/`, plus ADRs for the changes in `BUILD-PLAN.md` §8 |
 
 ## Business work units (AI does the work; human only clicks, pays, signs, decides)
 
