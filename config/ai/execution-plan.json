@@ -280,10 +280,10 @@
       ],
       "required_checks": [],
       "completion_evidence": [
-        "9 unit tests (workspaceId guard, repository ctor)",
-        "7-test integration suite (RLS isolation, WITH CHECK, BYPASSRLS, flag source, idempotent migrate/seed) \u2014 runs in CI db-integration job with real Postgres",
+        "9 unit tests pass locally (workspaceId guard, repository ctor)",
         "no-restricted-imports rule proven by probe",
-        "drizzle-kit check green (db:check now active in build-test)"
+        "drizzle-kit check green; db:check active in build-test",
+        "integration suite (RLS isolation, NULLIF pooled-connection guard, WITH CHECK, revoked writes, BYPASSRLS, flag overrides, idempotent migrate/seed) added; runs in the new CI db-integration job \u2014 green run not yet observed"
       ],
       "spec_ref": "docs/plan/PHASE-0.md",
       "tracking_issue": 12

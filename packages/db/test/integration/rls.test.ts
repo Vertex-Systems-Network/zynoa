@@ -70,7 +70,8 @@ describe.skipIf(!appUrl || !platformUrl)("tenant isolation (real Postgres)", () 
     expect(b.rows.map((r) => r.body)).toEqual(["b1"]);
   });
 
-  it("the app role without a workspace setting sees nothing", async () => {
+  it("the app role without a workspace setting sees nothing — including on a pooled connection that served a tenant transaction (NULLIF guard)", async () => {
+    await tenantTransaction(app.db, WS_A, async (tx) => tx.execute(sql`select 1`));
     const rows = await app.db.execute(sql`select * from tenant_notes`);
     expect(rows.rows).toHaveLength(0);
   });
@@ -101,9 +102,16 @@ describe.skipIf(!appUrl || !platformUrl)("tenant isolation (real Postgres)", () 
     expect(await flags.isEnabled("itest.missing", WS_A)).toBe(false); // default off
   });
 
-  it("the app role cannot write feature_flags at all", async () => {
+  it("the app role cannot change feature_flags", async () => {
     await expect(
       app.db.insert(featureFlags).values({ key: "itest.rogue", workspaceId: null, enabled: true }),
     ).rejects.toThrow(/row-level security|policy|permission/i);
+    // UPDATE/DELETE are revoked (0001); privilege errors, not silent 0-row matches.
+    await expect(
+      app.db.execute(sql`update feature_flags set enabled = false where key = 'phase0.seeded'`),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      app.db.execute(sql`delete from feature_flags where key = 'phase0.seeded'`),
+    ).rejects.toThrow(/permission denied/i);
   });
 });

@@ -44,16 +44,18 @@ export async function tenantTransaction<T>(
  */
 export abstract class TenantRepository {
   readonly workspaceId: string;
+  readonly #db: Db;
 
-  constructor(
-    protected readonly db: Db,
-    id: string,
-  ) {
+  constructor(db: Db, id: string) {
+    this.#db = db;
     this.workspaceId = assertWorkspaceId(id);
   }
 
-  /** Run queries inside the tenant's RLS scope. */
+  /**
+   * Run queries inside the tenant's RLS scope. The raw Db is deliberately unreachable
+   * from subclasses: a query outside this scope would silently see zero rows.
+   */
   protected tenant<T>(fn: Parameters<typeof tenantTransaction<T>>[2]): Promise<T> {
-    return tenantTransaction(this.db, this.workspaceId, fn);
+    return tenantTransaction(this.#db, this.workspaceId, fn);
   }
 }

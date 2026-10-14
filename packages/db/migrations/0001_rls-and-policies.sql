@@ -3,8 +3,10 @@
 -- enable_tenant_rls(tbl): switches a tenant table (one with a workspace_id uuid column)
 -- to forced row-level security with one policy: a session sees exactly the rows of the
 -- workspace in the app.workspace_id setting (set per transaction by TenantRepository).
--- current_setting(..., true) yields NULL when unset, so a session without a workspace
--- sees nothing. The platform role (BYPASSRLS) is unaffected; FORCE covers table owners.
+-- NULLIF(current_setting(..., true), '') yields NULL both on a pristine session and on a
+-- pooled connection where a previous transaction's set_config left the empty string behind,
+-- so a session without a workspace sees nothing instead of erroring on ''::uuid. The
+-- platform role (BYPASSRLS) is unaffected; FORCE covers owners without BYPASSRLS.
 CREATE FUNCTION enable_tenant_rls(tbl regclass) RETURNS void
 LANGUAGE plpgsql
 AS $$
@@ -13,8 +15,8 @@ BEGIN
   EXECUTE format('ALTER TABLE %s FORCE ROW LEVEL SECURITY', tbl);
   EXECUTE format(
     'CREATE POLICY tenant_isolation ON %s AS PERMISSIVE FOR ALL '
-    || 'USING (workspace_id = current_setting(''app.workspace_id'', true)::uuid) '
-    || 'WITH CHECK (workspace_id = current_setting(''app.workspace_id'', true)::uuid)',
+    || 'USING (workspace_id = NULLIF(current_setting(''app.workspace_id'', true), '''')::uuid) '
+    || 'WITH CHECK (workspace_id = NULLIF(current_setting(''app.workspace_id'', true), '''')::uuid)',
     tbl
   );
 END;
@@ -30,5 +32,9 @@ ALTER TABLE "feature_flags" FORCE ROW LEVEL SECURITY;
 CREATE POLICY feature_flags_read ON "feature_flags" AS PERMISSIVE FOR SELECT
   USING (
     workspace_id IS NULL
-    OR workspace_id = current_setting('app.workspace_id', true)::uuid
+    OR workspace_id = NULLIF(current_setting('app.workspace_id', true), '')::uuid
   );
+--> statement-breakpoint
+-- Least privilege: flags are written only by the platform role (local compose default
+-- privileges otherwise grant the app role full DML on platform-created tables).
+REVOKE INSERT, UPDATE, DELETE ON "feature_flags" FROM zynoa;
