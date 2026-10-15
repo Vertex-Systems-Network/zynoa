@@ -548,7 +548,7 @@
         "WU-P0-00"
       ],
       "priority": 10,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
         "15 components match Figma, keyboard/focus, WCAG 2.2 AA, Storybook"
@@ -560,7 +560,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Scaffold on branch feat/WU-P0-10-ui: 15 base components on radix-ui + tokens, Storybook, keyboard/focus tests"
+      ],
       "allowed_paths": [
         "packages/ui/**"
       ],
