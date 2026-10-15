@@ -11,7 +11,7 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   return (
     <div
-      role="radiogroup"
+      role="group"
       aria-label="Theme"
       className="flex items-center gap-1 rounded-md border border-border-default bg-bg-surface p-1"
     >
@@ -22,8 +22,7 @@ export function ThemeToggle() {
           <button
             key={value}
             type="button"
-            role="radio"
-            aria-checked={active}
+            aria-pressed={active}
             aria-label={LABELS[value]}
             title={`${LABELS[value]} theme`}
             onClick={() => setTheme(value)}

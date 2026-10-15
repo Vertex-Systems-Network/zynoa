@@ -24,26 +24,26 @@ describe("theme", () => {
   it("defaults to system: no data-theme attribute on <html>", () => {
     renderToggle();
     expect(document.documentElement.hasAttribute("data-theme")).toBe(false);
-    expect(screen.getByRole("radio", { name: /system/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /system/i })).toBeTruthy();
   });
 
   it("selecting dark sets data-theme and persists the choice", async () => {
     renderToggle();
-    await userEvent.click(screen.getByRole("radio", { name: /dark/i }));
+    await userEvent.click(screen.getByRole("button", { name: /dark/i }));
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
     expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe("dark");
   });
 
   it("selecting light sets data-theme=light", async () => {
     renderToggle();
-    await userEvent.click(screen.getByRole("radio", { name: /light/i }));
+    await userEvent.click(screen.getByRole("button", { name: /light/i }));
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");
   });
 
   it("returning to system removes the attribute so CSS prefers-color-scheme applies", async () => {
     renderToggle();
-    await userEvent.click(screen.getByRole("radio", { name: /dark/i }));
-    await userEvent.click(screen.getByRole("radio", { name: /system/i }));
+    await userEvent.click(screen.getByRole("button", { name: /dark/i }));
+    await userEvent.click(screen.getByRole("button", { name: /system/i }));
     expect(document.documentElement.hasAttribute("data-theme")).toBe(false);
     expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe("system");
   });
@@ -52,7 +52,7 @@ describe("theme", () => {
     window.localStorage.setItem(THEME_STORAGE_KEY, "dark");
     renderToggle();
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-    expect(screen.getByRole("radio", { name: /dark/i }).getAttribute("aria-checked")).toBe("true");
+    expect(screen.getByRole("button", { name: /dark/i }).getAttribute("aria-pressed")).toBe("true");
   });
 
   it("ignores an invalid stored value", () => {

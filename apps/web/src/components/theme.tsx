@@ -46,14 +46,23 @@ type ThemeContextValue = { theme: Theme; setTheme: (theme: Theme) => void };
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Initialize from storage synchronously on the client; "system" on the server.
-  const [theme, setThemeState] = useState<Theme>(() =>
-    typeof window === "undefined" ? "system" : readStoredTheme(),
-  );
+  // Server and first client render must agree ("system") or hydration mismatches
+  // leave stale aria/class attributes in the DOM (React does not patch them up).
+  // The stored choice is read in a mount effect; until then the init script's
+  // data-theme keeps the page colors correct.
+  const [theme, setThemeState] = useState<Theme>("system");
+  const [restored, setRestored] = useState(false);
 
   useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
+    setThemeState(readStoredTheme());
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    // Before restore, leave the init script's attribute alone (applying "system"
+    // here would strip it and flash a dark-mode user to light).
+    if (restored) applyTheme(theme);
+  }, [restored, theme]);
 
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next);

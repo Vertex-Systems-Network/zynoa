@@ -1,7 +1,8 @@
 "use client";
 /**
  * Collapsible workspace sidebar — the GL-01 shell (Figma GL-01c `257:162971`).
- * Navigation only; every destination is a Phase-0 placeholder route.
+ * Navigation only; the destination routes arrive with their own work units
+ * (GL-02/03/05/07), so the links 404 until then.
  */
 import { Bell, FolderKanban, Home, ListChecks, MessageSquare, PanelLeft } from "lucide-react";
 import Link from "next/link";
@@ -26,24 +27,31 @@ function readStoredCollapsed(): boolean {
 }
 
 export function Sidebar({ workspace }: { workspace: string }) {
-  const [collapsed, setCollapsed] = useState(() =>
-    typeof window === "undefined" ? false : readStoredCollapsed(),
-  );
+  // Server and first client render must agree (expanded); the stored preference
+  // is restored in a mount effect so hydration never mismatches structurally.
+  const [collapsed, setCollapsed] = useState(false);
+  const [restored, setRestored] = useState(false);
 
   useEffect(() => {
+    setCollapsed(readStoredCollapsed());
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!restored) return; // don't overwrite the stored value before reading it
     try {
       window.localStorage.setItem(SIDEBAR_STORAGE_KEY, collapsed ? "1" : "0");
     } catch {
       // Storage unavailable: the state still works for this page view.
     }
-  }, [collapsed]);
+  }, [restored, collapsed]);
 
   return (
     <aside
       data-collapsed={collapsed || undefined}
       className={
         "flex h-full shrink-0 flex-col border-r border-border-default bg-bg-sidebar " +
-        "text-text-on-sidebar transition-[width] " +
+        "text-text-on-sidebar transition-[width] motion-reduce:transition-none " +
         (collapsed ? "w-14" : "w-60")
       }
     >
