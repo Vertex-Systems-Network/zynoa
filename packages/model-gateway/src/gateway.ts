@@ -47,7 +47,13 @@ export class ModelGateway {
       text,
       usage,
       // A provider that didn't report usage gets an unknown cost, not a $0 bill.
-      costUsd: usageIncomplete ? null : costUsd(adapter.provider, servedModel, usage),
+      // Providers resolve alias ids (claude-haiku-5-5) to dated snapshots in
+      // responses; when the served id has no pricing row, bill at the price of
+      // the alias the caller asked for.
+      costUsd: usageIncomplete
+        ? null
+        : (costUsd(adapter.provider, servedModel, usage) ??
+          costUsd(adapter.provider, model, usage)),
     };
   }
 }

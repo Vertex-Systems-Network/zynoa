@@ -130,3 +130,39 @@ describe("anthropicAdapter (stubbed model, no network)", () => {
     expect(result.text).toBe("hello from mock");
   });
 });
+
+describe("snapshot-served pricing and incomplete usage", () => {
+  it("falls back to the requested alias's pricing when the served snapshot has no row", async () => {
+    const snapshotAdapter: ProviderAdapter = {
+      provider: "anthropic",
+      defaultModel: "claude-haiku-5-5",
+      complete: () =>
+        Promise.resolve({
+          text: "ok",
+          model: "claude-haiku-5-5-20261001", // dated snapshot: no pricing row
+          usage: { inputTokens: 1_000_000, outputTokens: 0 },
+        }),
+    };
+    const gateway = new ModelGateway([snapshotAdapter]);
+    const result = await gateway.complete({ messages: [{ role: "user", content: "hi" }] });
+    expect(result.model).toBe("claude-haiku-5-5-20261001");
+    expect(result.costUsd).toBeCloseTo(0.1, 10); // alias price, 1M input @ $0.10
+  });
+
+  it("reports null cost when the provider did not report full usage", async () => {
+    const incompleteAdapter: ProviderAdapter = {
+      provider: "anthropic",
+      defaultModel: "claude-haiku-5-5",
+      complete: () =>
+        Promise.resolve({
+          text: "ok",
+          model: "claude-haiku-5-5",
+          usage: { inputTokens: 0, outputTokens: 0 },
+          usageIncomplete: true,
+        }),
+    };
+    const gateway = new ModelGateway([incompleteAdapter]);
+    const result = await gateway.complete({ messages: [{ role: "user", content: "hi" }] });
+    expect(result.costUsd).toBeNull();
+  });
+});
