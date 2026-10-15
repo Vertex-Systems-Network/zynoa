@@ -582,7 +582,7 @@
         "WU-P0-04"
       ],
       "priority": 11,
-      "status": "in_progress",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "Real model call prints tokens + cost"
@@ -595,7 +595,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Scaffold on branch feat/WU-P0-11-model-gateway: ModelGateway interface + Anthropic adapter (Vercel AI SDK per CONSENT-000001 stack) + smoke script; real-model run awaits owner API key in GitHub secrets"
+        "Scaffold on branch feat/WU-P0-11-model-gateway: ModelGateway interface + Anthropic adapter (Vercel AI SDK per CONSENT-000001 stack) + smoke script; real-model run awaits owner API key in GitHub secrets",
+        "PR #52 merged: ModelGateway + Anthropic adapter (ai SDK v7), pricing table (seed 2026-10-16, WU-P0-14 verifies), 12 unit tests, 7 CI checks green, independent review APPROVE after 3 fix rounds (v7 system-message routing, served-model accounting, alias pricing fallback). OUTSTANDING: owner adds ANTHROPIC_API_KEY and runs 'pnpm --filter @zynoa/model-gateway smoke'; its tokens+cost output completes the Gate A exit item"
       ],
       "allowed_paths": [
         "packages/model-gateway/**"
