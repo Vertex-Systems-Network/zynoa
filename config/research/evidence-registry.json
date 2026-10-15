@@ -44,6 +44,94 @@
       "validation_status": "unverified",
       "supersedes": [],
       "notes": []
+    },
+    {
+      "id": "EVID-000003",
+      "claim_or_question": "All three primary LLM providers (OpenAI, Anthropic, Google Gemini API) list Pakistan as a supported country for API access and permit embedding their APIs in a commercial SaaS serving end users; all are prepaid-card funded with no Pakistan-specific billing path",
+      "source_type": "primary",
+      "source_ref": "https://help.openai.com/en/articles/5347006-openai-api-supported-countries-and-territories; https://www.anthropic.com/supported-countries; https://ai.google.dev/gemini-api/docs/available-regions; https://openai.com/policies/business-terms; https://www.anthropic.com/legal/commercial-terms; https://ai.google.dev/gemini-api/terms",
+      "source_title": "LLM provider availability and resale terms for Pakistan",
+      "publisher_or_owner": null,
+      "published_at": null,
+      "accessed_at": "2026-10-16",
+      "source_revision_or_hash": null,
+      "evidence_class": "verified_fact",
+      "confidence": "high",
+      "summary": "OpenAI/Anthropic ✅ availability+resale with 30-day retention and no-training defaults; Google ⚠ (free tier trains on data, 18+ requirement, grounding output non-resalable); common caveat: USD card needed, Anthropic excludes entities majority-owned from unsupported regions",
+      "supports_requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
+    },
+    {
+      "id": "EVID-000004",
+      "claim_or_question": "Media/utility providers workable from Pakistan: ElevenLabs (paid plans carry commercial license), Black Forest Labs FLUX API (developer owns outputs, embedding licensed), Brave Search API (licenses third-party-facing AI products at standard tiers), Daytona sandbox (no training on customer content); Tavily standard tier forbids SaaS embedding and caching",
+      "source_type": "primary",
+      "source_ref": "https://elevenlabs.io/docs/help-center/legal/do-you-restrict-access-to-the-service-and-platform-for-any-specific-countries.md; https://bfl.ai/legal/developer-terms-of-service; https://brave.com/search/api/; https://daytona.io/company/terms-of-service; https://tavily.com/policy",
+      "source_title": "Media and utility AI provider terms for Pakistan SaaS",
+      "publisher_or_owner": null,
+      "published_at": null,
+      "accessed_at": "2026-10-16",
+      "source_revision_or_hash": null,
+      "evidence_class": "verified_fact",
+      "confidence": "medium",
+      "summary": "Picks: BFL FLUX (images), Brave (search), Daytona (sandbox), ElevenLabs (audio). Caveats: BFL trains on I/O, sandbox vendors' ToS want written OK for third-party-serving use, Brave is postpaid with no free tier since Feb 2026",
+      "supports_requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
+    },
+    {
+      "id": "EVID-000005",
+      "claim_or_question": "For messaging Pakistani end customers, Meta WhatsApp Cloud API direct is ~30x cheaper than Twilio SMS (PK SMS $0.4734/segment, one-way only); WhatsApp utility templates are free inside the 24h window; Meta Business verification requires exact legal-name match",
+      "source_type": "primary",
+      "source_ref": "https://developers.facebook.com/docs/whatsapp/pricing; https://www.twilio.com/en-us/sms/pricing/pk; https://www.twilio.com/en-us/guidelines/pk/sms; https://docs.360dialog.com/docs/resources/meta-business-verification",
+      "source_title": "Messaging vendor comparison for Pakistan destinations",
+      "publisher_or_owner": null,
+      "published_at": null,
+      "accessed_at": "2026-10-16",
+      "source_revision_or_hash": null,
+      "evidence_class": "verified_fact",
+      "confidence": "medium",
+      "summary": "Pick: Meta WhatsApp Cloud API direct for booking confirmations; local PTA-registered branded SMS as later fallback. Twilio SMS to PK is cost-prohibitive and two-way unsupported",
+      "supports_requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
+    },
+    {
+      "id": "EVID-000006",
+      "claim_or_question": "Stripe is not available to Pakistan-registered businesses; Lemon Squeezy (merchant of record) verifiably supports Pakistan bank payouts; Paddle markets to Pakistani businesses but publishes no seller-eligibility list; Safepay offers published local-card rates (2.9%+Rs30 domestic) with PKR settlement",
+      "source_type": "primary",
+      "source_ref": "https://stripe.com/global; https://docs.lemonsqueezy.com/help/getting-started/supported-countries; https://www.paddle.com/billing/pakistan; https://safepay.helpscoutdocs.com/article/131-safepay-fee-breakdown",
+      "source_title": "Payment collection options for a Pakistan-registered SaaS",
+      "publisher_or_owner": null,
+      "published_at": null,
+      "accessed_at": "2026-10-16",
+      "source_revision_or_hash": null,
+      "evidence_class": "verified_fact",
+      "confidence": "medium",
+      "summary": "International: Lemon Squeezy (verified PK payout) or Paddle (confirm eligibility in writing); local: Safepay (verify recurring billing). Payoneer is receiving-only (~3% PKR withdrawal fee). Feeds OD-03",
+      "supports_requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
     }
   ],
   "entry_contract": {
