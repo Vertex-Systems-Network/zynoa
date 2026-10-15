@@ -483,7 +483,7 @@
         "WU-P0-01"
       ],
       "priority": 8,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
         "Placeholder marketing page with tokens; preview deploy"
@@ -495,7 +495,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Scaffold on branch feat/WU-P0-08-site: Next.js marketing app placeholder home with tokens+typography; preview deploy deferred per owner no-deploy directive 2026-10-15"
+      ],
       "allowed_paths": [
         "apps/site/**"
       ],
