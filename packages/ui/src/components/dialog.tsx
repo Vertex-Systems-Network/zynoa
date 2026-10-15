@@ -17,7 +17,9 @@ export const DialogOverlay = forwardRef<
   return (
     <DialogPrimitive.Overlay
       ref={ref}
-      className={cn("fixed inset-0 z-50 bg-bg-inverse/50", className)}
+      // NOTE: token colors are raw CSS vars, so a Tailwind alpha suffix on them
+      // silently generates nothing; use element opacity (overlay has no children).
+      className={cn("fixed inset-0 z-50 bg-bg-inverse opacity-50", className)}
       {...props}
     />
   );

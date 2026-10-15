@@ -16,6 +16,7 @@ export {
 export { Skeleton } from "./components/skeleton";
 export { EmptyState } from "./components/empty-state";
 export type { EmptyStateProps } from "./components/empty-state";
+export type { TableProps } from "./components/table";
 export {
   Table,
   TableBody,

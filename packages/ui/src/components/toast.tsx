@@ -63,6 +63,9 @@ export function Toaster() {
       {items.map(({ id, title, description, variant = "neutral", duration }) => (
         <ToastPrimitive.Root
           key={id}
+          // Radix announces "foreground" toasts assertively; keep routine toasts
+          // polite ("background") and reserve assertive for failures.
+          type={variant === "danger" ? "foreground" : "background"}
           duration={duration ?? 5000}
           onOpenChange={(open) => {
             if (!open) dismissToast(id);

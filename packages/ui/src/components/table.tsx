@@ -1,9 +1,21 @@
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";
 import { cn } from "../lib/cn";
 
-export function Table({ className, ...props }: HTMLAttributes<HTMLTableElement>) {
+export interface TableProps extends HTMLAttributes<HTMLTableElement> {
+  /** Accessible name of the scrollable wrapper (WCAG: scrollable region must be focusable and named). */
+  containerLabel?: string;
+}
+
+export function Table({ className, containerLabel = "Table", ...props }: TableProps) {
   return (
-    <div className="w-full overflow-x-auto">
+    // A wide table scrolls horizontally; the region is focusable so keyboard
+    // users can reach clipped columns with the arrow keys.
+    <div
+      role="region"
+      aria-label={containerLabel}
+      tabIndex={0}
+      className="w-full overflow-x-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-border-focus"
+    >
       <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
     </div>
   );

@@ -61,6 +61,21 @@ describe("static components", () => {
     expect(screen.getByText("Body")).toBeTruthy();
   });
 
+  it("Table's scroll wrapper is a focusable, named region (WCAG scrollable-region-focusable)", () => {
+    render(
+      <Table containerLabel="Jobs">
+        <TableBody>
+          <TableRow>
+            <TableCell>Row</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+    const region = screen.getByRole("region", { name: "Jobs" });
+    expect(region.getAttribute("tabindex")).toBe("0");
+    expect(region.className).toContain("focus-visible:");
+  });
+
   it("Table composes semantic table markup", () => {
     render(
       <Table>

@@ -28,7 +28,9 @@ export const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(functi
 ) {
   return (
     <SheetPrimitive.Portal>
-      <SheetPrimitive.Overlay className="fixed inset-0 z-50 bg-bg-inverse/50" />
+      {/* Token colors are raw CSS vars: a Tailwind alpha suffix on them generates
+          nothing, so the scrim uses element opacity (the overlay has no children). */}
+      <SheetPrimitive.Overlay className="fixed inset-0 z-50 bg-bg-inverse opacity-50" />
       <SheetPrimitive.Content
         ref={ref}
         className={cn(
