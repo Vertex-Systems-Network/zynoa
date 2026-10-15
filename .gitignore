@@ -56,3 +56,4 @@ apps/*/dist/
 
 # ANPOS plugin runtime (local only)
 .anpos/
+storybook-static/

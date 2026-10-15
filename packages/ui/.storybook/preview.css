@@ -1,0 +1,13 @@
+/* Design tokens, then Tailwind utilities for the stories. */
+@import "@zynoa/tokens/tokens.css";
+@import "@zynoa/tokens/typography.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--zy-font-sans);
+  background: var(--zy-color-bg-canvas);
+  color: var(--zy-color-text-primary);
+}
