@@ -518,7 +518,7 @@
         "WU-P0-02"
       ],
       "priority": 9,
-      "status": "in_progress",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Temporal HelloWorkflow runs locally and in CI"
@@ -531,7 +531,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Scaffold on branch feat/WU-P0-09-worker: Temporal TS worker, HelloWorkflow e2e via @temporalio/testing local dev server"
+        "Scaffold on branch feat/WU-P0-09-worker: Temporal TS worker, HelloWorkflow e2e via @temporalio/testing local dev server",
+        "PR #59 merged: HelloWorkflow e2e through a real Temporal dev server + real worker (2 tests, runs in CI build-test), worker entrypoint on the temporal env group; review fix: per-context workflows entry so pnpm dev works; 7 CI checks green; independent review APPROVE. Follow-ups on record: pin Temporal CLI download, document TLS PEM-content contract"
       ],
       "allowed_paths": [
         "apps/worker/**"
