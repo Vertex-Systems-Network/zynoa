@@ -483,7 +483,7 @@
         "WU-P0-01"
       ],
       "priority": 8,
-      "status": "in_progress",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Placeholder marketing page with tokens; preview deploy"
@@ -496,7 +496,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Scaffold on branch feat/WU-P0-08-site: Next.js marketing app placeholder home with tokens+typography; preview deploy deferred per owner no-deploy directive 2026-10-15"
+        "Scaffold on branch feat/WU-P0-08-site: Next.js marketing app placeholder home with tokens+typography; preview deploy deferred per owner no-deploy directive 2026-10-15",
+        "PR #48 merged: Next.js marketing skeleton, PUB-01 placeholder home with tokens+typography classes, 5 unit tests, 7 CI checks green, independent review APPROVE; deploy preview deferred per owner no-deploy directive 2026-10-15"
       ],
       "allowed_paths": [
         "apps/site/**"
