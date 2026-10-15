@@ -52,7 +52,7 @@
       "request_hash": "966b7aaeccd5ec00348e2fe1dc54505b4d5a3cb4295f79dded1f122b0e0d3d97",
       "nonce": "99f713a6-480e-436d-9d0e-fa5e8d5708d4",
       "expires_at": "2026-10-17T22:14:19Z",
-      "nonce_consumed_at": null,
+      "nonce_consumed_at": "2026-10-15T18:02:54Z",
       "owner_identity": null,
       "canonical_review_reference": "docs/ai/PRE-PLAN.md",
       "email_notification_reference": null,
@@ -62,13 +62,16 @@
       ],
       "affected_modules": [],
       "risk": "low",
-      "status": "pending",
-      "approved_scope": [],
-      "decision_by": null,
-      "decision_identity_evidence_ref": null,
-      "decision_at": null,
-      "decision_evidence": null,
-      "decision_request_hash": null,
+      "status": "approved",
+      "approved_scope": [
+        "plan_digest:sha256:d6d8f08ee240fcbc16df2a804890e825d591eb541d1436be0810850bc64b1fd9",
+        "Set execution-plan plan_status=approved with this consent as plan_approval_ref"
+      ],
+      "decision_by": "interactive-user:claude-code-session:e389b31d-ee25-5a32-8fdb-5efa0cdecb0c",
+      "decision_identity_evidence_ref": ".anpos/approvals/99F713A6.json",
+      "decision_at": "2026-10-15T18:02:54Z",
+      "decision_evidence": "User typed the exact phrase `APPROVE PLAN 99F713A6`; captured by the UserPromptSubmit hook at 2026-10-14T22:42:26Z (prompt sha256 1134c3a0ebfc47f035dabdd20c2f16d7674a58aec539121d453c82b6a05ef426). Local session evidence, not an authenticated identity.",
+      "decision_request_hash": "966b7aaeccd5ec00348e2fe1dc54505b4d5a3cb4295f79dded1f122b0e0d3d97",
       "implementation_reference": null,
       "verification_reference": null
     }

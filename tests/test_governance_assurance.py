@@ -74,7 +74,21 @@ class GovernanceAssuranceTests(unittest.TestCase):
         self.assertEqual(audit["integrity"]["mode"], "sha256_hash_chain")
         self.assertTrue(audit["rules"]["secrets_credentials_and_sensitive_full_prompts_forbidden"])
         self.assertTrue(audit["rules"]["integrity_break_requires_investigation_before_trusting_later_entries"])
-        self.assertEqual(audit["entries"], [])
+        # Entries are appended by the anpos runtime; verify the sha256 hash chain
+        # instead of requiring an empty journal (the pre-adoption state).
+        import hashlib
+
+        previous = None
+        for entry in audit["entries"]:
+            self.assertEqual(entry.get("previous_entry_hash"), previous, entry.get("id"))
+            body = {k: v for k, v in entry.items() if k != "entry_hash"}
+            digest = hashlib.sha256(
+                json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+            self.assertEqual(entry.get("entry_hash"), digest, entry.get("id"))
+            previous = entry.get("entry_hash")
+        if audit["entries"]:
+            self.assertEqual(audit["integrity"].get("latest_entry_hash"), previous)
 
     def test_governance_conformance_scenarios_exist(self) -> None:
         scenarios = {row["name"] for row in load("config/testing/conformance-scenarios.json")["scenarios"]}

@@ -4,11 +4,30 @@
   "activation_scope": "child_project",
   "integrity": {
     "mode": "sha256_hash_chain",
-    "genesis_hash": null,
-    "latest_entry_hash": null,
+    "genesis_hash": "01e869e7a79cded4706799c339aa83b55547cae4d5964673a1b0a80b93b3f7f7",
+    "latest_entry_hash": "01e869e7a79cded4706799c339aa83b55547cae4d5964673a1b0a80b93b3f7f7",
     "last_verified_at": null
   },
-  "entries": [],
+  "entries": [
+    {
+      "id": "AUDIT-000001",
+      "actor_identity_ref": "interactive-user:claude-code-session:e389b31d-ee25-5a32-8fdb-5efa0cdecb0c",
+      "role": "owner",
+      "action": "consent_decision",
+      "target": "CONSENT-000002",
+      "tool_or_provider": null,
+      "base_ref": "d8c3fcd29929f0b06211f2c9ed57c2594e596887",
+      "result_ref": null,
+      "consent_ref": "CONSENT-000002",
+      "sanitized_input_hash": null,
+      "sanitized_output_or_artifact_hash": null,
+      "occurred_at": "2026-10-15T18:02:54Z",
+      "result": "approved",
+      "risk_class": "normal",
+      "previous_entry_hash": null,
+      "entry_hash": "01e869e7a79cded4706799c339aa83b55547cae4d5964673a1b0a80b93b3f7f7"
+    }
+  ],
   "entry_template": {
     "id": "AUDIT-000001",
     "actor_identity_ref": "",
