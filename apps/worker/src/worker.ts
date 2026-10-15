@@ -1,38 +1,26 @@
 /**
- * Long-running Temporal worker: `pnpm --filter @zynoa/worker start` (built) or
- * `pnpm --filter @zynoa/worker dev`. Connects to TEMPORAL_ADDRESS (local
- * compose stack by default) and serves the zynoa-main task queue.
+ * Long-running Temporal worker against the compose dev server:
+ *   pnpm --filter @zynoa/worker dev   (TEMPORAL_ADDRESS from .env, default localhost:7233)
  */
+import { loadEnv } from "@zynoa/config/env";
 import { NativeConnection, Worker } from "@temporalio/worker";
 import { fileURLToPath } from "node:url";
-import { loadEnv } from "@zynoa/config/env";
-import * as activities from "./activities.js";
-import { TASK_QUEUE, workflowsEntry } from "./queues.js";
+import { activities } from "./activities.js";
+
+export const TASK_QUEUE = "zynoa-main";
 
 export async function run(): Promise<void> {
   const env = loadEnv(["temporal"]);
-  const connection = await NativeConnection.connect({
-    address: env.TEMPORAL_ADDRESS,
-    ...(env.TEMPORAL_TLS_CERT && env.TEMPORAL_TLS_KEY
-      ? {
-          tls: {
-            clientCertPair: {
-              crt: Buffer.from(env.TEMPORAL_TLS_CERT),
-              key: Buffer.from(env.TEMPORAL_TLS_KEY),
-            },
-          },
-        }
-      : {}),
-  });
+  const connection = await NativeConnection.connect({ address: env.TEMPORAL_ADDRESS });
   try {
     const worker = await Worker.create({
       connection,
       namespace: env.TEMPORAL_NAMESPACE,
       taskQueue: TASK_QUEUE,
-      workflowsPath: fileURLToPath(workflowsEntry()),
+      workflowsPath: fileURLToPath(new URL("./workflows.js", import.meta.url)),
       activities,
     });
-    console.warn(`worker: serving task queue "${TASK_QUEUE}" at ${env.TEMPORAL_ADDRESS}`);
+    console.warn(`worker: polling task queue "${TASK_QUEUE}" on ${env.TEMPORAL_ADDRESS}`);
     await worker.run();
   } finally {
     await connection.close();
@@ -40,7 +28,7 @@ export async function run(): Promise<void> {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  run().catch((error: unknown) => {
+  run().catch((error) => {
     console.error(error);
     process.exit(1);
   });

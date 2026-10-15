@@ -1,14 +1,16 @@
 /**
- * Workflows run in Temporal's deterministic sandbox: no Node APIs, no imports
- * outside @temporalio/workflow and pure code. Activities are reached by proxy.
+ * Workflows run deterministically inside Temporal's sandbox: no I/O here —
+ * everything external goes through an activity proxy.
  */
 import { proxyActivities } from "@temporalio/workflow";
-import type * as activities from "./activities.js";
+import type { Activities } from "./activities.js";
 
-const { greet } = proxyActivities<typeof activities>({
-  startToCloseTimeout: "10 seconds",
+const { greet } = proxyActivities<Activities>({
+  startToCloseTimeout: "30 seconds",
+  retry: { maximumAttempts: 3 },
 });
 
+/** WU-P0-09: proves workflow -> activity -> result round-trips end to end. */
 export async function HelloWorkflow(name: string): Promise<string> {
   return greet(name);
 }

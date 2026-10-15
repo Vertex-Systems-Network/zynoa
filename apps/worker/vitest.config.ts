@@ -3,8 +3,8 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: ["test/**/*.test.ts"],
-    // First run downloads the Temporal dev server binary.
+    // The e2e suite starts a real Temporal dev server (first run downloads it).
     testTimeout: 120_000,
-    hookTimeout: 180_000,
+    hookTimeout: 120_000,
   },
 });

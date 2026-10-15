@@ -2,7 +2,7 @@
   "name": "@zynoa/worker",
   "version": "0.1.0",
   "private": true,
-  "description": "Zynoa Temporal workers (TypeScript).",
+  "description": "Zynoa Temporal worker (TypeScript workflows and activities).",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -13,12 +13,13 @@
     "start": "node dist/worker.js"
   },
   "dependencies": {
+    "@temporalio/activity": "1.24.0",
+    "@temporalio/client": "1.24.0",
     "@temporalio/worker": "1.24.0",
     "@temporalio/workflow": "1.24.0",
     "@zynoa/config": "workspace:*"
   },
   "devDependencies": {
-    "@temporalio/client": "1.24.0",
     "@temporalio/testing": "1.24.0",
     "@types/node": "22.20.5",
     "eslint": "10.12.0",
