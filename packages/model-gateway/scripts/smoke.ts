@@ -8,10 +8,13 @@ import { loadEnv } from "@zynoa/config/env";
 import { anthropicAdapter } from "../src/adapters/anthropic.js";
 import { ModelGateway } from "../src/gateway.js";
 
+// loadEnv always validates the core group too; default them for a bare smoke run.
+process.env.APP_ENV ??= "local";
+process.env.APP_URL ??= "http://localhost:3000";
 const env = loadEnv(["models"]);
 if (!env.ANTHROPIC_API_KEY) {
   console.error(
-    "smoke: ANTHROPIC_API_KEY is not set. Add it to GitHub secrets (or .env locally) and re-run.",
+    "smoke: ANTHROPIC_API_KEY is not set. Add it to GitHub Actions secrets (for CI runs) or export it in your shell locally, then re-run.",
   );
   process.exit(2);
 }

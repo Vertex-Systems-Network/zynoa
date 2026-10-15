@@ -86,3 +86,47 @@ describe("ModelGateway", () => {
     expect(() => new ModelGateway([])).toThrow();
   });
 });
+
+describe("anthropicAdapter (stubbed model, no network)", () => {
+  async function run(messages: Parameters<ProviderAdapter["complete"]>[0]["messages"]) {
+    const { MockLanguageModelV4 } = await import("ai/test");
+    const { anthropicAdapter } = await import("../src/adapters/anthropic.js");
+    const mock = new MockLanguageModelV4({
+      provider: "anthropic",
+      modelId: "claude-haiku-5-5-20261001",
+      doGenerate: async (options) => {
+        calls.push(options);
+        return {
+          content: [{ type: "text", text: "hello from mock" }],
+          finishReason: { unified: "stop" as const, raw: "end_turn" },
+          usage: {
+            inputTokens: { total: 12, noCache: 12, cacheRead: undefined, cacheWrite: undefined },
+            outputTokens: { total: 7, text: 7, reasoning: undefined },
+          },
+          warnings: [],
+        };
+      },
+    });
+    const calls: unknown[] = [];
+    const adapter = anthropicAdapter({ apiKey: "test-key", createModel: () => mock });
+    const result = await adapter.complete({ model: "claude-haiku-5-5", messages });
+    return { result, calls };
+  }
+
+  it("accepts system messages by routing them through the system option", async () => {
+    const { result } = await run([
+      { role: "system", content: "Answer briefly." },
+      { role: "user", content: "hi" },
+    ]);
+    expect(result.text).toBe("hello from mock");
+    expect(result.usage).toEqual({ inputTokens: 12, outputTokens: 7 });
+    expect(result.usageIncomplete).toBe(false);
+    // Accounting uses the served model id reported by the provider.
+    expect(result.model).toBe("claude-haiku-5-5-20261001");
+  });
+
+  it("works without a system message", async () => {
+    const { result } = await run([{ role: "user", content: "hi" }]);
+    expect(result.text).toBe("hello from mock");
+  });
+});

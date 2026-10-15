@@ -17,7 +17,11 @@ export class ModelGateway {
 
   constructor(adapters: readonly ProviderAdapter[]) {
     if (adapters.length === 0) throw new Error("ModelGateway needs at least one adapter");
-    for (const adapter of adapters) this.#adapters.set(adapter.provider, adapter);
+    for (const adapter of adapters) {
+      if (this.#adapters.has(adapter.provider))
+        throw new Error(`Duplicate adapter for provider "${adapter.provider}"`);
+      this.#adapters.set(adapter.provider, adapter);
+    }
     this.#first = adapters[0] as ProviderAdapter;
   }
 
@@ -31,13 +35,19 @@ export class ModelGateway {
     const adapter = request.provider ? this.#adapters.get(request.provider) : this.#first;
     if (!adapter) throw new UnknownProviderError(request.provider ?? "", this.providers);
     const model = request.model ?? adapter.defaultModel;
-    const { text, usage, model: servedModel } = await adapter.complete({ ...request, model });
+    const {
+      text,
+      usage,
+      model: servedModel,
+      usageIncomplete,
+    } = await adapter.complete({ ...request, model });
     return {
       provider: adapter.provider,
       model: servedModel,
       text,
       usage,
-      costUsd: costUsd(adapter.provider, servedModel, usage),
+      // A provider that didn't report usage gets an unknown cost, not a $0 bill.
+      costUsd: usageIncomplete ? null : costUsd(adapter.provider, servedModel, usage),
     };
   }
 }

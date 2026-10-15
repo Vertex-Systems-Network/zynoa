@@ -38,5 +38,11 @@ export interface ProviderAdapter {
   complete(
     request: Required<Pick<CompletionRequest, "model" | "messages">> &
       Pick<CompletionRequest, "maxOutputTokens" | "temperature">,
-  ): Promise<{ text: string; usage: TokenUsage; model: string }>;
+  ): Promise<{
+    text: string;
+    usage: TokenUsage;
+    model: string;
+    /** True when the provider did not report full usage; cost is then unknown. */
+    usageIncomplete?: boolean;
+  }>;
 }
