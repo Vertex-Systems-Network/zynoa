@@ -76,8 +76,9 @@ services:
       - seaweedfs-data:/data
       - ./seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
     healthcheck:
-      # /healthz is served on the S3 port outside the auth wrapper; plain / needs credentials (403).
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:9000/healthz"]
+      # Owner's first run (issue #9) showed /healthz fails on 4.12 with auth enabled, while the
+      # S3 port is demonstrably serving; probe the listening port itself instead.
+      test: ["CMD-SHELL", "nc -z localhost 9000"]
       interval: 5s
       timeout: 3s
       retries: 24
