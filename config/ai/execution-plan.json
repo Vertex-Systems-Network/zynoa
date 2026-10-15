@@ -448,7 +448,7 @@
         "WU-P0-01"
       ],
       "priority": 7,
-      "status": "in_progress",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Tokens + shadcn bridge, light/dark/system, layout skeleton with collapsible sidebar"
@@ -461,7 +461,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Scaffold on branch feat/WU-P0-07-web: Next.js 16 App Router, tokens+shadcn bridge, light/dark/system theme, collapsible sidebar (GL-01c), 14 unit tests"
+        "Scaffold on branch feat/WU-P0-07-web: Next.js 16 App Router, tokens+shadcn bridge, light/dark/system theme, collapsible sidebar (GL-01c), 14 unit tests",
+        "PR #46 merged (squash c8e9d55): Next.js 16 App Router skeleton with tokens+shadcn bridge, light/dark/system theme, collapsible GL-01 sidebar; 16 unit tests incl. SSR hydration regression guards; 7 CI checks green; independent review APPROVE after two fix rounds (hydration mismatch, tautological test)"
       ],
       "allowed_paths": [
         "apps/web/**"
