@@ -277,7 +277,8 @@
         "`docker compose config` parses (root include + infra/docker/docker-compose.yml)",
         "image digests/tags verified against registries on 2026-10-15",
         "ADR-015: SeaweedFS replaces abandoned MinIO; spec files 02/15/16 updated in the same PR",
-        "Owner ran the stack on Windows (issue #9, 2026-10-16): docker compose ps shows all 5 services healthy (postgres+pgvector, valkey, temporal, seaweedfs, mailpit) with correct port mappings. The verification caught and fixed two real defects: seaweedfs 4.12 /healthz probe wrong under S3 auth (PR #56) and weed binding the container IP so localhost probes failed (PR #57, -ip.bind=0.0.0.0)"
+        "Owner ran the stack on Windows (issue #9, 2026-10-16): docker compose ps shows all 5 services healthy (postgres+pgvector, valkey, temporal, seaweedfs, mailpit) with correct port mappings. The verification caught and fixed two real defects: seaweedfs 4.12 /healthz probe wrong under S3 auth (PR #56) and weed binding the container IP so localhost probes failed (PR #57, -ip.bind=0.0.0.0)",
+        "Owner ran the stack on their machine (Windows, Docker Desktop, 2026-10-16): docker compose up -d --wait green, docker compose ps shows all five services healthy (postgres/pgvector :5432, valkey :6379, temporal :7233+:8233, seaweedfs :9000, mailpit :8025+:1025). The verification caught and fixed two real bugs: wrong SeaweedFS healthcheck endpoint (PR #56) and weed binding the container IP instead of all interfaces (PR #57). Closes issue #9"
       ],
       "allowed_paths": [
         "infra/docker/**",
