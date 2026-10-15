@@ -8,7 +8,7 @@ import { Worker } from "@temporalio/worker";
 import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import * as activities from "../src/activities.js";
-import { TASK_QUEUE } from "../src/queues.js";
+import { TASK_QUEUE, workflowsEntry } from "../src/queues.js";
 
 let env: TestWorkflowEnvironment;
 
@@ -25,7 +25,9 @@ describe("HelloWorkflow", () => {
     const worker = await Worker.create({
       connection: env.nativeConnection,
       taskQueue: TASK_QUEUE,
-      workflowsPath: fileURLToPath(new URL("../dist/workflows.js", import.meta.url)),
+      // workflowsEntry resolves to src/workflows.ts here (vitest runs TS), so the
+      // test never depends on a possibly-stale dist build.
+      workflowsPath: fileURLToPath(workflowsEntry()),
       activities,
     });
     const result = await worker.runUntil(

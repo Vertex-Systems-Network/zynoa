@@ -7,7 +7,7 @@ import { NativeConnection, Worker } from "@temporalio/worker";
 import { fileURLToPath } from "node:url";
 import { loadEnv } from "@zynoa/config/env";
 import * as activities from "./activities.js";
-import { TASK_QUEUE } from "./queues.js";
+import { TASK_QUEUE, workflowsEntry } from "./queues.js";
 
 export async function run(): Promise<void> {
   const env = loadEnv(["temporal"]);
@@ -29,7 +29,7 @@ export async function run(): Promise<void> {
       connection,
       namespace: env.TEMPORAL_NAMESPACE,
       taskQueue: TASK_QUEUE,
-      workflowsPath: fileURLToPath(new URL("./workflows.js", import.meta.url)),
+      workflowsPath: fileURLToPath(workflowsEntry()),
       activities,
     });
     console.warn(`worker: serving task queue "${TASK_QUEUE}" at ${env.TEMPORAL_ADDRESS}`);
