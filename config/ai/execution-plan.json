@@ -448,7 +448,7 @@
         "WU-P0-01"
       ],
       "priority": 7,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
         "Tokens + shadcn bridge, light/dark/system, layout skeleton with collapsible sidebar"
@@ -460,7 +460,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Scaffold on branch feat/WU-P0-07-web: Next.js 16 App Router, tokens+shadcn bridge, light/dark/system theme, collapsible sidebar (GL-01c), 14 unit tests"
+      ],
       "allowed_paths": [
         "apps/web/**"
       ],
