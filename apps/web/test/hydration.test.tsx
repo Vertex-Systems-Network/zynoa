@@ -29,7 +29,19 @@ afterEach(async () => {
 });
 
 async function hydrate(element: React.ReactElement): Promise<unknown[]> {
-  host.innerHTML = renderToString(element);
+  // Simulate a real server render: on the server there is no `window`, so any
+  // `typeof window` branch in a component takes the server path. Without this,
+  // renderToString under jsdom reads localStorage too and the mismatch these
+  // tests exist to catch can never occur.
+  const jsdomWindow = globalThis.window;
+  Reflect.deleteProperty(globalThis, "window");
+  let html: string;
+  try {
+    html = renderToString(element);
+  } finally {
+    globalThis.window = jsdomWindow;
+  }
+  host.innerHTML = html;
   const errors: unknown[] = [];
   await act(async () => {
     roots.push(hydrateRoot(host, element, { onRecoverableError: (error) => errors.push(error) }));
