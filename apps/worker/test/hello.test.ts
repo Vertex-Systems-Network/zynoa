@@ -35,7 +35,8 @@ describe("HelloWorkflow end to end", () => {
     const taskQueue = "zynoa-phase0-test";
     const worker = await Worker.create({
       connection: env.nativeConnection,
-      namespace: env.namespace,
+      // exactOptionalPropertyTypes: env.namespace is string | undefined; spread only when set.
+      ...(env.namespace === undefined ? {} : { namespace: env.namespace }),
       taskQueue,
       workflowsPath: fileURLToPath(new URL("../src/workflows.ts", import.meta.url)),
       activities,
