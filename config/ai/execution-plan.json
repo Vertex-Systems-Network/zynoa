@@ -582,7 +582,7 @@
         "WU-P0-04"
       ],
       "priority": 11,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
         "Real model call prints tokens + cost"
@@ -594,7 +594,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Scaffold on branch feat/WU-P0-11-model-gateway: ModelGateway interface + Anthropic adapter (Vercel AI SDK per CONSENT-000001 stack) + smoke script; real-model run awaits owner API key in GitHub secrets"
+      ],
       "allowed_paths": [
         "packages/model-gateway/**"
       ],
