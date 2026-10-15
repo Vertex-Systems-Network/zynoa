@@ -518,7 +518,7 @@
         "WU-P0-02"
       ],
       "priority": 9,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
         "Temporal HelloWorkflow runs locally and in CI"
@@ -530,7 +530,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Scaffold on branch feat/WU-P0-09-worker: Temporal TS worker, HelloWorkflow e2e via @temporalio/testing local dev server"
+      ],
       "allowed_paths": [
         "apps/worker/**"
       ],
