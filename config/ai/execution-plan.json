@@ -656,7 +656,7 @@
       "objective": "Provider access matrix",
       "dependencies": [],
       "priority": 13,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "Every provider/capability marked with sources"
@@ -668,7 +668,10 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Research started on branch feat/WU-P0-13-provider-matrix: web research across AI/media/infra/payment providers for Pakistan availability, billing, resale terms, data retention",
+        "AI research half done: docs/plans/provider-access-matrix.md with per-provider ratings and sources; EVID-000003..000006 recorded. OUTSTANDING (human half): owner confirms USD card, creates provider accounts where signup is the only confirmation, gets written Paddle PK-seller confirmation and Safepay recurring-billing answer"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
