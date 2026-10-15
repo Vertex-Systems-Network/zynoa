@@ -1,0 +1,11 @@
+/* Design tokens, then typography utility classes (type-*). */
+@import "@zynoa/tokens/tokens.css";
+@import "@zynoa/tokens/typography.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--zy-font-sans);
+}
