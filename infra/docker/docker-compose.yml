@@ -65,6 +65,10 @@ services:
     image: chrislusf/seaweedfs:4.12
     command:
       - server
+      # Bind every interface: without this, weed binds the container IP only and
+      # neither localhost healthchecks nor host port mapping behave predictably
+      # (owner run, issue #9: nc/wget to localhost:9000 refused while :9000 served).
+      - -ip.bind=0.0.0.0
       - -dir=/data
       - -master.volumeSizeLimitMB=256
       - -s3
