@@ -548,7 +548,7 @@
         "WU-P0-00"
       ],
       "priority": 10,
-      "status": "in_progress",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "15 components match Figma, keyboard/focus, WCAG 2.2 AA, Storybook"
@@ -561,7 +561,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Scaffold on branch feat/WU-P0-10-ui: 15 base components on radix-ui + tokens, Storybook, keyboard/focus tests"
+        "Scaffold on branch feat/WU-P0-10-ui: 15 base components on radix-ui + tokens, Storybook, keyboard/focus tests",
+        "PR #50 merged: 15 tokens-based components on radix-ui with Storybook 10 (a11y addon, light/dark via data-theme), 19 unit tests incl. keyboard/focus and token-alpha guard; review fixes: visible modal scrim, focusable table scroll region, polite toasts; 7 CI checks green; independent review APPROVE"
       ],
       "allowed_paths": [
         "packages/ui/**"
