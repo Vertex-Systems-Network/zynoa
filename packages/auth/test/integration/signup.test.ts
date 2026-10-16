@@ -228,4 +228,29 @@ describe.skipIf(!appUrl || !platformUrl)("US-101 sign-up (real Postgres)", () =>
       .where(and(eq(workspaces.type, "personal"), isNull(workspaces.personalForUserId)));
     expect(orphanWs).toHaveLength(0);
   });
+
+  it("concurrent sign-ups never fork the global audit chain (advisory lock)", async () => {
+    const emails = Array.from({ length: 5 }, (_, i) => `signup-race-${i}@example.com`);
+    for (const email of emails) await wipeUser(email);
+    await Promise.all(
+      emails.map((email, i) =>
+        auth.api.signUpEmail({ body: { name: `Racer ${i}`, email, password: PASSWORD } }),
+      ),
+    );
+
+    // Walk the WHOLE global chain in id (= creation) order: every event links
+    // to exactly the previous one; a fork would duplicate a prev_hash.
+    const chain = await platform.db
+      .select()
+      .from(auditEvents)
+      .where(isNull(auditEvents.workspaceId))
+      .orderBy(auditEvents.id);
+    expect(chain.length).toBeGreaterThanOrEqual(emails.length);
+    expect(chain[0]?.prevHash).toBeNull();
+    for (let i = 1; i < chain.length; i++) {
+      expect(chain[i]?.prevHash).toBe(chain[i - 1]?.hash);
+    }
+    const prevHashes = chain.map((e) => e.prevHash);
+    expect(new Set(prevHashes).size).toBe(prevHashes.length);
+  });
 });

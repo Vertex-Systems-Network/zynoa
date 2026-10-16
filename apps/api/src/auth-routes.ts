@@ -5,6 +5,7 @@
  * and CSRF/origin checks).
  */
 import { apiError, ERROR_STATUS } from "@zynoa/contracts";
+import { hashPassword } from "@zynoa/auth";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 
 export interface AuthHandler {
@@ -13,8 +14,13 @@ export interface AuthHandler {
 
 const SIGN_UP_PATH = "/api/auth/sign-up/email";
 
-function toFetchRequest(request: FastifyRequest): Request {
-  const url = new URL(request.url, `${request.protocol}://${request.headers.host ?? "localhost"}`);
+function toFetchRequest(request: FastifyRequest): Request | null {
+  let url: URL;
+  try {
+    url = new URL(request.url, `${request.protocol}://${request.headers.host ?? "localhost"}`);
+  } catch {
+    return null; // malformed Host header
+  }
   const headers = new Headers();
   for (const [key, value] of Object.entries(request.headers)) {
     if (value === undefined) continue;
@@ -39,14 +45,29 @@ export async function registerAuthRoutes(app: FastifyInstance, auth: AuthHandler
       method: ["GET", "POST"],
       url: "/api/auth/*",
       handler: async (request, reply) => {
-        const response = await auth.handler(toFetchRequest(request));
+        const fetchRequest = toFetchRequest(request);
+        if (!fetchRequest) {
+          return reply
+            .status(ERROR_STATUS.VALIDATION_FAILED)
+            .send(apiError("VALIDATION_FAILED", "Malformed request.", { requestId: request.id }));
+        }
+        const response = await auth.handler(fetchRequest);
 
         // US-101 AC2: a duplicate email must not be distinguishable from other
         // sign-up rejections, so the 422 USER_ALREADY_EXISTS shape is flattened
         // into one generic envelope. Field-validation 400s pass through for
-        // inline display.
-        const pathname = request.url.split("?")[0];
+        // inline display. The original body is logged server-side so a genuine
+        // 422 fault (FAILED_TO_CREATE_USER) stays visible.
+        const pathname = (request.url.split("?")[0] ?? "").replace(/\/+$/, "");
         if (request.method === "POST" && pathname === SIGN_UP_PATH && response.status === 422) {
+          const original = await response.text();
+          request.log.warn({ status: 422, body: original }, "sign-up rejected (flattened)");
+          // Better Auth rejects duplicates BEFORE hashing, so without this a
+          // duplicate answers ~50-100 ms faster than a fresh sign-up — a timing
+          // oracle. Burn an equivalent Argon2id hash. The 400-vs-200 status
+          // remains observable until US-102's requireEmailVerification flow
+          // replaces this flatten with Better Auth's synthetic duplicate 200.
+          await hashPassword(`anti-enumeration-${Date.now()}`);
           return reply.status(ERROR_STATUS.VALIDATION_FAILED).send(
             apiError("VALIDATION_FAILED", "Sign-up could not be completed with those details.", {
               requestId: request.id,

@@ -35,7 +35,7 @@ export const workspaces = pgTable(
   ],
 );
 
-/** 🔒 tenant table (RLS via enable_tenant_rls in migration 0002). */
+/** 🔒 tenant table (RLS via 0001's enable_tenant_rls, applied in migration 0003). */
 export const memberships = pgTable(
   "memberships",
   {

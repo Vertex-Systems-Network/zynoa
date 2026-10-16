@@ -1,5 +1,6 @@
 /** createAuth wiring (spec 05 §2 + spec 04 §1 table/field mapping). */
 import { createDb, type DbHandle } from "@zynoa/db";
+import { createCookieGetter } from "better-auth/cookies";
 import { afterAll, describe, expect, it } from "vitest";
 import { createAuth } from "../../src/auth.js";
 
@@ -57,19 +58,29 @@ describe("createAuth", () => {
     expect(auth.options.basePath).toBe("/api/auth");
   });
 
-  it("names the session cookie __Host-vsn_session on HTTPS environments", () => {
+  // Assert the cookie Better Auth actually EMITS (createCookieGetter), not the
+  // config we passed in — the getter prepends __Secure- itself (ADR-025).
+  it("emits __Secure-vsn_session with Secure on HTTPS environments", () => {
     const prod = makeAuth("production");
-    expect(prod.options.advanced?.cookies?.session_token?.name).toBe("__Host-vsn_session");
-    expect(prod.options.advanced?.useSecureCookies).toBe(true);
+    const cookie = createCookieGetter(prod.options)("session_token");
+    expect(cookie.name).toBe("__Secure-vsn_session");
+    expect(cookie.attributes).toMatchObject({
+      secure: true,
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+    });
+    expect(cookie.attributes.domain).toBeUndefined();
   });
 
-  it("drops the __Host- prefix locally (no Secure over http)", () => {
-    expect(auth.options.advanced?.cookies?.session_token?.name).toBe("vsn_session");
-    expect(auth.options.advanced?.useSecureCookies).toBe(false);
-  });
-
-  it("keeps cookies HttpOnly + SameSite=Lax everywhere", () => {
-    const attributes = auth.options.advanced?.cookies?.session_token?.attributes;
-    expect(attributes).toMatchObject({ httpOnly: true, sameSite: "lax", path: "/" });
+  it("emits plain vsn_session without Secure locally (no HTTPS)", () => {
+    const cookie = createCookieGetter(auth.options)("session_token");
+    expect(cookie.name).toBe("vsn_session");
+    expect(cookie.attributes).toMatchObject({
+      secure: false,
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+    });
   });
 });

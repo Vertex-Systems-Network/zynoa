@@ -23,7 +23,11 @@ RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
  # package links (vite/vitest/esbuild — peer-resolution noise). Nothing imports
  # them at runtime; esbuild's Go binary alone trips the image vulnerability scan.
  && rm -rf /out/node_modules/.pnpm/vite@* /out/node_modules/.pnpm/@vitest+* \
-           /out/node_modules/.pnpm/esbuild@* /out/node_modules/.pnpm/@esbuild+*
+           /out/node_modules/.pnpm/esbuild@* /out/node_modules/.pnpm/@esbuild+* \
+ # Prove the pruned runtime graph still loads: app.js pulls fastify, contracts,
+ # @zynoa/auth -> better-auth/drizzle/argon2. Fails the BUILD, not production,
+ # if the prune (or a future dep change) removed something real.
+ && cd /out && node --input-type=module -e "await import('./dist/app.js')"
 
 FROM node:22.21.1-slim@sha256:25b3eb23a00590b7499f2a2ce939322727fcce1b15fdd69754fcd09536a3ae2c AS runtime
 ENV NODE_ENV=production

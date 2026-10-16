@@ -31,7 +31,7 @@
 ## 2. Authentication implementation
 
 - **Library:** Better Auth mounted in `apps/api` at `/api/auth/*`, with: email/password, Google OAuth, the two-factor plugin (TOTP + backup codes) and the passkey plugin. **The organization plugin is not used**: workspaces, memberships, roles and invitations live only in our own tables (file 04 §2). IDs via `advanced.database.generateId` → UUIDv7. Table/field mapping in file 04 §1.
-- **Session cookie:** `__Host-vsn_session`, `HttpOnly`, `Secure`, `SameSite=Lax`, rotated on privilege change (login, MFA verify, role change).
+- **Session cookie:** `__Secure-vsn_session` (ADR-025: Better Auth 1.7 prepends `__Secure-` itself and cannot emit a correct `__Host-` name; no `Domain` attribute is ever set), `HttpOnly`, `Secure`, `SameSite=Lax`, `Path=/`, rotated on privilege change (login, MFA verify, role change). Plain-http local/CI use `vsn_session` without `Secure`.
 - **CSRF:** SameSite cookie + double-submit token for state-changing requests from the web app; API keys (Phase 7) are header-based and CSRF-exempt.
 - **Password policy:** min 10 chars, checked against a breached-password k-anonymity API (e.g., HIBP range API) [VERIFY usage terms]; Argon2id hashing via custom `password.hash`/`password.verify` functions (Better Auth's default is scrypt).
 - **Email sending** for auth uses `EmailProvider`; in local/CI all mail goes to Mailpit/capture.

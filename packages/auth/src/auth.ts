@@ -25,16 +25,15 @@ export interface CreateAuthOptions {
 }
 
 /**
- * `__Host-` requires Secure + path=/ + no Domain, which plain-http local/CI
- * cannot satisfy, so those environments drop the prefix and Secure flag
- * (spec 05 §2 cookie contract applies to deployed HTTPS environments).
+ * Session cookie is `__Secure-vsn_session` on HTTPS environments (spec 05 §2,
+ * amended by ADR-025): Better Auth's cookie getter unconditionally prepends
+ * `__Secure-` to the configured name when useSecureCookies is on, so a
+ * `__Host-` name cannot be emitted correctly — and disabling useSecureCookies
+ * to fake it would force Secure off at the attribute level. Plain-http
+ * local/CI get `vsn_session` without Secure.
  */
 function cookieConfig(appEnv: AppEnv) {
-  const secure = appEnv !== "local" && appEnv !== "ci";
-  return {
-    useSecureCookies: secure,
-    name: secure ? "__Host-vsn_session" : "vsn_session",
-  };
+  return { useSecureCookies: appEnv !== "local" && appEnv !== "ci", name: "vsn_session" };
 }
 
 export function createAuth(options: CreateAuthOptions) {
@@ -108,11 +107,20 @@ export function createAuth(options: CreateAuthOptions) {
             } catch (error) {
               // US-101 AC1 atomicity: a user without workspace/credits must not
               // survive. Remove the just-created row (cascades auth_accounts/
-              // sessions) and fail the sign-up.
-              await provisioningDb.delete(users).where(eq(users.id, user.id));
+              // sessions) and fail the sign-up. The compensating delete can
+              // itself fail (likely the same outage that broke provisioning);
+              // it must not mask the root cause. A user row that survives both
+              // failures blocks that email until the orphan sweep lands
+              // (tracked for a later E1.1 slice alongside US-103).
+              let compensationError: unknown;
+              try {
+                await provisioningDb.delete(users).where(eq(users.id, user.id));
+              } catch (deleteError) {
+                compensationError = deleteError;
+              }
               throw new APIError("INTERNAL_SERVER_ERROR", {
                 message: "Sign-up could not be completed. Please try again.",
-                cause: error,
+                cause: compensationError ? new AggregateError([error, compensationError]) : error,
               });
             }
           },
