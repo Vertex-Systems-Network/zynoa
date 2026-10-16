@@ -17,7 +17,7 @@ To provide the service (contract); to secure it, prevent abuse and account for A
 ## 3. AI processing — the part most policies hide
 
 - Your prompts and files are sent to third-party AI providers **only to produce the output you requested**.
-- We choose providers whose API terms **do not train on customer content by default**; where a provider trains unless configured otherwise, we use the non-training configuration or do not use it for customer content.
+- We choose providers whose API terms **do not train on customer content by default**; where a provider trains unless configured otherwise, we use the non-training configuration, do not use it for customer content, or offer it only behind an explicit per-workspace opt-in (off by default).
 - Provider-side retention is typically up to 30 days for abuse monitoring (see Sub-processor List per provider).
 - Generated outputs may be reviewed by our staff only for abuse investigation or with your support request.
 

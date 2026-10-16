@@ -21,7 +21,7 @@ String keys for `apps/web`/`apps/site`; English first, Urdu translations at impl
 
 ## Data-to-AI consent (workspace setting)
 
-- `aiproviders.notice` — "To generate content, Zynoa sends the relevant parts of your project to the AI providers listed in our Sub-processor List. They don't train on your content." Workspace toggle per optional provider where a provider's terms are weaker (e.g. image provider that may train): `aiproviders.optin.training_provider` — "Allow {{PROVIDER}} (may use inputs/outputs to improve its models)" — **off by default**.
+- `aiproviders.notice` — "To generate content, Zynoa sends the relevant parts of your project to the AI providers listed in our Sub-processor List. They don't train on your content — except any opt-in provider you separately enable below." Workspace toggle per optional provider where a provider's terms are weaker (e.g. image provider that may train): `aiproviders.optin.training_provider` — "Allow {{PROVIDER}} (may use inputs/outputs to improve its models)" — **off by default**.
 
 ## Messaging end-customers (systems: bookings/invoices)
 
