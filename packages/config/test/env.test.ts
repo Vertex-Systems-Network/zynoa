@@ -128,6 +128,16 @@ describe("parseEnv", () => {
     );
   });
 
+  it("makes CAPTCHA keys optional in local/ci only", () => {
+    expect(parseEnv(["captcha"], base).CAPTCHA_SECRET).toBeUndefined();
+    const staging = { ...base, APP_ENV: "staging" };
+    expect(() => parseEnv(["captcha"], staging)).toThrow(/CAPTCHA_SECRET/);
+    expect(
+      parseEnv(["captcha"], { ...staging, CAPTCHA_SITE_KEY: "site", CAPTCHA_SECRET: "secret" })
+        .CAPTCHA_SECRET,
+    ).toBe("secret");
+  });
+
   it("refuses mock providers and capture-free test payments in production", () => {
     const prod = { ...base, APP_ENV: "production", NODE_ENV: "production" };
     expect(() => parseEnv(["email"], prod)).toThrow(/EMAIL_PROVIDER/);

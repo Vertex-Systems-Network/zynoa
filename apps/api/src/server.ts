@@ -3,6 +3,8 @@ import { createAuth, createMockEmailProvider, type EmailProvider } from "@zynoa/
 import { loadEnv } from "@zynoa/config/env";
 import { createDb } from "@zynoa/db";
 import { buildApp } from "./app.js";
+import { createMockCaptcha, createTurnstileCaptcha } from "./captcha.js";
+import { createSignInGuard } from "./sign-in-guard.js";
 import { startTelemetry } from "./otel.js";
 import { createProbes } from "./probes.js";
 
@@ -14,6 +16,7 @@ const env = loadEnv([
   "temporal",
   "auth",
   "email",
+  "captcha",
   "observability",
 ]);
 const stopTelemetry = await startTelemetry(env.OTEL_EXPORTER_OTLP_ENDPOINT);
@@ -50,7 +53,14 @@ const auth = createAuth({
   appEnv: env.APP_ENV,
 });
 
-const app = await buildApp({ probes, auth, logger: true });
+// Turnstile wherever a secret is configured (required outside local/ci by
+// @zynoa/config); the mock verifier otherwise.
+const captcha = env.CAPTCHA_SECRET
+  ? createTurnstileCaptcha(env.CAPTCHA_SECRET)
+  : createMockCaptcha();
+const signInGuard = createSignInGuard({ captcha });
+
+const app = await buildApp({ probes, auth, signInGuard, logger: true });
 // PORT is the platform-standard injected variable; 4000 is the documented local port (US-002).
 const port = Number(process.env.PORT ?? 4000);
 await app.listen({ port, host: "0.0.0.0" });

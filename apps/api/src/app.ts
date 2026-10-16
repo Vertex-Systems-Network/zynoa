@@ -23,6 +23,7 @@ import {
 } from "fastify-type-provider-zod";
 import { context, trace } from "@opentelemetry/api";
 import { registerAuthRoutes, type AuthHandler } from "./auth-routes.js";
+import type { SignInGuard } from "./sign-in-guard.js";
 
 export type Probe = () => Promise<void>;
 export type Probes = Record<ReadinessDependency, Probe>;
@@ -31,6 +32,8 @@ export interface AppOptions {
   probes: Probes;
   /** Better Auth instance; when present, /api/auth/* is mounted (spec 05 §2). */
   auth?: AuthHandler;
+  /** Per-account brute-force guard for email sign-in (US-103). */
+  signInGuard?: SignInGuard;
   /** Per-probe timeout; a probe slower than this counts as failed. */
   probeTimeoutMs?: number;
   logger?: boolean;
@@ -177,7 +180,13 @@ export async function buildApp(options: AppOptions): Promise<FastifyInstance> {
 
   app.get("/api/v1/openapi.json", { schema: { hide: true } }, async () => app.swagger());
 
-  if (options.auth) await registerAuthRoutes(app, options.auth);
+  if (options.auth) {
+    await registerAuthRoutes(
+      app,
+      options.auth,
+      options.signInGuard ? { signInGuard: options.signInGuard } : {},
+    );
+  }
 
   return app;
 }

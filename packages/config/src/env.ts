@@ -124,8 +124,9 @@ export const envGroups = {
     PAYMENTS_MODE: z.enum(["test", "live"]).default("test"),
   }),
   captcha: z.object({
-    CAPTCHA_SITE_KEY: z.string().min(1),
-    CAPTCHA_SECRET: z.string().min(1),
+    /** Cloudflare Turnstile (spec 14). Optional in local/ci, where a mock verifier is used. */
+    CAPTCHA_SITE_KEY: optionalString,
+    CAPTCHA_SECRET: optionalString,
   }),
   observability: z.object({
     SENTRY_DSN: url(["https"]).optional(),
@@ -260,6 +261,15 @@ const rules: Partial<Record<EnvGroup, (env: Parsed, appEnv: AppEnv) => EnvIssue[
           },
         ];
   },
+  captcha: (env, appEnv) =>
+    appEnv === "local" || appEnv === "ci"
+      ? []
+      : (["CAPTCHA_SITE_KEY", "CAPTCHA_SECRET"] as const)
+          .filter((variable) => !env[variable])
+          .map((variable) => ({
+            variable,
+            message: `is required when APP_ENV=${appEnv} (mock CAPTCHA is local/ci only)`,
+          })),
   deploy: (env, appEnv) =>
     appEnv === "production" && env.DEPLOY_PROVIDER === "mock"
       ? [{ variable: "DEPLOY_PROVIDER", message: "mock is not allowed in production" }]
