@@ -29,7 +29,10 @@ function toFetchRequest(request: FastifyRequest): Request | null {
   // socket peer unless Fastify's trustProxy is configured for the deployment's
   // proxy hops (set when a deployment exists — none yet, per the no-deploy
   // directive).
-  headers.set("x-forwarded-for", request.ip);
+  // An empty ip would serialise to a bogus value; drop the header instead
+  // (Better Auth then uses its explicit no-IP fallback).
+  if (request.ip) headers.set("x-forwarded-for", request.ip);
+  else headers.delete("x-forwarded-for");
   const body = request.body as Buffer | undefined;
   return new Request(url.toString(), {
     method: request.method,
