@@ -967,7 +967,8 @@
         "repository-integrity"
       ],
       "completion_evidence": [
-        "Phase 1 opened per owner direction 2026-10-16 (Gate A validation items deferred with recorded resume conditions). Starting E1.1 Accounts & sessions"
+        "Phase 1 opened per owner direction 2026-10-16 (Gate A validation items deferred with recorded resume conditions). Starting E1.1 Accounts & sessions",
+        "Slice 1 US-101 sign-up merged in PR #75 (900473f): identity/workspace/credits/audit schema + RLS (migrations 0002/0003), packages/auth (Better Auth 1.7.10, Argon2id, UUIDv7, transactional provisioning, audit hash chain with per-chain advisory lock), /api/auth/* mount with duplicate-email anti-enumeration. 7/7 CI checks green; independent AI review REQUEST-CHANGES (2 blockers) -> fixed -> APPROVE. ADR-025 records cookie __Secure-vsn_session + auth_accounts refresh_token_expires_at. Deferred from US-101 AC1: verification email (US-102), terms capture (web sign-up slice), free-plan grant (E1.7 ledger). Next: US-102 email verification."
       ],
       "allowed_paths": [
         "apps/web/**",
