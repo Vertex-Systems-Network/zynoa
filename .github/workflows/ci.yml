@@ -203,11 +203,17 @@ jobs:
           PGPASSWORD: zynoa
         run: psql -h localhost -U postgres -d zynoa -v ON_ERROR_STOP=1 -f infra/docker/postgres-init/01-roles.sql
 
-      - name: Build db package and dependencies
-        run: pnpm turbo run build --filter @zynoa/db...
+      - name: Build db/auth packages and dependencies
+        run: pnpm turbo run build --filter @zynoa/db... --filter @zynoa/auth...
 
       - name: Run tenant-isolation integration tests
         env:
           DATABASE_URL: postgres://zynoa:zynoa@localhost:5432/zynoa
           DATABASE_PLATFORM_URL: postgres://zynoa_platform:zynoa@localhost:5432/zynoa
         run: pnpm --filter @zynoa/db test:integration
+
+      - name: Run sign-up integration tests (US-101)
+        env:
+          DATABASE_URL: postgres://zynoa:zynoa@localhost:5432/zynoa
+          DATABASE_PLATFORM_URL: postgres://zynoa_platform:zynoa@localhost:5432/zynoa
+        run: pnpm --filter @zynoa/auth test:integration

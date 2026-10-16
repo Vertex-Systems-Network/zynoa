@@ -53,7 +53,10 @@ export const envGroups = {
     DATABASE_URL: url(["postgres", "postgresql"]),
   }),
   databasePlatform: z.object({
-    /** Platform role that may bypass tenant RLS. Load only in the migration runner and operator jobs. */
+    /**
+     * Platform role that may bypass tenant RLS. Load only in the migration runner,
+     * operator jobs and system provisioning flows (sign-up provisioning in @zynoa/auth).
+     */
     DATABASE_PLATFORM_URL: url(["postgres", "postgresql"]),
   }),
   redis: z.object({

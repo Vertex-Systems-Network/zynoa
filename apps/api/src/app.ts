@@ -22,12 +22,15 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { context, trace } from "@opentelemetry/api";
+import { registerAuthRoutes, type AuthHandler } from "./auth-routes.js";
 
 export type Probe = () => Promise<void>;
 export type Probes = Record<ReadinessDependency, Probe>;
 
 export interface AppOptions {
   probes: Probes;
+  /** Better Auth instance; when present, /api/auth/* is mounted (spec 05 §2). */
+  auth?: AuthHandler;
   /** Per-probe timeout; a probe slower than this counts as failed. */
   probeTimeoutMs?: number;
   logger?: boolean;
@@ -170,6 +173,8 @@ export async function buildApp(options: AppOptions): Promise<FastifyInstance> {
   );
 
   app.get("/api/v1/openapi.json", { schema: { hide: true } }, async () => app.swagger());
+
+  if (options.auth) await registerAuthRoutes(app, options.auth);
 
   return app;
 }

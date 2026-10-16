@@ -36,7 +36,7 @@ users (
 )
 auth_accounts ( user_id uuid not null references users, provider_id text not null,  -- Better Auth "account": 'credential','google'
   account_id text not null, password text,          -- Argon2id hash: supply custom emailAndPassword.password.hash/verify (Better Auth default is scrypt)
-  access_token text, refresh_token text, id_token text, access_token_expires_at timestamptz, scope text,
+  access_token text, refresh_token text, id_token text, access_token_expires_at timestamptz, refresh_token_expires_at timestamptz, scope text,   -- both expiry columns: Better Auth 1.7 base account model requires them
   unique (provider_id, account_id) )                 -- sign-in OAuth tokens are not needed after login; clear them in a databaseHook
 sessions ( user_id uuid not null references users, token text unique not null,   -- Better Auth "session"; opaque random token, cookie is signed
   expires_at timestamptz not null, ip_address text, user_agent text,

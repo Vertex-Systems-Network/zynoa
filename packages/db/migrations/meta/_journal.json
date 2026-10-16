@@ -15,6 +15,20 @@
       "when": 1792014279759,
       "tag": "0001_rls-and-policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792114696291,
+      "tag": "0002_identity-workspaces-credits-audit",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792114732571,
+      "tag": "0003_identity-rls-and-triggers",
+      "breakpoints": true
     }
   ]
 }
