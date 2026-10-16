@@ -542,6 +542,38 @@
       "decided_at": "2026-10-16",
       "supersedes": [],
       "superseded_by": null
+    },
+    {
+      "id": "ADR-0025",
+      "title": "Spec deviations forced by Better Auth 1.7: __Secure-vsn_session cookie, auth_accounts refresh_token_expires_at",
+      "status": "accepted",
+      "context": "Better Auth 1.7.10's cookie getter unconditionally prepends __Secure- when useSecureCookies is on, so the spec'd __Host-vsn_session cannot be emitted correctly; its base account model requires refresh_token_expires_at, which spec 04 s1 omitted.",
+      "alternatives": [
+        "Fake __Host- by disabling useSecureCookies (rejected: forces Secure off, browsers reject the cookie)",
+        "Patch/fork Better Auth cookie naming (rejected: maintenance cost for marginal gain)"
+      ],
+      "evidence_refs": [
+        "docs/decisions/ADR-025-better-auth-1-7-deviations.md"
+      ],
+      "decision": "Session cookie is __Secure-vsn_session on HTTPS environments (HttpOnly, Secure, SameSite=Lax, Path=/, no Domain) and vsn_session on local/ci; auth_accounts carries both access_token_expires_at and refresh_token_expires_at. Spec 05 s2 and 04 s1 amended in the same PR; tests assert the emitted cookie via createCookieGetter.",
+      "consequences": [
+        "__Host- host-locking is approximated by never setting a Domain attribute",
+        "A Better Auth upgrade changing prefix behavior fails the cookie tests loudly"
+      ],
+      "security_privacy_data_operational_cost_impact": [
+        "__Secure- retains the no-plain-HTTP guarantee; residual difference vs __Host- is browser-enforced path/domain locking only"
+      ],
+      "reversibility": "high",
+      "affected_modules_or_contracts": [
+        "packages/auth",
+        "packages/db",
+        "docs/spec/05_AUTH_TENANCY_RBAC.md",
+        "docs/spec/04_DATA_MODEL.md"
+      ],
+      "decided_by": "ai_session (independent review finding #2, PR #75)",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
     }
   ],
   "decision_template": {

@@ -152,7 +152,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          docker run -d --name api -p 4000:4000             -e APP_ENV=ci -e APP_URL=http://localhost:4000             -e DATABASE_URL=postgres://x:x@localhost:5432/x             -e REDIS_URL=redis://localhost:6379             -e TEMPORAL_ADDRESS=localhost:7233             zynoa-api:${{ github.sha }}
+          docker run -d --name api -p 4000:4000             -e APP_ENV=ci -e APP_URL=http://localhost:4000             -e DATABASE_URL=postgres://x:x@localhost:5432/x             -e REDIS_URL=redis://localhost:6379             -e TEMPORAL_ADDRESS=localhost:7233             -e DATABASE_PLATFORM_URL=postgres://x:x@localhost:5432/x             -e BETTER_AUTH_SECRET=ci-boot-smoke-placeholder-not-a-secret             zynoa-api:${{ github.sha }}
           for i in $(seq 1 30); do
             curl -sf http://localhost:4000/healthz > /dev/null && exit 0
             sleep 1
@@ -203,11 +203,17 @@ jobs:
           PGPASSWORD: zynoa
         run: psql -h localhost -U postgres -d zynoa -v ON_ERROR_STOP=1 -f infra/docker/postgres-init/01-roles.sql
 
-      - name: Build db package and dependencies
-        run: pnpm turbo run build --filter @zynoa/db...
+      - name: Build db/auth packages and dependencies
+        run: pnpm turbo run build --filter @zynoa/db... --filter @zynoa/auth...
 
       - name: Run tenant-isolation integration tests
         env:
           DATABASE_URL: postgres://zynoa:zynoa@localhost:5432/zynoa
           DATABASE_PLATFORM_URL: postgres://zynoa_platform:zynoa@localhost:5432/zynoa
         run: pnpm --filter @zynoa/db test:integration
+
+      - name: Run sign-up integration tests (US-101)
+        env:
+          DATABASE_URL: postgres://zynoa:zynoa@localhost:5432/zynoa
+          DATABASE_PLATFORM_URL: postgres://zynoa_platform:zynoa@localhost:5432/zynoa
+        run: pnpm --filter @zynoa/auth test:integration
