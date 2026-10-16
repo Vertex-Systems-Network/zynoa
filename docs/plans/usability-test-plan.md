@@ -14,6 +14,8 @@ Tests the **Figma prototype** ("AI-UI", `docs/design/README.md`) for journeys **
 
 ## 2. Tasks — Journey J-01 (idea → build): GL-01 → ON-06 → ON-08 → PR-01 → PR-05 → PR-09 → PR-11
 
+_Phase-0 subset of the full spec journey: P2 screens ON-07, ST-01/ST-02 and PR-13 are out of prototype scope (spec §4 requires only the planning part in Phase 0)._
+
 Scenario read to participant: _"A client wants a simple website for their bakery, with a booking form. Use Zynoa to get it built."_
 
 | #   | Task (what we ask)                                                                             | Screens       | Success = participant…                                                    | Watch for                                                |
@@ -81,6 +83,6 @@ Participants: N (PER-1 ×a, PER-2 ×b) · Prototype version: Figma {{VERSION/DAT
 ## 7. Logistics checklist (owner)
 
 - [ ] Figma prototype link set to "anyone with link can view" prototype mode; lock the version (docs/design: Figma version lock still open).
-- [ ] Recruit ≥ 5 participants (3 × PER-1, 2 × PER-2); WhatsApp/LinkedIn outreach drafts come with WU-P0-15.
+- [ ] Recruit ≥ 5 participants (ideally 3 × PER-1, 2 × PER-2); WhatsApp/LinkedIn outreach drafts come with WU-P0-15.
 - [ ] 30–40 min slots; screen-share with recording consent.
 - [ ] After sessions: hand filled forms/notes back to the AI → findings summary + Gate A input.
