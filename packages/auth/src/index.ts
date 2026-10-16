@@ -23,4 +23,9 @@ export {
   type MockEmailProvider,
   type SendResult,
 } from "./email.js";
-export { EMAIL_VERIFICATION_TTL_SECONDS, VERIFICATION_RESEND_RULE } from "./auth.js";
+export {
+  EMAIL_VERIFICATION_TTL_SECONDS,
+  VERIFICATION_MAIL_PER_EMAIL,
+  VERIFICATION_RESEND_RULE,
+} from "./auth.js";
+export { createThrottle, type Throttle } from "./throttle.js";

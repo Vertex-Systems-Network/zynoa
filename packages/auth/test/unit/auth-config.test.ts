@@ -92,6 +92,8 @@ describe("createAuth", () => {
     expect(verification?.expiresIn).toBe(EMAIL_VERIFICATION_TTL_SECONDS);
     expect(EMAIL_VERIFICATION_TTL_SECONDS).toBe(86_400);
     expect(typeof verification?.sendVerificationEmail).toBe("function");
+    // A verification link must never double as a login credential.
+    expect(verification?.autoSignInAfterVerification).toBe(false);
   });
 
   it("US-102: still lets unverified users sign in (AC2 gates actions, not sessions)", () => {

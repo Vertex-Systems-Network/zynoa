@@ -23,6 +23,13 @@ function toFetchRequest(request: FastifyRequest): Request | null {
     return null; // malformed Host header
   }
   const headers = requestHeaders(request);
+  // Better Auth keys its rate limits on x-forwarded-for. Never pass the
+  // client's own value through (spoofable, or multi-hop → one shared bucket):
+  // replace it with the single address Fastify resolved. request.ip is the
+  // socket peer unless Fastify's trustProxy is configured for the deployment's
+  // proxy hops (set when a deployment exists — none yet, per the no-deploy
+  // directive).
+  headers.set("x-forwarded-for", request.ip);
   const body = request.body as Buffer | undefined;
   return new Request(url.toString(), {
     method: request.method,
@@ -62,8 +69,9 @@ export async function registerAuthRoutes(app: FastifyInstance, auth: AuthHandler
           // Better Auth rejects duplicates BEFORE hashing, so without this a
           // duplicate answers ~50-100 ms faster than a fresh sign-up — a timing
           // oracle. Burn an equivalent Argon2id hash. The 400-vs-200 status
-          // remains observable until US-102's requireEmailVerification flow
-          // replaces this flatten with Better Auth's synthetic duplicate 200.
+          // stays observable: Better Auth only returns its synthetic duplicate
+          // 200 under requireEmailVerification, which US-102 deliberately does
+          // not enable (unverified users may sign in; AC2 gates actions).
           await hashPassword(`anti-enumeration-${Date.now()}`);
           return reply.status(ERROR_STATUS.VALIDATION_FAILED).send(
             apiError("VALIDATION_FAILED", "Sign-up could not be completed with those details.", {

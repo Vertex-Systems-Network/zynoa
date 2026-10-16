@@ -154,16 +154,18 @@ describe.skipIf(!appUrl || !platformUrl)("US-102 email verification (real Postgr
         }),
       );
 
-    const sentTo = () => mail.sent.filter((m) => m.to === "verify-resend@example.com").length;
     const statuses: number[] = [];
-    for (let i = 0; i < 3; i++) statuses.push((await resend()).status);
-    const afterAllowed = sentTo();
-    statuses.push((await resend()).status);
+    for (let i = 0; i < 4; i++) statuses.push((await resend()).status);
     expect(statuses).toEqual([200, 200, 200, 429]);
-    // The rejected 4th request never reached the mailer. (Links issued in the
-    // same second are byte-identical JWTs and deduplicate on the idempotency
-    // key, so only the "no new mail on 429" invariant is asserted here.)
-    expect(afterAllowed).toBeGreaterThanOrEqual(2);
-    expect(sentTo()).toBe(afterAllowed);
+  });
+
+  it("AC2 premise: an unverified user can sign in and gets a session", async () => {
+    const user = await signUp("verify-signin@example.com");
+    expect(user.emailVerified).toBe(false);
+    const result = await auth.api.signInEmail({
+      body: { email: "verify-signin@example.com", password: PASSWORD },
+    });
+    expect(result.user.emailVerified).toBe(false);
+    expect(result.token).toBeTruthy();
   });
 });

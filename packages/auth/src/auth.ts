@@ -14,12 +14,16 @@ import { uuidv7 } from "uuidv7";
 import { appendAuditEvent } from "./audit.js";
 import { verificationEmail, type EmailProvider } from "./email.js";
 import { hashPassword, verifyPassword } from "./password.js";
+import { createThrottle } from "./throttle.js";
 import { provisionSignup } from "./provisioning.js";
 
 /** US-102 AC1: verification links expire after 24 hours. */
 export const EMAIL_VERIFICATION_TTL_SECONDS = 24 * 60 * 60;
 /** US-102 AC1: resending the verification email is limited to 3 per hour. */
 export const VERIFICATION_RESEND_RULE = { window: 60 * 60, max: 3 } as const;
+
+/** Per-email cap on verification mail: the sign-up send plus 3 resends per hour. */
+export const VERIFICATION_MAIL_PER_EMAIL = { max: 4, windowMs: 60 * 60 * 1000 } as const;
 
 export interface CreateAuthOptions {
   /** App-role client for Better Auth's own tables (identity tables are global, no RLS). */
@@ -48,6 +52,7 @@ function cookieConfig(appEnv: AppEnv) {
 export function createAuth(options: CreateAuthOptions) {
   const { db, provisioningDb, email, secret, baseURL, appEnv } = options;
   const cookies = cookieConfig(appEnv);
+  const allowVerificationMail = createThrottle(VERIFICATION_MAIL_PER_EMAIL);
 
   return betterAuth({
     appName: "Zynoa",
@@ -109,29 +114,54 @@ export function createAuth(options: CreateAuthOptions) {
     emailVerification: {
       sendOnSignUp: true,
       expiresIn: EMAIL_VERIFICATION_TTL_SECONDS,
+      // Off on purpose: with it off, a verification link is not a login
+      // credential (re-opening a link creates no session).
+      autoSignInAfterVerification: false,
       sendVerificationEmail: async ({ user, url, token }) => {
-        // Idempotency key = the link's token. Tokens are stateless JWTs, so
-        // two links issued for the same user in the same second are
-        // byte-identical — sending that identical link once is correct.
-        await email.send(
-          verificationEmail({ to: user.email, name: user.name, url }),
-          `verify-email:${user.id}:${token}`,
-        );
+        // Per-email cap on top of Better Auth's per-IP rule, so rotating IPs
+        // cannot flood one inbox. Over the cap we skip silently: the endpoint
+        // answers the same either way, so the response reveals nothing.
+        if (!allowVerificationMail(user.email.toLowerCase())) return;
+        try {
+          // Idempotency key = the link's token. Tokens are stateless JWTs, so
+          // two links issued for the same user in the same second are
+          // byte-identical — sending that identical link once is correct.
+          await email.send(
+            verificationEmail({ to: user.email, name: user.name, url }),
+            `verify-email:${user.id}:${token}`,
+          );
+        } catch (error) {
+          // Swallowed so delivery failures don't turn into a 500 that only
+          // existing, unverified accounts can trigger (an enumeration signal).
+          console.error("verification email delivery failed", { userId: user.id, error });
+        }
       },
       // Runs only on the FIRST successful verification: Better Auth returns
       // early for an already-verified user, so re-opening the link changes
       // nothing and records nothing (US-102 AC1 "verifies once").
-      afterEmailVerification: async (user) => {
-        await provisioningDb.transaction((tx) =>
-          appendAuditEvent(tx as unknown as Db, {
-            workspaceId: null, // user-level event → global chain
-            actorType: "user",
-            actorId: user.id,
-            action: "user.email_verified",
-            targetType: "user",
-            targetId: user.id,
-          }),
-        );
+      afterEmailVerification: async (user, request) => {
+        // Fail-open: the verification itself has already committed, and a
+        // failure here could never be retried (the next attempt takes the
+        // already-verified early return). Log loudly instead of 500-ing a
+        // user whose email IS verified. A transactional outbox replaces this
+        // when the audit pipeline gets one.
+        try {
+          await provisioningDb.transaction((tx) =>
+            appendAuditEvent(tx as unknown as Db, {
+              workspaceId: null, // user-level event → global chain
+              actorType: "user",
+              actorId: user.id,
+              action: "user.email_verified",
+              targetType: "user",
+              targetId: user.id,
+              // x-forwarded-for is pinned to the resolved client IP by the API bridge.
+              ip: request?.headers.get("x-forwarded-for") ?? null,
+              userAgent: request?.headers.get("user-agent") ?? null,
+            }),
+          );
+        } catch (error) {
+          console.error("audit append failed for user.email_verified", { userId: user.id, error });
+        }
       },
     },
     rateLimit: {

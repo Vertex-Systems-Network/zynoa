@@ -31,26 +31,29 @@ export function requestHeaders(request: FastifyRequest): Headers {
 }
 
 export function createSessionGuards(getSession: GetSession) {
-  async function loadSession(request: FastifyRequest, reply: FastifyReply) {
-    const session = await getSession(requestHeaders(request));
-    if (!session) {
-      await reply
-        .status(ERROR_STATUS.UNAUTHENTICATED)
-        .send(apiError("UNAUTHENTICATED", "Sign in to continue.", { requestId: request.id }));
-      return null;
-    }
-    request.authSession = session;
-    return session;
+  function unauthenticated(request: FastifyRequest, reply: FastifyReply) {
+    return reply
+      .status(ERROR_STATUS.UNAUTHENTICATED)
+      .send(apiError("UNAUTHENTICATED", "Sign in to continue.", { requestId: request.id }));
   }
 
+  // Every rejecting branch RETURNS the reply. Fastify 5 skips the handler when
+  // an async hook returns the reply object; relying on `await reply.send()`
+  // alone breaks as soon as someone drops the await and adds an async onSend
+  // hook (the handler then runs unauthenticated). Tests assert the handler
+  // never runs on rejection.
   return {
     async requireSession(request: FastifyRequest, reply: FastifyReply) {
-      await loadSession(request, reply);
+      const session = await getSession(requestHeaders(request));
+      if (!session) return unauthenticated(request, reply);
+      request.authSession = session;
     },
     async requireVerifiedEmail(request: FastifyRequest, reply: FastifyReply) {
-      const session = await loadSession(request, reply);
-      if (session && !session.user.emailVerified) {
-        await reply.status(ERROR_STATUS.EMAIL_NOT_VERIFIED).send(
+      const session = await getSession(requestHeaders(request));
+      if (!session) return unauthenticated(request, reply);
+      request.authSession = session;
+      if (!session.user.emailVerified) {
+        return reply.status(ERROR_STATUS.EMAIL_NOT_VERIFIED).send(
           apiError("EMAIL_NOT_VERIFIED", "Verify your email address to do this.", {
             requestId: request.id,
           }),

@@ -1,6 +1,6 @@
 /** Mock EmailProvider (spec 03 §10): records every message; optionally relays to Mailpit. */
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createMockEmailProvider, verificationEmail } from "../../src/email.js";
+import { createMockEmailProvider, safeDisplayName, verificationEmail } from "../../src/email.js";
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -41,6 +41,8 @@ describe("createMockEmailProvider", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [url, init] = fetchSpy.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe("http://localhost:8025/api/v1/send");
+    expect(init.redirect).toBe("error");
+    expect(init.signal).toBeInstanceOf(AbortSignal);
     expect(JSON.parse(init.body as string)).toEqual({
       From: { Email: "no-reply@zynoa.test", Name: "Zynoa" },
       To: [{ Email: "b@example.com" }],
@@ -83,5 +85,26 @@ describe("verificationEmail", () => {
     const message = verificationEmail({ to: "e@example.com", name: "<b>x</b>", url: "http://x" });
     expect(message.html).not.toContain("<b>x</b>");
     expect(message.html).toContain("&lt;b&gt;x&lt;/b&gt;");
+  });
+});
+
+describe("safeDisplayName", () => {
+  it("flattens newlines and control characters so a name cannot fake extra paragraphs", () => {
+    expect(safeDisplayName("Bob\n\nYour account is locked.\r\nCall now")).toBe(
+      "Bob Your account is locked. Call now",
+    );
+    expect(safeDisplayName("a\u2028b\u0007c")).toBe("a b c");
+  });
+
+  it("caps the name at 50 characters", () => {
+    const long = safeDisplayName("x".repeat(80));
+    expect(long).toHaveLength(50);
+    expect(long.endsWith("…")).toBe(true);
+  });
+
+  it("greets generically when nothing printable is left", () => {
+    expect(verificationEmail({ to: "f@example.com", name: "\n\t", url: "http://x" }).text).toMatch(
+      /^Hi,\n/,
+    );
   });
 });
