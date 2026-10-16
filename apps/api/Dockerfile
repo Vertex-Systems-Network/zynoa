@@ -18,7 +18,12 @@ RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
  && pnpm --filter @zynoa/db build \
  && pnpm --filter @zynoa/auth build \
  && pnpm --filter @zynoa/api build \
- && pnpm --filter @zynoa/api --prod deploy /out
+ && pnpm --filter @zynoa/api --prod deploy /out \
+ # pnpm 9's legacy deploy copies a few ORPHANED dev-tool store entries that no
+ # package links (vite/vitest/esbuild — peer-resolution noise). Nothing imports
+ # them at runtime; esbuild's Go binary alone trips the image vulnerability scan.
+ && rm -rf /out/node_modules/.pnpm/vite@* /out/node_modules/.pnpm/@vitest+* \
+           /out/node_modules/.pnpm/esbuild@* /out/node_modules/.pnpm/@esbuild+*
 
 FROM node:22.21.1-slim@sha256:25b3eb23a00590b7499f2a2ce939322727fcce1b15fdd69754fcd09536a3ae2c AS runtime
 ENV NODE_ENV=production

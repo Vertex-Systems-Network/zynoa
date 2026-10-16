@@ -29,6 +29,11 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "better-auth>drizzle-kit": "-",
+      "better-auth>next": "-",
+      "better-auth>vitest": "-"
+    }
   }
 }
