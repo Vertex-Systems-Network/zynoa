@@ -53,14 +53,14 @@ List-price estimates; **WU-P0-14 measures real per-task costs** before Gate B pr
 
 ## 5. Tools & services
 
-| Item                                                                     | Est./mo                            | Note                                    |
-| ------------------------------------------------------------------------ | ---------------------------------- | --------------------------------------- |
-| GitHub (free tier OK through Phase 2)                                    | $0                                 | Actions minutes within free/public repo |
-| Figma (1 editor)                                                         | $0–15                              | current plan `[OWNER]`                  |
-| Design partners' usage credits (Phase 2, 5–15 partners — OD-13)          | $0 (Ph1) / $100–400 (Ph2)          | fixed credit budget per partner         |
-| Legal (one-time: lawyer review of WU-P0-17 drafts + registration checks) | $300–800 one-time                  | PK counsel `[OWNER: quote]`             |
-| Trademark search/filing (one-time, final name)                           | $50–400 one-time                   | search vs filing                        |
-| **Subtotal**                                                             | **$0–15/mo + $350–1,200 one-time** |                                         |
+| Item                                                                     | Est./mo                            | Note                                                                                |
+| ------------------------------------------------------------------------ | ---------------------------------- | ----------------------------------------------------------------------------------- |
+| GitHub (free tier OK through Phase 2)                                    | $0                                 | Actions minutes within free/public repo                                             |
+| Figma (1 editor)                                                         | $0–15                              | current plan `[OWNER]`                                                              |
+| Design partners' usage credits (Phase 2, 5–15 partners — OD-13)          | —                                  | already inside §4's Phase-2 provider lines; fixed credit budget per partner (OD-13) |
+| Legal (one-time: lawyer review of WU-P0-17 drafts + registration checks) | $300–800 one-time                  | PK counsel `[OWNER: quote]`                                                         |
+| Trademark search/filing (one-time, final name)                           | $50–400 one-time                   | search vs filing                                                                    |
+| **Subtotal**                                                             | **$0–15/mo + $350–1,200 one-time** |                                                                                     |
 
 ## 6. Totals
 
