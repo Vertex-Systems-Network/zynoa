@@ -83,6 +83,12 @@ export interface AuditEventInput {
  * tip and fork the chain — the GLOBAL chain (workspace_id NULL) is contended
  * by every sign-up. Chain tip = highest id in the chain (ids are UUIDv7, so
  * lexicographic order is creation order).
+ *
+ * LOCK ORDERING RULE: a transaction appending to several chains must take the
+ * GLOBAL chain first, then workspace chains — the order provisioning uses.
+ * Acquiring in the opposite order can deadlock against sign-ups. Note the
+ * xact lock only protects inside a transaction; on an autocommit connection
+ * it releases at statement end.
  */
 export async function appendAuditEvent(executor: Db, event: AuditEventInput): Promise<string> {
   const workspaceId = event.workspaceId ?? null;
