@@ -69,6 +69,9 @@ export async function buildApp(options: AppOptions): Promise<FastifyInstance> {
     requestIdHeader: false,
   }).withTypeProvider<ZodTypeProvider>();
 
+  // Filled by the session guards (session-guards.ts) on routes that use them.
+  app.decorateRequest("authSession", null);
+
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 

@@ -18,6 +18,7 @@ import {
 } from "@zynoa/db/schema";
 import { computeAuditHash } from "../../src/audit.js";
 import { createAuth, type Auth } from "../../src/auth.js";
+import { createMockEmailProvider } from "../../src/email.js";
 
 const appUrl = process.env.DATABASE_URL;
 const platformUrl = process.env.DATABASE_PLATFORM_URL;
@@ -51,6 +52,7 @@ describe.skipIf(!appUrl || !platformUrl)("US-101 sign-up (real Postgres)", () =>
     auth = createAuth({
       db: app.db,
       provisioningDb: platform.db,
+      email: createMockEmailProvider({ from: "no-reply@zynoa.test" }),
       secret: "integration-test-secret-integration!",
       baseURL: "http://localhost:4000",
       appEnv: "ci",
@@ -207,6 +209,7 @@ describe.skipIf(!appUrl || !platformUrl)("US-101 sign-up (real Postgres)", () =>
     const broken = createAuth({
       db: app.db,
       provisioningDb: app.db,
+      email: createMockEmailProvider({ from: "no-reply@zynoa.test" }),
       secret: "integration-test-secret-integration!",
       baseURL: "http://localhost:4000",
       appEnv: "ci",

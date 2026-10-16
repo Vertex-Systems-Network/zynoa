@@ -118,6 +118,16 @@ describe("parseEnv", () => {
     );
   });
 
+  it("accepts an optional http(s) MAILPIT_URL for the mock email relay", () => {
+    expect(parseEnv(["email"], base).MAILPIT_URL).toBeUndefined();
+    expect(parseEnv(["email"], { ...base, MAILPIT_URL: "http://localhost:8025" }).MAILPIT_URL).toBe(
+      "http://localhost:8025",
+    );
+    expect(() => parseEnv(["email"], { ...base, MAILPIT_URL: "smtp://localhost:1025" })).toThrow(
+      /MAILPIT_URL/,
+    );
+  });
+
   it("refuses mock providers and capture-free test payments in production", () => {
     const prod = { ...base, APP_ENV: "production", NODE_ENV: "production" };
     expect(() => parseEnv(["email"], prod)).toThrow(/EMAIL_PROVIDER/);

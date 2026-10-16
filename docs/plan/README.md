@@ -46,3 +46,6 @@ Work tracking: GitHub milestone **Phase 0** — one issue per work unit (`WU-P0-
 - A phase ends only when its exit checklist passes with evidence (`docs/plans/phase-N-report.md`).
 - Never build "everything at once"; never invent completion, approvals, accounts or credentials.
 - **No deployments.** Nothing is deployed anywhere live or public, and no auto-deploy is wired, until the owner connects the hosting account and approves that wiring in a PR (owner directive, 2026-10-15). CI builds and scans only.
+- **First-deploy preconditions** (must be done in the PR that wires the first deployment):
+  - Configure Fastify `trustProxy` in `apps/api` for the real proxy hops, and add a test that a request through the proxy resolves to the client IP. Until then `request.ip` is the socket peer. Behind a proxy, every user would share one Better Auth rate-limit bucket (sign-in/sign-up/resend) (PR #77 review).
+  - Replace the mock `EmailProvider` with a real one. `server.ts` refuses to boot with a non-mock `EMAIL_PROVIDER` until it exists, and env validation refuses mock in production.

@@ -47,6 +47,28 @@ describe("auth mount", () => {
     });
   });
 
+  it("replaces any client x-forwarded-for with the resolved client IP (rate-limit key)", async () => {
+    const seen: (string | null)[] = [];
+    const app = await appWithAuth(async (request) => {
+      seen.push(request.headers.get("x-forwarded-for"));
+      return new Response(null, { status: 200 });
+    });
+    // Spoofed single value, spoofed multi-hop chain, and no header at all.
+    await app.inject({
+      method: "GET",
+      url: "/api/auth/get-session",
+      headers: { "x-forwarded-for": "6.6.6.6" },
+    });
+    await app.inject({
+      method: "GET",
+      url: "/api/auth/get-session",
+      headers: { "x-forwarded-for": "6.6.6.6, 7.7.7.7" },
+    });
+    await app.inject({ method: "GET", url: "/api/auth/get-session" });
+    // app.inject's socket peer is 127.0.0.1; Fastify has no trustProxy set.
+    expect(seen).toEqual(["127.0.0.1", "127.0.0.1", "127.0.0.1"]);
+  });
+
   it("passes Set-Cookie headers through one per cookie", async () => {
     const app = await appWithAuth(async () => {
       const headers = new Headers();

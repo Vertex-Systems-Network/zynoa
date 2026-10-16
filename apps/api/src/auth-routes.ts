@@ -7,6 +7,7 @@
 import { apiError, ERROR_STATUS } from "@zynoa/contracts";
 import { hashPassword } from "@zynoa/auth";
 import type { FastifyInstance, FastifyRequest } from "fastify";
+import { requestHeaders } from "./session-guards.js";
 
 export interface AuthHandler {
   handler: (request: Request) => Promise<Response>;
@@ -21,11 +22,17 @@ function toFetchRequest(request: FastifyRequest): Request | null {
   } catch {
     return null; // malformed Host header
   }
-  const headers = new Headers();
-  for (const [key, value] of Object.entries(request.headers)) {
-    if (value === undefined) continue;
-    headers.append(key, Array.isArray(value) ? value.join(",") : value);
-  }
+  const headers = requestHeaders(request);
+  // Better Auth keys its rate limits on x-forwarded-for. Never pass the
+  // client's own value through (spoofable, or multi-hop → one shared bucket):
+  // replace it with the single address Fastify resolved. request.ip is the
+  // socket peer unless Fastify's trustProxy is configured for the deployment's
+  // proxy hops (set when a deployment exists — none yet, per the no-deploy
+  // directive).
+  // An empty ip would serialise to a bogus value; drop the header instead
+  // (Better Auth then uses its explicit no-IP fallback).
+  if (request.ip) headers.set("x-forwarded-for", request.ip);
+  else headers.delete("x-forwarded-for");
   const body = request.body as Buffer | undefined;
   return new Request(url.toString(), {
     method: request.method,
@@ -65,8 +72,9 @@ export async function registerAuthRoutes(app: FastifyInstance, auth: AuthHandler
           // Better Auth rejects duplicates BEFORE hashing, so without this a
           // duplicate answers ~50-100 ms faster than a fresh sign-up — a timing
           // oracle. Burn an equivalent Argon2id hash. The 400-vs-200 status
-          // remains observable until US-102's requireEmailVerification flow
-          // replaces this flatten with Better Auth's synthetic duplicate 200.
+          // stays observable: Better Auth only returns its synthetic duplicate
+          // 200 under requireEmailVerification, which US-102 deliberately does
+          // not enable (unverified users may sign in; AC2 gates actions).
           await hashPassword(`anti-enumeration-${Date.now()}`);
           return reply.status(ERROR_STATUS.VALIDATION_FAILED).send(
             apiError("VALIDATION_FAILED", "Sign-up could not be completed with those details.", {
