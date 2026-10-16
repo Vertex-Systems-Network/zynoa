@@ -7,6 +7,7 @@
 import { apiError, ERROR_STATUS } from "@zynoa/contracts";
 import { hashPassword } from "@zynoa/auth";
 import type { FastifyInstance, FastifyRequest } from "fastify";
+import { requestHeaders } from "./session-guards.js";
 
 export interface AuthHandler {
   handler: (request: Request) => Promise<Response>;
@@ -21,11 +22,7 @@ function toFetchRequest(request: FastifyRequest): Request | null {
   } catch {
     return null; // malformed Host header
   }
-  const headers = new Headers();
-  for (const [key, value] of Object.entries(request.headers)) {
-    if (value === undefined) continue;
-    headers.append(key, Array.isArray(value) ? value.join(",") : value);
-  }
+  const headers = requestHeaders(request);
   const body = request.body as Buffer | undefined;
   return new Request(url.toString(), {
     method: request.method,

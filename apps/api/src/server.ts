@@ -1,5 +1,5 @@
 /** Process entry: validate env (fail fast), optionally start OTel, listen on :4000. */
-import { createAuth } from "@zynoa/auth";
+import { createAuth, createMockEmailProvider, type EmailProvider } from "@zynoa/auth";
 import { loadEnv } from "@zynoa/config/env";
 import { createDb } from "@zynoa/db";
 import { buildApp } from "./app.js";
@@ -13,6 +13,7 @@ const env = loadEnv([
   "redis",
   "temporal",
   "auth",
+  "email",
   "observability",
 ]);
 const stopTelemetry = await startTelemetry(env.OTEL_EXPORTER_OTLP_ENDPOINT);
@@ -24,11 +25,25 @@ const { probes, close } = createProbes({
   timeoutMs: 2000,
 });
 
+// Only the mock provider exists so far (local/ci, Mailpit relay). Real
+// providers land with packages/integrations; until then a non-mock setting
+// fails fast instead of silently dropping auth email.
+function createEmailProvider(): EmailProvider {
+  if (env.EMAIL_PROVIDER !== "mock") {
+    throw new Error(`EMAIL_PROVIDER=${env.EMAIL_PROVIDER} is not implemented yet; use mock.`);
+  }
+  return createMockEmailProvider({
+    from: env.EMAIL_FROM ?? "Zynoa <no-reply@localhost>",
+    mailpitUrl: env.MAILPIT_URL,
+  });
+}
+
 const appDb = createDb(env.DATABASE_URL);
 const platformDb = createDb(env.DATABASE_PLATFORM_URL, { max: 2 });
 const auth = createAuth({
   db: appDb.db,
   provisioningDb: platformDb.db,
+  email: createEmailProvider(),
   secret: env.BETTER_AUTH_SECRET,
   // Auth endpoints are served behind the app origin (web proxies /api/*).
   baseURL: env.APP_URL,

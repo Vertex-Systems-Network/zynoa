@@ -93,6 +93,8 @@ export const envGroups = {
     EMAIL_PROVIDER: z.enum(["mock", "resend", "postmark", "ses"]).default("mock"),
     EMAIL_API_KEY: optionalString,
     EMAIL_FROM: optionalString,
+    /** Mock provider only: relay captured mail to Mailpit's HTTP API (local: http://localhost:8025). */
+    MAILPIT_URL: url(["http", "https"]).optional(),
   }),
   models: z.object({
     MODEL_PROVIDERS_ENABLED: commaList

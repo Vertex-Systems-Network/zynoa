@@ -2,7 +2,8 @@
 import { createDb, type DbHandle } from "@zynoa/db";
 import { createCookieGetter } from "better-auth/cookies";
 import { afterAll, describe, expect, it } from "vitest";
-import { createAuth } from "../../src/auth.js";
+import { createAuth, EMAIL_VERIFICATION_TTL_SECONDS } from "../../src/auth.js";
+import { createMockEmailProvider } from "../../src/email.js";
 
 // Pools connect lazily, so a bogus URL is fine for config-level assertions.
 const handles: DbHandle[] = [];
@@ -12,6 +13,7 @@ function makeAuth(appEnv: "local" | "ci" | "preview" | "staging" | "production" 
   return createAuth({
     db: handle.db,
     provisioningDb: handle.db,
+    email: createMockEmailProvider({ from: "no-reply@zynoa.test" }),
     secret: "test-secret-test-secret-test-secret!",
     baseURL: "http://localhost:4000",
     appEnv,
@@ -81,6 +83,26 @@ describe("createAuth", () => {
       httpOnly: true,
       sameSite: "lax",
       path: "/",
+    });
+  });
+
+  it("US-102: sends a 24-hour verification link on sign-up", () => {
+    const verification = auth.options.emailVerification;
+    expect(verification?.sendOnSignUp).toBe(true);
+    expect(verification?.expiresIn).toBe(EMAIL_VERIFICATION_TTL_SECONDS);
+    expect(EMAIL_VERIFICATION_TTL_SECONDS).toBe(86_400);
+    expect(typeof verification?.sendVerificationEmail).toBe("function");
+  });
+
+  it("US-102: still lets unverified users sign in (AC2 gates actions, not sessions)", () => {
+    expect("requireEmailVerification" in (auth.options.emailAndPassword ?? {})).toBe(false);
+  });
+
+  it("US-102: limits verification resends to 3 per hour in every environment", () => {
+    expect(auth.options.rateLimit?.enabled).toBe(true);
+    expect(auth.options.rateLimit?.customRules?.["/send-verification-email"]).toEqual({
+      window: 3600,
+      max: 3,
     });
   });
 });
