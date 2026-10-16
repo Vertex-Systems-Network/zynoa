@@ -572,7 +572,7 @@
       ],
       "decided_by": "ai_session (independent review finding #2, PR #75)",
       "decided_at": "2026-10-16",
-      "supersedes": null,
+      "supersedes": [],
       "superseded_by": null
     }
   ],

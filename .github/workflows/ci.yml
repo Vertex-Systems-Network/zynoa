@@ -152,7 +152,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          docker run -d --name api -p 4000:4000             -e APP_ENV=ci -e APP_URL=http://localhost:4000             -e DATABASE_URL=postgres://x:x@localhost:5432/x             -e REDIS_URL=redis://localhost:6379             -e TEMPORAL_ADDRESS=localhost:7233             zynoa-api:${{ github.sha }}
+          docker run -d --name api -p 4000:4000             -e APP_ENV=ci -e APP_URL=http://localhost:4000             -e DATABASE_URL=postgres://x:x@localhost:5432/x             -e REDIS_URL=redis://localhost:6379             -e TEMPORAL_ADDRESS=localhost:7233             -e DATABASE_PLATFORM_URL=postgres://x:x@localhost:5432/x             -e BETTER_AUTH_SECRET=ci-boot-smoke-placeholder-not-a-secret             zynoa-api:${{ github.sha }}
           for i in $(seq 1 30); do
             curl -sf http://localhost:4000/healthz > /dev/null && exit 0
             sleep 1
