@@ -31,12 +31,13 @@ describe("Landing page (PUB-01 placeholder)", () => {
     expect(screen.getByText(/example outcomes/i)).toBeTruthy();
   });
 
-  it("has the PUB-01 calls to action as placeholders (no auth yet)", () => {
+  it("has the PUB-01 calls to action (waitlist live, auth placeholder)", () => {
     render(<Home />);
-    const start = screen.getByRole("link", { name: /start free/i });
+    const start = screen.getByRole("link", { name: /join the waitlist/i });
     const signIn = screen.getByRole("link", { name: /sign in/i });
-    // Phase 0: auth does not exist; both point at placeholder anchors, not external URLs.
-    expect(start.getAttribute("href")).toBe("#start");
+    // Phase 0: the primary CTA leads to the early-access waitlist (WU-P0-15);
+    // auth does not exist yet, so sign-in stays a placeholder anchor.
+    expect(start.getAttribute("href")).toBe("/early-access");
     expect(signIn.getAttribute("href")).toBe("#signin");
   });
 

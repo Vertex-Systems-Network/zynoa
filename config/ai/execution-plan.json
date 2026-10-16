@@ -724,7 +724,7 @@
       "objective": "Customer validation (waitlist, survey, analysis)",
       "dependencies": [],
       "priority": 15,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "OD-01 recommendation with evidence"
@@ -736,7 +736,10 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Building on branch feat/WU-P0-15-validation: apps/site early-access waitlist+survey page, interview/survey questions PER-1..5, outreach drafts",
+        "apps/site /early-access waitlist+micro-survey page (endpoint-gated via NEXT_PUBLIC_WAITLIST_ENDPOINT, collects nothing until owner connects a form backend; 5 new tests, home CTA now routes to it) + docs/plans/customer-validation.md (extended survey, PER-1..5 interview guides, Roman Urdu + English outreach drafts, OD-01 analysis method with sample targets). OUTSTANDING (human half): owner connects form endpoint, sends outreach to >=30 contacts, books >=8 interviews, returns responses; then AI writes od-01-recommendation.md and owner approves the segment"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
