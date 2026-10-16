@@ -367,7 +367,7 @@
     },
     {
       "id": "ADR-0018",
-      "title": "Figma file AI-UI is the visual source of truth (fonts/colours supersede \u00a713)",
+      "title": "Figma file AI-UI is the visual source of truth (fonts/colours supersede §13)",
       "status": "accepted",
       "context": "See docs/decisions/ADR-018-visual-identity-figma.md (file uses the spec's 3-digit numbering ADR-018)",
       "alternatives": [
@@ -376,7 +376,7 @@
       "evidence_refs": [
         "docs/decisions/ADR-018-visual-identity-figma.md"
       ],
-      "decision": "Figma file AI-UI is the visual source of truth (fonts/colours supersede \u00a713)",
+      "decision": "Figma file AI-UI is the visual source of truth (fonts/colours supersede §13)",
       "consequences": [],
       "security_privacy_data_operational_cost_impact": [],
       "reversibility": "medium",
@@ -512,6 +512,32 @@
         "MOD-WEB",
         "MOD-SITE"
       ],
+      "decided_by": "owner (wpessential) in-session",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0024",
+      "title": "AI-native development: no human developers at any phase",
+      "status": "accepted",
+      "context": "Owner stated there are no developers and none will be hired; all work follows the AI-Native plan/flow. BUILD-PLAN s4 previously assumed 1 tech lead + 1 engineer and 5-6 people from Phase 3.",
+      "alternatives": [
+        "Hire reviewers per original BUILD-PLAN s4",
+        "Hybrid: contract reviewer at Phase 3"
+      ],
+      "evidence_refs": [],
+      "decision": "All engineering is performed by AI sessions; every PR gets an independent AI review session plus 7 required CI checks; the owner is the sole human (plan/gate approvals, accounts, secrets, spending, final decisions); Phase 3+ parallelism uses ANPOS Supervisor/Worker team mode instead of human reviewers; the spec s13 human-team table is superseded for staffing.",
+      "consequences": [
+        "Lean budget scenario is the plan of record",
+        "Review quality depends on independent AI review + consent gates + CI; revisit if defect escape rate rises",
+        "Owner remains single point of approval (key-person dependency already in risk register)"
+      ],
+      "security_privacy_data_operational_cost_impact": [
+        "No change to data handling; all merges still gated by required checks and review"
+      ],
+      "reversibility": "high",
+      "affected_modules_or_contracts": [],
       "decided_by": "owner (wpessential) in-session",
       "decided_at": "2026-10-16",
       "supersedes": [],

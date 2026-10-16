@@ -6,7 +6,7 @@
 
 ## 1. People
 
-The AI-first model (BUILD-PLAN §4) wants: tech lead (runs agents, reviews PRs) + full-stack engineer (second reviewer) + product/design (owner). Current reality: **owner + AI sessions** fill all three seats. Budget shows both scenarios.
+**Owner decision (ADR-024): no developers are hired — all engineering is AI-native.** The owner is the only human (approvals, accounts, decisions); independent AI review sessions replace the second reviewer. The Lean scenario is therefore the **plan of record**; the Standard column stays only as a reference of what hiring would cost if the owner ever changed this decision.
 
 | Item                                 | Lean (current reality)     | Standard (per BUILD-PLAN)              |
 | ------------------------------------ | -------------------------- | -------------------------------------- |
