@@ -88,9 +88,20 @@ export function createSignInGuard(options: {
     let entry = entries.get(k);
     if (!entry) {
       if (entries.size >= cap) {
-        // Evict the oldest-inserted account (Map preserves insertion order).
-        const oldest = entries.keys().next().value;
-        if (oldest !== undefined) entries.delete(oldest);
+        // Prefer evicting an account with no recent failures, so flooding the
+        // map with throwaway emails can't reset a targeted account's count;
+        // fall back to the oldest-inserted (Map preserves insertion order).
+        const t = now();
+        let victim: string | undefined;
+        for (const [k2, e] of entries) {
+          prune(e, t);
+          if (e.failures.length === 0 && e.pending === 0 && !e.sleeping) {
+            victim = k2;
+            break;
+          }
+        }
+        victim ??= entries.keys().next().value;
+        if (victim !== undefined) entries.delete(victim);
       }
       entry = { failures: [], pending: 0, sleeping: false };
       entries.set(k, entry);
@@ -111,15 +122,15 @@ export function createSignInGuard(options: {
         entry.pending++;
         return { allowed: true };
       }
-      if (entry.sleeping) return { allowed: false };
-      if (!captchaToken || !(await options.captcha.verify(captchaToken))) {
-        return { allowed: false };
-      }
-      const over = count - SIGN_IN_POLICY.maxFailures; // 0 at the threshold
-      const delay = Math.min(SIGN_IN_POLICY.baseDelayMs * 2 ** over, SIGN_IN_POLICY.maxDelayMs);
+      if (entry.sleeping || !captchaToken) return { allowed: false };
+      // Claim the account's single delayed slot BEFORE awaiting the CAPTCHA
+      // check, so parallel requests can't all pass the `sleeping` test while
+      // verification is in flight.
       entry.sleeping = true;
       try {
-        await sleep(delay);
+        if (!(await options.captcha.verify(captchaToken))) return { allowed: false };
+        const over = count - SIGN_IN_POLICY.maxFailures; // 0 at the threshold
+        await sleep(Math.min(SIGN_IN_POLICY.baseDelayMs * 2 ** over, SIGN_IN_POLICY.maxDelayMs));
       } finally {
         entry.sleeping = false;
       }

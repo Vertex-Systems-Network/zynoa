@@ -87,18 +87,37 @@ describe("createSignInGuard: concurrency and memory", () => {
     expect(await guard.check("n@example.com", undefined)).toEqual({ allowed: true });
   });
 
-  it("allows only one delayed attempt per account at a time", async () => {
-    let release: () => void = () => {};
+  it("allows only one delayed attempt per account, even with slow CAPTCHA verification", async () => {
+    const slowCaptcha = {
+      verify: async (token: string) => {
+        await new Promise((resolve) => setTimeout(resolve, 20));
+        return token === MOCK_CAPTCHA_PASS;
+      },
+    };
+    const guard = createSignInGuard({ captcha: slowCaptcha, sleep: async () => {} });
+    for (let i = 0; i < 5; i++) guard.record("s@example.com", "failure");
+    // Same tick: both calls race through verification.
+    const results = await Promise.all([
+      guard.check("s@example.com", MOCK_CAPTCHA_PASS),
+      guard.check("s@example.com", MOCK_CAPTCHA_PASS),
+      guard.check("s@example.com", MOCK_CAPTCHA_PASS),
+    ]);
+    expect(results.filter((r) => r.allowed)).toHaveLength(1);
+  });
+
+  it("evicts idle accounts before ones with recent failures", async () => {
+    const clock = { now: 0 };
     const guard = createSignInGuard({
       captcha: createMockCaptcha(),
-      sleep: () => new Promise<void>((resolve) => (release = resolve)),
+      now: () => clock.now,
+      maxTrackedAccounts: 2,
     });
-    for (let i = 0; i < 5; i++) guard.record("s@example.com", "failure");
-    const first = guard.check("s@example.com", MOCK_CAPTCHA_PASS);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(await guard.check("s@example.com", MOCK_CAPTCHA_PASS)).toEqual({ allowed: false });
-    release();
-    expect(await first).toEqual({ allowed: true });
+    guard.record("stale@example.com", "failure"); // oldest, but will expire
+    clock.now = SIGN_IN_POLICY.windowMs + 1;
+    for (let i = 0; i < 5; i++) guard.record("victim@example.com", "failure");
+    guard.record("attacker-flood@example.com", "failure"); // at cap
+    // The expired entry was evicted, not the victim (still CAPTCHA-gated).
+    expect(await guard.check("victim@example.com", undefined)).toEqual({ allowed: false });
   });
 
   it("caps tracked accounts, evicting the oldest", async () => {
