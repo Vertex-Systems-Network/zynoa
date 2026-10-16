@@ -5,10 +5,10 @@ supersedes. ADR-001…014 were taken in the build spec (`docs/spec/17_DECISIONS_
 which stays the summary registry); ADR-015+ are recorded here first and appended to that registry in the
 same PR (ENGINEERING-RULES rule 10).
 
-| Range | Source |
-|---|---|
-| ADR-001…014 | Build spec v2.0 architecture decisions |
-| ADR-015 | SeaweedFS replaces MinIO for local/CI S3 |
+| Range       | Source                                                                                                                            |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| ADR-001…014 | Build spec v2.0 architecture decisions                                                                                            |
+| ADR-015     | SeaweedFS replaces MinIO for local/CI S3                                                                                          |
 | ADR-016…019 | Plan decisions from `docs/plan/BUILD-PLAN.md` §8 (site/web split, desktop/mobile phases, Figma visual identity, ANPOS governance) |
 
 Business decisions that are not architecture (product name/domains OD-02, payments OD-03, hosting

@@ -817,7 +817,7 @@
       "objective": "Decision briefs OD-07/03/10/02",
       "dependencies": [],
       "priority": 18,
-      "status": "verification_required",
+      "status": "complete",
       "blockers": [],
       "acceptance_criteria": [
         "Comparison + recommendation per decision"
@@ -831,7 +831,8 @@
       ],
       "completion_evidence": [
         "Research started on branch feat/WU-P0-18-decision-briefs: briefs for OD-07 hosting/region, OD-03 payments shortlist, OD-10 sandbox, OD-02 domains",
-        "docs/plans/decision-briefs.md: four briefs (OD-07 AWS Mumbai w/ UAE latency gate, OD-03 Lemon Squeezy+Safepay shortlist, OD-10 Daytona, OD-02 five-domain structure) with comparisons, sources and EVID-000004/006/007. OUTSTANDING (human half): owner answers the four yes/no decisions; each yes becomes an ADR"
+        "docs/plans/decision-briefs.md: four briefs (OD-07 AWS Mumbai w/ UAE latency gate, OD-03 Lemon Squeezy+Safepay shortlist, OD-10 Daytona, OD-02 five-domain structure) with comparisons, sources and EVID-000004/006/007. OUTSTANDING (human half): owner answers the four yes/no decisions; each yes becomes an ADR",
+        "Owner answered all four briefs in-session 2026-10-16: OD-07 AWS Mumbai/UAE (ADR-020), OD-03 all payment providers behind admin enable/disable toggles, initial LS+Safepay (ADR-021), OD-10 Daytona (ADR-022), OD-02 admin-configurable name/domains with five-domain default (ADR-023). ADRs in docs/decisions and config/architecture/decision-records.json"
       ],
       "allowed_paths": [
         "docs/**",
