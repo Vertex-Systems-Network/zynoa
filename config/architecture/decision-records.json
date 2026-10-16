@@ -406,6 +406,116 @@
       "decided_at": "2026-10-12",
       "supersedes": [],
       "superseded_by": null
+    },
+    {
+      "id": "ADR-0020",
+      "title": "AWS hosting, Mumbai region pending PK latency probes",
+      "status": "accepted",
+      "context": "OD-07: API/workers/DB need managed Postgres+pgvector, Valkey, KMS near Pakistan",
+      "alternatives": [
+        "GCP (costlier, PK billing unclear)",
+        "Render Singapore (no KMS)",
+        "Fly.io (no Mumbai managed PG)",
+        "Railway",
+        "Hetzner (self-managed only)"
+      ],
+      "evidence_refs": [
+        "EVID-000007"
+      ],
+      "decision": "AWS ap-south-1 default, me-central-1 fallback gated on PK-ISP latency probes; Temporal self-hosted first with Temporal Cloud escape hatch",
+      "consequences": [
+        "~$150-170/mo small setup when deployed; no-deploy directive unaffected"
+      ],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "medium",
+      "affected_modules_or_contracts": [
+        "MOD-API",
+        "MOD-WORKFLOWS",
+        "MOD-DB"
+      ],
+      "decided_by": "owner (wpessential) in-session",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0021",
+      "title": "Multi-provider payments behind admin enable/disable toggles",
+      "status": "accepted",
+      "context": "OD-03: Stripe unavailable to PK businesses; owner wants all providers integrated with admin control",
+      "alternatives": [
+        "Single MoR only (Lemon Squeezy)",
+        "Paddle-first"
+      ],
+      "evidence_refs": [
+        "EVID-000006"
+      ],
+      "decision": "Provider-agnostic billing port with adapters (Lemon Squeezy, Paddle, Safepay, PayFast, Payoneer payouts), per-provider admin toggles; initial enabled set Lemon Squeezy + Safepay",
+      "consequences": [
+        "Billing engine normalizes MoR and gateway models",
+        "Disabled adapters until PK terms confirmed in writing"
+      ],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "high",
+      "affected_modules_or_contracts": [
+        "MOD-BILLING"
+      ],
+      "decided_by": "owner (wpessential) in-session",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0022",
+      "title": "Daytona as managed sandbox vendor",
+      "status": "accepted",
+      "context": "OD-10: managed microVM vendor first",
+      "alternatives": [
+        "E2B ($150/mo platform fee, broad data license)",
+        "self-hosted microVMs"
+      ],
+      "evidence_refs": [
+        "EVID-000004"
+      ],
+      "decision": "Daytona behind the SANDBOX_PROVIDER port; written third-party-serving confirmation required before production",
+      "consequences": [
+        "Vendor swappable via port"
+      ],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "high",
+      "affected_modules_or_contracts": [
+        "MOD-SANDBOX"
+      ],
+      "decided_by": "owner (wpessential) in-session",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
+    },
+    {
+      "id": "ADR-0023",
+      "title": "Admin-configurable product name and domains; five-domain default",
+      "status": "accepted",
+      "context": "OD-02: owner requires name/domains changeable by admin; user content needs separate registrable domains",
+      "alternatives": [
+        "Hardcoded brand/domains"
+      ],
+      "evidence_refs": [],
+      "decision": "All apps read name/domains from config (env now, admin setting later); five-domain structure is the default recommendation; purchase deferred to owner",
+      "consequences": [
+        "No literals for brand/domains in UI/emails (review point)",
+        "PSL submission for render/usercontent domains at purchase"
+      ],
+      "security_privacy_data_operational_cost_impact": [],
+      "reversibility": "high",
+      "affected_modules_or_contracts": [
+        "MOD-CONFIG",
+        "MOD-WEB",
+        "MOD-SITE"
+      ],
+      "decided_by": "owner (wpessential) in-session",
+      "decided_at": "2026-10-16",
+      "supersedes": [],
+      "superseded_by": null
     }
   ],
   "decision_template": {
