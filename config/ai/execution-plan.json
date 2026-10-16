@@ -391,7 +391,7 @@
         "9 unit tests pass locally (workspaceId guard, repository ctor)",
         "no-restricted-imports rule proven by probe",
         "drizzle-kit check green; db:check active in build-test",
-        "integration suite (RLS isolation, NULLIF pooled-connection guard, WITH CHECK, revoked writes, BYPASSRLS, flag overrides, idempotent migrate/seed) added; runs in the new CI db-integration job \u2014 green run not yet observed"
+        "integration suite (RLS isolation, NULLIF pooled-connection guard, WITH CHECK, revoked writes, BYPASSRLS, flag overrides, idempotent migrate/seed) added; runs in the new CI db-integration job — green run not yet observed"
       ],
       "allowed_paths": [
         "packages/db/**",
@@ -671,7 +671,7 @@
       "completion_evidence": [
         "Research started on branch feat/WU-P0-13-provider-matrix: web research across AI/media/infra/payment providers for Pakistan availability, billing, resale terms, data retention",
         "AI research half done: docs/plans/provider-access-matrix.md with per-provider ratings and sources; EVID-000003..000006 recorded. OUTSTANDING (human half): owner confirms USD card, creates provider accounts where signup is the only confirmation, gets written Paddle PK-seller confirmation and Safepay recurring-billing answer",
-        "AI half merged in PR #64 (matrix + EVID-000003..06, review APPROVE with 6 source spot-checks). Human half (account signups/card confirmations) waived by owner in-session 2026-10-16: 'verification ki zarorat ni ha' \u2014 residual unverified items remain listed in docs/plans/provider-access-matrix.md for later contracting"
+        "AI half merged in PR #64 (matrix + EVID-000003..06, review APPROVE with 6 source spot-checks). Human half (account signups/card confirmations) waived by owner in-session 2026-10-16: 'verification ki zarorat ni ha' — residual unverified items remain listed in docs/plans/provider-access-matrix.md for later contracting"
       ],
       "allowed_paths": [
         "docs/**",
@@ -693,7 +693,7 @@
         "WU-P0-11"
       ],
       "priority": 14,
-      "status": "not_started",
+      "status": "deferred",
       "blockers": [],
       "acceptance_criteria": [
         "20 tasks per studio measured; price sheet filled"
@@ -705,7 +705,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Owner deferred 2026-10-16 ('key ko bhool jao'): no provider key purchased yet; mock-path gateway smoke recorded in Gate A report. Resume when a provider account exists (required before Gate B pricing/OD-04/05)"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
@@ -724,7 +726,7 @@
       "objective": "Customer validation (waitlist, survey, analysis)",
       "dependencies": [],
       "priority": 15,
-      "status": "verification_required",
+      "status": "deferred",
       "blockers": [],
       "acceptance_criteria": [
         "OD-01 recommendation with evidence"
@@ -738,7 +740,8 @@
       ],
       "completion_evidence": [
         "Building on branch feat/WU-P0-15-validation: apps/site early-access waitlist+survey page, interview/survey questions PER-1..5, outreach drafts",
-        "apps/site /early-access waitlist+micro-survey page (endpoint-gated via NEXT_PUBLIC_WAITLIST_ENDPOINT, collects nothing until owner connects a form backend; 5 new tests, home CTA now routes to it) + docs/plans/customer-validation.md (extended survey, PER-1..5 interview guides, Roman Urdu + English outreach drafts, OD-01 analysis method with sample targets). OUTSTANDING (human half): owner connects form endpoint, sends outreach to >=30 contacts, books >=8 interviews, returns responses; then AI writes od-01-recommendation.md and owner approves the segment"
+        "apps/site /early-access waitlist+micro-survey page (endpoint-gated via NEXT_PUBLIC_WAITLIST_ENDPOINT, collects nothing until owner connects a form backend; 5 new tests, home CTA now routes to it) + docs/plans/customer-validation.md (extended survey, PER-1..5 interview guides, Roman Urdu + English outreach drafts, OD-01 analysis method with sample targets). OUTSTANDING (human half): owner connects form endpoint, sends outreach to >=30 contacts, books >=8 interviews, returns responses; then AI writes od-01-recommendation.md and owner approves the segment",
+        "Owner deferred 2026-10-16 ('point 4 bhi ignore'): survey/waitlist outreach and OD-01 segment selection postponed. Kit merged (PR #69) and ready; resume before Gate B pricing decisions which need segment + interview data"
       ],
       "allowed_paths": [
         "docs/**",
@@ -808,7 +811,7 @@
       ],
       "completion_evidence": [
         "Drafting on branch feat/WU-P0-17-legal-drafts: ToS, Privacy Policy, AUP, DPA template, sub-processor list, consent language per spec 14 section 10",
-        "Drafts in docs/legal/: ToS, Privacy Policy, AUP, DPA template, sub-processor list, consent/disclosure strings \u2014 all marked DRAFT with [LAWYER] flags on jurisdiction/retention/transfer choices. OUTSTANDING (human half): lawyer review (spec 14 s10) + company legal status/NTN confirmation + tax advice + trademark search on final name"
+        "Drafts in docs/legal/: ToS, Privacy Policy, AUP, DPA template, sub-processor list, consent/disclosure strings — all marked DRAFT with [LAWYER] flags on jurisdiction/retention/transfer choices. OUTSTANDING (human half): lawyer review (spec 14 s10) + company legal status/NTN confirmation + tax advice + trademark search on final name"
       ],
       "allowed_paths": [
         "docs/**",
@@ -866,7 +869,7 @@
         "WU-P0-14"
       ],
       "priority": 19,
-      "status": "not_started",
+      "status": "deferred",
       "blockers": [],
       "acceptance_criteria": [
         "Itemised budget approved"
@@ -878,7 +881,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Budget draft merged (PR #70, Lean plan-of-record per ADR-024); formal approval deferred with WU-P0-14 measured-cost refresh. Lean ceiling treated as working guidance meanwhile"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
@@ -948,11 +953,11 @@
       "objective": "Accounts & sessions",
       "dependencies": [],
       "priority": 21,
-      "status": "not_started",
+      "status": "in_progress",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-101\u2026US-110 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-101…US-110 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -961,7 +966,9 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Phase 1 opened per owner direction 2026-10-16 (Gate A validation items deferred with recorded resume conditions). Starting E1.1 Accounts & sessions"
+      ],
       "allowed_paths": [
         "apps/web/**",
         "apps/site/**",
@@ -984,8 +991,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-111\u2026US-118 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-111…US-118 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1017,8 +1024,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-119\u2026US-126 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-119…US-126 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1051,8 +1058,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-127\u2026US-134 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-127…US-134 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1084,8 +1091,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-135\u2026US-141 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-135…US-141 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1118,8 +1125,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-142\u2026US-147 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-142…US-147 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1151,8 +1158,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-148\u2026US-152 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-148…US-152 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1184,8 +1191,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-153\u2026US-162 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-153…US-162 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1217,8 +1224,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-201\u2026US-209 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-201…US-209 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1250,8 +1257,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-210\u2026US-216 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-210…US-216 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1282,8 +1289,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-217\u2026US-218 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-217…US-218 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1314,8 +1321,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-219\u2026US-230 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-219…US-230 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1346,8 +1353,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-301\u2026US-311, US-322 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-301…US-311, US-322 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1378,8 +1385,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-312\u2026US-315 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-312…US-315 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1410,8 +1417,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-316\u2026US-320 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-316…US-320 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1444,7 +1451,7 @@
       "blockers": [],
       "acceptance_criteria": [
         "Stories US-321, US-323, US-324 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1468,15 +1475,15 @@
       "id": "WU-P3-E3-5",
       "phase_id": "PHASE-3",
       "module_id": "MOD-DESKTOP",
-      "title": "E3.5 Desktop v1 \u2014 Tauri shell (plan addition, ADR-017)",
-      "objective": "Desktop v1 \u2014 Tauri shell (plan addition, ADR-017)",
+      "title": "E3.5 Desktop v1 — Tauri shell (plan addition, ADR-017)",
+      "objective": "Desktop v1 — Tauri shell (plan addition, ADR-017)",
       "dependencies": [],
       "priority": 37,
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories notifications, deep links, auto-update; no spec stories \u2014 decompose from docs/plan/BUILD-PLAN.md in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories notifications, deep links, auto-update; no spec stories — decompose from docs/plan/BUILD-PLAN.md in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1508,7 +1515,7 @@
       "blockers": [],
       "acceptance_criteria": [
         "Stories US-401 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1539,8 +1546,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-402\u2026US-407 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-402…US-407 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1571,8 +1578,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-408\u2026US-414 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-408…US-414 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1603,8 +1610,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-501\u2026US-505 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-501…US-505 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1635,8 +1642,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-506\u2026US-511 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-506…US-511 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1667,8 +1674,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-512\u2026US-515 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-512…US-515 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1692,15 +1699,15 @@
       "id": "WU-P5-E5-4",
       "phase_id": "PHASE-5",
       "module_id": "MOD-MOBILE",
-      "title": "E5.4 Mobile v1 \u2014 Expo (plan addition, ADR-017)",
-      "objective": "Mobile v1 \u2014 Expo (plan addition, ADR-017)",
+      "title": "E5.4 Mobile v1 — Expo (plan addition, ADR-017)",
+      "objective": "Mobile v1 — Expo (plan addition, ADR-017)",
       "dependencies": [],
       "priority": 44,
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
         "Stories inbox, approvals, notifications, chat; decompose from docs/plan/BUILD-PLAN.md in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1731,8 +1738,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-601\u2026US-608 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-601…US-608 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1763,8 +1770,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-609\u2026US-613 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-609…US-613 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1795,8 +1802,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-614\u2026US-620 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-614…US-620 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1827,8 +1834,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-621\u2026US-623 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-621…US-623 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1859,8 +1866,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-624\u2026US-626, US-630 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-624…US-626, US-630 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1891,8 +1898,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-627\u2026US-629, US-631 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-627…US-629, US-631 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1923,8 +1930,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-701\u2026US-707 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-701…US-707 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1956,7 +1963,7 @@
       "blockers": [],
       "acceptance_criteria": [
         "Stories US-708, US-709, US-722, US-723 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -1987,8 +1994,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-710\u2026US-714 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-710…US-714 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -2019,8 +2026,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-716, US-717, US-719\u2026US-721 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-716, US-717, US-719…US-721 in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -2052,7 +2059,7 @@
       "blockers": [],
       "acceptance_criteria": [
         "Stories US-715, US-718 in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
@@ -2083,8 +2090,8 @@
       "status": "not_started",
       "blockers": [],
       "acceptance_criteria": [
-        "Stories US-801\u2026US-812 incl. Urdu RTL, full mobile, SSO/SCIM in docs/spec/16_BACKLOG.md",
-        "Decompose into story-level work units at phase start (docs/spec/18 \u00a71); per-story acceptance criteria apply"
+        "Stories US-801…US-812 incl. Urdu RTL, full mobile, SSO/SCIM in docs/spec/16_BACKLOG.md",
+        "Decompose into story-level work units at phase start (docs/spec/18 §1); per-story acceptance criteria apply"
       ],
       "required_checks": [
         "build-test",
