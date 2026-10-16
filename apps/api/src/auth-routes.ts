@@ -19,12 +19,21 @@ const SIGN_IN_PATH = "/api/auth/sign-in/email";
 /** Header carrying the Turnstile token once the sign-in guard asks for one. */
 export const CAPTCHA_HEADER = "x-captcha-token";
 
-/** Best-effort read of the submitted email; Better Auth validates the body itself. */
-function submittedEmail(body: unknown): string | null {
-  if (!Buffer.isBuffer(body) || body.length === 0) return null;
+/** RFC 5321 caps a forward-path at 254 characters; longer is never a real address. */
+const MAX_EMAIL_LENGTH = 254;
+
+/**
+ * Read the submitted email exactly as Better Auth will: via Request.json() on
+ * a clone of the bridged request (same decoder, so e.g. a UTF-8 BOM that
+ * JSON.parse would choke on cannot make the two sides disagree). Returns null
+ * when there is no usable email — the caller then rejects the request rather
+ * than forwarding it unguarded.
+ */
+async function submittedEmail(fetchRequest: Request): Promise<string | null> {
   try {
-    const parsed = JSON.parse(body.toString("utf8")) as { email?: unknown };
-    return typeof parsed.email === "string" && parsed.email.trim() ? parsed.email : null;
+    const parsed = (await fetchRequest.clone().json()) as { email?: unknown };
+    const email = typeof parsed?.email === "string" ? parsed.email.trim() : "";
+    return email && email.length <= MAX_EMAIL_LENGTH ? email : null;
   } catch {
     return null;
   }
@@ -78,19 +87,29 @@ export async function registerAuthRoutes(
             .status(ERROR_STATUS.VALIDATION_FAILED)
             .send(apiError("VALIDATION_FAILED", "Malformed request.", { requestId: request.id }));
         }
-        const pathname = (request.url.split("?")[0] ?? "").replace(/\/+$/, "");
+        // Route decisions use the pathname Better Auth itself will route on
+        // (WHATWG-normalised: dot segments resolved, fragment dropped), never
+        // the raw request.url — otherwise `/api/auth/./sign-in/email` reaches
+        // the sign-in endpoint while skipping these checks.
+        const pathname = new URL(fetchRequest.url).pathname.replace(/\/+$/, "");
+        const isSignIn = request.method === "POST" && pathname === SIGN_IN_PATH;
 
         // US-103 AC1 / AUTH-006: per-account brute-force guard on email sign-in.
-        const signInEmail =
-          signInGuard && request.method === "POST" && pathname === SIGN_IN_PATH
-            ? submittedEmail(request.body)
-            : null;
-        if (signInGuard && signInEmail) {
+        let signInEmail: string | null = null;
+        if (signInGuard && isSignIn) {
+          signInEmail = await submittedEmail(fetchRequest);
+          if (!signInEmail) {
+            // Fail closed: never forward a sign-in we could not attribute to an account.
+            return reply.status(ERROR_STATUS.VALIDATION_FAILED).send(
+              apiError("VALIDATION_FAILED", "Enter a valid email address.", {
+                requestId: request.id,
+              }),
+            );
+          }
           const token = request.headers[CAPTCHA_HEADER];
           const decision = await signInGuard.check(
             signInEmail,
             Array.isArray(token) ? token[0] : token,
-            request.ip,
           );
           if (!decision.allowed) {
             return reply.status(ERROR_STATUS.RATE_LIMITED).send(
@@ -102,13 +121,21 @@ export async function registerAuthRoutes(
           }
         }
 
-        const response = await auth.handler(fetchRequest);
+        let response: Response;
+        try {
+          response = await auth.handler(fetchRequest);
+        } catch (error) {
+          // Release the attempt slot the guard reserved; a crash is not a guess.
+          if (signInGuard && signInEmail) signInGuard.record(signInEmail, "neutral");
+          throw error;
+        }
 
         if (signInGuard && signInEmail) {
           // Only real credential checks count: Better Auth's own per-IP 429s
           // and malformed-request 400s say nothing about the password.
           if (response.status === 401) signInGuard.record(signInEmail, "failure");
           else if (response.ok) signInGuard.record(signInEmail, "success");
+          else signInGuard.record(signInEmail, "neutral");
         }
 
         // US-101 AC2: a duplicate email must not be distinguishable from other

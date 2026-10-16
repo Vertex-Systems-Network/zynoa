@@ -17,7 +17,12 @@ export function createMockCaptcha(): CaptchaVerifier {
 
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
-/** Fails closed: any error, timeout or non-`success: true` answer is a rejection. */
+/**
+ * Fails closed: any error, timeout or non-`success: true` answer is a
+ * rejection. The sign-in guard does not pass `remoteIp` yet: until Fastify's
+ * trustProxy is configured (first-deploy precondition) request.ip would be
+ * the proxy's address, which only misleads Turnstile's heuristics.
+ */
 export function createTurnstileCaptcha(secret: string): CaptchaVerifier {
   return {
     async verify(token, remoteIp) {

@@ -69,6 +69,54 @@ describe("createSignInGuard", () => {
   });
 });
 
+describe("createSignInGuard: concurrency and memory", () => {
+  it("reserves a slot per allowed attempt, so a parallel burst gets at most 5 guesses", async () => {
+    const { guard } = guardWithClock();
+    const decisions = await Promise.all(
+      Array.from({ length: 12 }, () => guard.check("burst@example.com", undefined)),
+    );
+    expect(decisions.filter((d) => d.allowed)).toHaveLength(5);
+  });
+
+  it("neutral outcomes release the reservation without counting a failure", async () => {
+    const { guard } = guardWithClock();
+    for (let i = 0; i < 5; i++) {
+      await guard.check("n@example.com", undefined);
+      guard.record("n@example.com", "neutral");
+    }
+    expect(await guard.check("n@example.com", undefined)).toEqual({ allowed: true });
+  });
+
+  it("allows only one delayed attempt per account at a time", async () => {
+    let release: () => void = () => {};
+    const guard = createSignInGuard({
+      captcha: createMockCaptcha(),
+      sleep: () => new Promise<void>((resolve) => (release = resolve)),
+    });
+    for (let i = 0; i < 5; i++) guard.record("s@example.com", "failure");
+    const first = guard.check("s@example.com", MOCK_CAPTCHA_PASS);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(await guard.check("s@example.com", MOCK_CAPTCHA_PASS)).toEqual({ allowed: false });
+    release();
+    expect(await first).toEqual({ allowed: true });
+  });
+
+  it("caps tracked accounts, evicting the oldest", async () => {
+    const guard = createSignInGuard({ captcha: createMockCaptcha(), maxTrackedAccounts: 3 });
+    for (const e of ["a", "b", "c", "d"]) guard.record(`${e}@example.com`, "failure");
+    expect(guard.size()).toBe(3);
+  });
+
+  it("sweeps accounts whose failures have all expired", async () => {
+    const { guard, clock } = guardWithClock();
+    for (let i = 0; i < 50; i++) guard.record(`k${i}@example.com`, "failure");
+    expect(guard.size()).toBe(50);
+    clock.now = SIGN_IN_POLICY.windowMs + SIGN_IN_POLICY.sweepEveryMs + 1;
+    await guard.check("fresh@example.com", undefined);
+    expect(guard.size()).toBe(1);
+  });
+});
+
 describe("captcha verifiers", () => {
   it("mock passes only the documented test token", async () => {
     const captcha = createMockCaptcha();
