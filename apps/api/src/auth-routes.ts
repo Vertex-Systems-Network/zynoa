@@ -8,12 +8,27 @@ import { apiError, ERROR_STATUS } from "@zynoa/contracts";
 import { hashPassword } from "@zynoa/auth";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import { requestHeaders } from "./session-guards.js";
+import type { SignInGuard } from "./sign-in-guard.js";
 
 export interface AuthHandler {
   handler: (request: Request) => Promise<Response>;
 }
 
 const SIGN_UP_PATH = "/api/auth/sign-up/email";
+const SIGN_IN_PATH = "/api/auth/sign-in/email";
+/** Header carrying the Turnstile token once the sign-in guard asks for one. */
+export const CAPTCHA_HEADER = "x-captcha-token";
+
+/** Best-effort read of the submitted email; Better Auth validates the body itself. */
+function submittedEmail(body: unknown): string | null {
+  if (!Buffer.isBuffer(body) || body.length === 0) return null;
+  try {
+    const parsed = JSON.parse(body.toString("utf8")) as { email?: unknown };
+    return typeof parsed.email === "string" && parsed.email.trim() ? parsed.email : null;
+  } catch {
+    return null;
+  }
+}
 
 function toFetchRequest(request: FastifyRequest): Request | null {
   let url: URL;
@@ -41,7 +56,12 @@ function toFetchRequest(request: FastifyRequest): Request | null {
   });
 }
 
-export async function registerAuthRoutes(app: FastifyInstance, auth: AuthHandler): Promise<void> {
+export async function registerAuthRoutes(
+  app: FastifyInstance,
+  auth: AuthHandler,
+  options: { signInGuard?: SignInGuard } = {},
+): Promise<void> {
+  const { signInGuard } = options;
   await app.register(async (scope) => {
     // Hand bodies to Better Auth untouched; its endpoints validate themselves.
     scope.removeAllContentTypeParsers();
@@ -58,14 +78,44 @@ export async function registerAuthRoutes(app: FastifyInstance, auth: AuthHandler
             .status(ERROR_STATUS.VALIDATION_FAILED)
             .send(apiError("VALIDATION_FAILED", "Malformed request.", { requestId: request.id }));
         }
+        const pathname = (request.url.split("?")[0] ?? "").replace(/\/+$/, "");
+
+        // US-103 AC1 / AUTH-006: per-account brute-force guard on email sign-in.
+        const signInEmail =
+          signInGuard && request.method === "POST" && pathname === SIGN_IN_PATH
+            ? submittedEmail(request.body)
+            : null;
+        if (signInGuard && signInEmail) {
+          const token = request.headers[CAPTCHA_HEADER];
+          const decision = await signInGuard.check(
+            signInEmail,
+            Array.isArray(token) ? token[0] : token,
+            request.ip,
+          );
+          if (!decision.allowed) {
+            return reply.status(ERROR_STATUS.RATE_LIMITED).send(
+              apiError("RATE_LIMITED", "Too many attempts. Complete the CAPTCHA to continue.", {
+                requestId: request.id,
+                details: { captchaRequired: true },
+              }),
+            );
+          }
+        }
+
         const response = await auth.handler(fetchRequest);
+
+        if (signInGuard && signInEmail) {
+          // Only real credential checks count: Better Auth's own per-IP 429s
+          // and malformed-request 400s say nothing about the password.
+          if (response.status === 401) signInGuard.record(signInEmail, "failure");
+          else if (response.ok) signInGuard.record(signInEmail, "success");
+        }
 
         // US-101 AC2: a duplicate email must not be distinguishable from other
         // sign-up rejections, so the 422 USER_ALREADY_EXISTS shape is flattened
         // into one generic envelope. Field-validation 400s pass through for
         // inline display. The original body is logged server-side so a genuine
         // 422 fault (FAILED_TO_CREATE_USER) stays visible.
-        const pathname = (request.url.split("?")[0] ?? "").replace(/\/+$/, "");
         if (request.method === "POST" && pathname === SIGN_UP_PATH && response.status === 422) {
           const original = await response.text();
           request.log.warn({ status: 422, body: original }, "sign-up rejected (flattened)");

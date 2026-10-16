@@ -2,6 +2,9 @@
 import { describe, expect, it } from "vitest";
 import { errorEnvelope } from "@zynoa/contracts";
 import { buildApp, type Probes } from "../src/app.js";
+import { CAPTCHA_HEADER } from "../src/auth-routes.js";
+import { createMockCaptcha, MOCK_CAPTCHA_PASS } from "../src/captcha.js";
+import { createSignInGuard } from "../src/sign-in-guard.js";
 
 const ok = async () => {};
 const allOk: Probes = { database: ok, redis: ok, temporal: ok };
@@ -67,6 +70,68 @@ describe("auth mount", () => {
     await app.inject({ method: "GET", url: "/api/auth/get-session" });
     // app.inject's socket peer is 127.0.0.1; Fastify has no trustProxy set.
     expect(seen).toEqual(["127.0.0.1", "127.0.0.1", "127.0.0.1"]);
+  });
+
+  describe("US-103 sign-in guard", () => {
+    async function signInApp(status: () => number) {
+      const calls = { handler: 0 };
+      const guard = createSignInGuard({ captcha: createMockCaptcha(), sleep: async () => {} });
+      const app = await buildApp({
+        probes: allOk,
+        auth: {
+          handler: async () => {
+            calls.handler++;
+            return new Response(JSON.stringify({}), { status: status() });
+          },
+        },
+        signInGuard: guard,
+      });
+      const attempt = (email = "Victim@Example.com", captcha?: string) =>
+        app.inject({
+          method: "POST",
+          url: "/api/auth/sign-in/email",
+          headers: {
+            "content-type": "application/json",
+            ...(captcha ? { [CAPTCHA_HEADER]: captcha } : {}),
+          },
+          payload: { email, password: "wrong password here" },
+        });
+      return { attempt, calls };
+    }
+
+    it("after 5 wrong passwords the account needs a CAPTCHA; the handler is not called", async () => {
+      const { attempt, calls } = await signInApp(() => 401);
+      for (let i = 0; i < 5; i++) expect((await attempt()).statusCode).toBe(401);
+      const blocked = await attempt("victim@example.com");
+      expect(blocked.statusCode).toBe(429);
+      const body = errorEnvelope.parse(blocked.json());
+      expect(body.error.code).toBe("RATE_LIMITED");
+      expect(body.error.details).toEqual({ captchaRequired: true });
+      expect(calls.handler).toBe(5);
+    });
+
+    it("a valid CAPTCHA lets the attempt through again", async () => {
+      const { attempt, calls } = await signInApp(() => 401);
+      for (let i = 0; i < 5; i++) await attempt();
+      expect((await attempt(undefined, "bogus")).statusCode).toBe(429);
+      expect((await attempt(undefined, MOCK_CAPTCHA_PASS)).statusCode).toBe(401);
+      expect(calls.handler).toBe(6);
+    });
+
+    it("does not count Better Auth's own per-IP 429s as password failures", async () => {
+      const { attempt } = await signInApp(() => 429);
+      for (let i = 0; i < 8; i++) await attempt();
+      // Still no CAPTCHA demanded: none of those were credential checks.
+      expect((await attempt()).statusCode).toBe(429);
+      const body = (await attempt()).json() as { error?: unknown };
+      expect(body.error).toBeUndefined(); // Better Auth's body, not our envelope
+    });
+
+    it("guards unknown emails exactly like real ones (no enumeration)", async () => {
+      const { attempt } = await signInApp(() => 401);
+      for (let i = 0; i < 5; i++) await attempt("nobody@example.com");
+      expect((await attempt("nobody@example.com")).statusCode).toBe(429);
+    });
   });
 
   it("passes Set-Cookie headers through one per cookie", async () => {
