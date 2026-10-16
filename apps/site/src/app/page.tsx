@@ -37,10 +37,10 @@ export default function Home() {
         </p>
         <div className="flex items-center gap-3">
           <a
-            href="#start"
+            href="/early-access"
             className="rounded-lg bg-brand-primary px-5 py-3 text-sm font-semibold text-text-on-brand hover:bg-brand-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-border-focus"
           >
-            Start free
+            Join the waitlist
           </a>
           <a
             href="#signin"
