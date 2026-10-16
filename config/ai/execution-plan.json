@@ -786,7 +786,7 @@
       "objective": "Legal drafts",
       "dependencies": [],
       "priority": 17,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         "ToS, privacy policy, consent drafts"
@@ -798,7 +798,10 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Drafting on branch feat/WU-P0-17-legal-drafts: ToS, Privacy Policy, AUP, DPA template, sub-processor list, consent language per spec 14 section 10",
+        "Drafts in docs/legal/: ToS, Privacy Policy, AUP, DPA template, sub-processor list, consent/disclosure strings — all marked DRAFT with [LAWYER] flags on jurisdiction/retention/transfer choices. OUTSTANDING (human half): lawyer review (spec 14 s10) + company legal status/NTN confirmation + tax advice + trademark search on final name"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
