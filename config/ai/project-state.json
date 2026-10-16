@@ -31,7 +31,7 @@
   "critical_defects": [],
   "qa_readiness": "not_assessed",
   "security_readiness": "not_assessed",
-  "last_reconciled_repository_ref": "2bac76ac743ab17acc6bb522a53c73602e7228b0",
-  "last_reconciled_at": "2026-10-16T10:55:31Z",
+  "last_reconciled_repository_ref": "51040e356450d9ec97ece93f29e6dcb4a4149a03",
+  "last_reconciled_at": "2026-10-16T12:46:14Z",
   "notes": "Plan: docs/plan/README.md. WU-P0-02 merged but counts complete only after the owner's docker compose run (issue #9). AI must reconcile this file against actual repository/Git/test reality before relying on it."
 }
