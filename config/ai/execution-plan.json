@@ -755,7 +755,7 @@
       "objective": "Prototype usability test kit",
       "dependencies": [],
       "priority": 16,
-      "status": "not_started",
+      "status": "verification_required",
       "blockers": [],
       "acceptance_criteria": [
         ">= 5 sessions summarised"
@@ -767,7 +767,10 @@
         "dependency-scan",
         "repository-integrity"
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        "Drafting on branch feat/WU-P0-16-usability-test: test script for J-01 and J-04, feedback form, findings template",
+        "docs/plans/usability-test-plan.md: moderator script with consent, 12 tasks across J-01 (GL-01..PR-11) and J-04 (EC-01..EC-10/CX-01) with success criteria and SEQ, wrap-up incl. pricing signal for OD-04, feedback-form fields, findings template matching the Gate A exit item. OUTSTANDING (human half): owner locks Figma prototype version, recruits >=5 participants (3xPER-1, 2xPER-2), runs sessions, returns filled forms for AI summarisation"
+      ],
       "allowed_paths": [
         "docs/**",
         "config/research/evidence-registry.json",
