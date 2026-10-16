@@ -132,6 +132,28 @@
       "validation_status": "unverified",
       "supersedes": [],
       "notes": []
+    },
+    {
+      "id": "EVID-000007",
+      "claim_or_question": "For the API/worker/database layer, AWS ap-south-1 (Mumbai) is the only near-Pakistan option satisfying the spec's managed Postgres+Redis+KMS maturity requirement at ~$150-170/mo small-setup; Temporal Cloud is co-located in ap-south-1 with a $0-floor Developer tier; Karachi-Mumbai latency measurements conflict (~70ms vs ~200ms) so PK-ISP probes must gate the Mumbai-vs-UAE region choice",
+      "source_type": "primary",
+      "source_ref": "https://www.bytebase.com/dbcost/rds/instance/db.t4g.medium.md; https://temporal.io/blog/temporal-in-india-ap-south-1-mumbai-available-today-for-temporal-cloud; https://docs.temporal.io/cloud/pricing.md; https://wondernetwork.com/pings/Karachi; https://docs.fly.io/reference/regions; https://render.com/pricing; https://www.hetzner.com/cloud-singapore/",
+      "source_title": "Hosting platform and region comparison for OD-07",
+      "publisher_or_owner": null,
+      "published_at": null,
+      "accessed_at": "2026-10-16",
+      "source_revision_or_hash": null,
+      "evidence_class": "supported_inference",
+      "confidence": "medium",
+      "summary": "Recommendation: AWS Mumbai primary (UAE me-central-1 fallback pending latency probes); Render Singapore runner-up (~$75-135/mo, no KMS); Fly MPG has no Mumbai region; GCP ~1.5-2x AWS cost and PK not on its billing-currency list; Hetzner cheapest but zero managed services",
+      "supports_requirement_ids": [
+        "REQ-GATE-A"
+      ],
+      "supports_option_ids": [],
+      "supports_module_ids": [],
+      "validation_status": "unverified",
+      "supersedes": [],
+      "notes": []
     }
   ],
   "entry_contract": {
