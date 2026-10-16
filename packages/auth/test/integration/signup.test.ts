@@ -72,19 +72,14 @@ describe.skipIf(!appUrl || !platformUrl)("US-101 sign-up (real Postgres)", () =>
     expect(result.user.id).toMatch(UUID_V7);
 
     const user = must(
-      (
-        await platform.db.select().from(users).where(eq(users.email, "signup-ac1@example.com"))
-      )[0],
+      (await platform.db.select().from(users).where(eq(users.email, "signup-ac1@example.com")))[0],
       "user row",
     );
     expect(user.name).toBe("Signup Tester");
 
     const workspace = must(
       (
-        await platform.db
-          .select()
-          .from(workspaces)
-          .where(eq(workspaces.personalForUserId, user.id))
+        await platform.db.select().from(workspaces).where(eq(workspaces.personalForUserId, user.id))
       )[0],
       "personal workspace",
     );

@@ -184,9 +184,9 @@ async function provisionOnce(
     roleKey: "owner",
     status: "active",
   });
-  await tx.insert(creditAccounts).values(
-    CREDIT_ACCOUNT_KINDS.map((kind) => ({ id: uuidv7(), workspaceId, kind })),
-  );
+  await tx
+    .insert(creditAccounts)
+    .values(CREDIT_ACCOUNT_KINDS.map((kind) => ({ id: uuidv7(), workspaceId, kind })));
   // Tx handles share the Db query API; audit helpers take the executor as Db.
   const executor = tx as unknown as Db;
   await appendAuditEvent(executor, {

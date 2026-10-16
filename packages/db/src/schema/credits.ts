@@ -14,8 +14,12 @@ export const creditAccounts = pgTable(
       .references(() => workspaces.id, { onDelete: "cascade" }),
     kind: text("kind").notNull(), // 'grant' | 'purchased' | 'promo'
     // drizzle-kit cannot serialize 0n defaults; sql`0` emits the same DDL.
-    balance: bigint("balance", { mode: "bigint" }).notNull().default(sql`0`), // micro-credits
-    reserved: bigint("reserved", { mode: "bigint" }).notNull().default(sql`0`),
+    balance: bigint("balance", { mode: "bigint" })
+      .notNull()
+      .default(sql`0`), // micro-credits
+    reserved: bigint("reserved", { mode: "bigint" })
+      .notNull()
+      .default(sql`0`),
   },
   (table) => [
     unique("credit_accounts_workspace_kind").on(table.workspaceId, table.kind),

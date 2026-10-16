@@ -1,15 +1,6 @@
 /** Workspaces & access (docs/spec/04_DATA_MODEL.md §2, roles per spec 05 §4). */
 import { sql } from "drizzle-orm";
-import {
-  boolean,
-  check,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-  unique,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { boolean, check, jsonb, pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
 import { baseColumns, citext } from "./columns.js";
 import { users } from "./identity.js";
 

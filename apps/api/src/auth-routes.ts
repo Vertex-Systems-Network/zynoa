@@ -14,10 +14,7 @@ export interface AuthHandler {
 const SIGN_UP_PATH = "/api/auth/sign-up/email";
 
 function toFetchRequest(request: FastifyRequest): Request {
-  const url = new URL(
-    request.url,
-    `${request.protocol}://${request.headers.host ?? "localhost"}`,
-  );
+  const url = new URL(request.url, `${request.protocol}://${request.headers.host ?? "localhost"}`);
   const headers = new Headers();
   for (const [key, value] of Object.entries(request.headers)) {
     if (value === undefined) continue;

@@ -9,10 +9,14 @@ FROM base AS build
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./
 COPY packages/config ./packages/config
 COPY packages/contracts ./packages/contracts
+COPY packages/db ./packages/db
+COPY packages/auth ./packages/auth
 COPY apps/api ./apps/api
 RUN pnpm install --frozen-lockfile --filter @zynoa/api... \
  && pnpm --filter @zynoa/config build \
  && pnpm --filter @zynoa/contracts build \
+ && pnpm --filter @zynoa/db build \
+ && pnpm --filter @zynoa/auth build \
  && pnpm --filter @zynoa/api build \
  && pnpm --filter @zynoa/api --prod deploy /out
 
