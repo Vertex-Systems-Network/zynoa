@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fastify/swagger": "9.9.2",
-    "@opentelemetry/api": "1.9.1",
+    "@opentelemetry/api": "1.10.0",
     "@opentelemetry/exporter-trace-otlp-http": "0.223.0",
     "@opentelemetry/sdk-node": "0.223.0",
     "@zynoa/auth": "workspace:*",
