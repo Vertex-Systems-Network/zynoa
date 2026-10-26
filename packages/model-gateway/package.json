@@ -18,7 +18,7 @@
     "smoke": "tsx scripts/smoke.ts"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "4.0.81",
+    "@ai-sdk/anthropic": "4.0.87",
     "@zynoa/config": "workspace:*",
     "ai": "7.0.142",
     "zod": "4.6.6"
